@@ -1,0 +1,39 @@
+<project name="WoWTests" default="package">
+
+	<property file="build.properties"/>
+
+	<property environment="env"/>
+	<property name="build.number" value="${env.BUILD_NUMBER}"/>
+	<property name="version.number" value="${WT.version}.${build.number}"/>
+	<property name="project.zip" value="${ant.project.name}_${version.number}.zip"/>
+	<property name="src.dir" location="src"/>
+	<property name="test.dir" location="test"/>
+
+	<property name="target.dir" location="target"/>
+	<property name="working.dir" location="${target.dir}/working"/>
+	<property name="report.dir" location="${target.dir}/reports"/>
+
+	<target name="clean">
+		<delete dir="${target.dir}" verbose="true"/>
+	</target>
+
+	<target name="test" description="run unit tests">
+		<exec executable="lua" dir="test" resultproperty="testResult">
+			<arg value="test.lua"/>
+		</exec>
+		<move file="${test.dir}/testOut.xml"
+		      todir="${report.dir}"/>
+		<fail message="The tests failed. Please see the output for details.">
+			<condition>
+				<not>
+					<equals arg1="${testResult}" arg2="0"/>
+				</not>
+			</condition>
+		</fail>
+	</target>
+
+	<target name="package" depends="test" description="Package the files for distribution">
+		<zip  destfile="${target.dir}/${project.zip}"
+		      basedir="${src.dir}" />
+	</target>
+</project>
