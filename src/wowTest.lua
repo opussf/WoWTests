@@ -115,8 +115,8 @@ function test.run()
 	end
 	test.runInfo.time = os.clock() - test.startTime
 	io.write("\n\n")
-	io.write(string.format("Tests: %i  Failed: %i  Elapsed time: %0.3f",
-			test.runInfo.count, test.runInfo.fail, test.runInfo.time ).."\n\n")
+	io.write(string.format("Tests: %i  Failed: %i (%0.2f%%)  Elapsed time: %0.3f",
+			test.runInfo.count, test.runInfo.fail, (test.runInfo.fail/test.runInfo.count)*100, test.runInfo.time ).."\n\n")
 	test.toXML()
 	if test.runInfo.fail and test.runInfo.fail > 0 then
 		os.exit(test.runInfo.fail)
