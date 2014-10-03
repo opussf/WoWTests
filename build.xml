@@ -1,28 +1,118 @@
 <project name="WoWTests" default="package">
 
+	<tstamp/>
 	<property file="build.properties"/>
-
 	<property environment="env"/>
-	<property name="build.number" value="${env.BUILD_NUMBER}"/>
-	<property name="version.number" value="${WT.version}.${build.number}"/>
+	<property name="env.BUILD_NUMBER" value=""/>
+	<property name="build.number" value=""/>
+	<!--  Pull git repo info -->
+	<exec executable="git" dir="." outputproperty="git.revision" failifexecutionfails="false" errorproperty="">
+		<arg line="describe --tags --always HEAD" />
+	</exec>
+	<condition property="repository.version" value="${git.revision}" else="unknown">
+		<and>
+			<isset property="git.revision"/>
+			<length string="${git.revision}" trim="yes" length="0" when="greater"/>
+		</and>
+	</condition>
+	<!-- find gitbranch -->
+	<exec executable="git" dir="." outputproperty="git.branch" failifexecutionfails="false" errorproperty="">
+		<arg line="rev-parse --abbrev-ref HEAD"/>
+	</exec>
+	<condition property="branch" value="-${git.branch}" else="">
+		<and>
+			<isset property="git.branch"/>
+			<not>
+				<or>
+					<equals arg1="${git.branch}" arg2="master"/>
+					<equals arg1="${git.branch}" arg2="HEAD"/>
+				</or>
+			</not>
+		</and>
+	</condition>
+
+	<property name="version.number" value="${repository.version}${branch}${build.number}"/>
+	<echo>Building: ${version.number}</echo>
+	<!-- end git repo info -->
+
 	<property name="project.zip" value="${ant.project.name}_${version.number}.zip"/>
-	<property name="src.dir" location="src"/>
 	<property name="test.dir" location="test"/>
 
 	<property name="target.dir" location="target"/>
 	<property name="working.dir" location="${target.dir}/working"/>
 	<property name="report.dir" location="${target.dir}/reports"/>
 
-	<target name="clean">
-		<delete dir="${target.dir}" verbose="true"/>
+	<condition property="test.check">
+		<available file="${test.dir}/test.lua" type="file"/>
+	</condition>
+
+	<target name="clean" description="Cleans old builds">
+		<delete dir="target" verbose="true"/>
 	</target>
 
-	<target name="test" description="run unit tests">
+	<target name="changelog" description="Creates a changelog">
+		<mkdir dir="${working.dir}"/>
+		<exec executable="git" dir=".">
+			<arg line="log --graph --pretty=format:'%h %ci - %d %s &lt;%an&gt;' ${git.tag}.."/>
+			<redirector output="${working.dir}/changelog.txt"/>
+		</exec>
+	</target>
+
+	<target name="package" depends="changelog, test" description="Create a deploy package">
+		<property name="package.dir" location="${working.dir}/${ant.project.name}"/>
+		<copy	todir="${package.dir}">
+			<fileset dir="src">
+				<include name="*.lua"/>
+				<include name="*.toc"/>
+				<include name="*.xml"/>
+				<include name="*.txt"/>
+			</fileset>
+			<fileset dir="${working.dir}">
+				<include name="*.txt"/>
+			</fileset>
+			<filterset>
+				<filter token="VERSION" value="${version.number}"/>
+			</filterset>
+		</copy>
+		<zip 	destfile="${target.dir}/${project.zip}"
+				basedir="${working.dir}"
+				includes="${ant.project.name}/**"/>
+		<delete dir="${package.dir}" verbose="false"/>
+		<checksum file="${target.dir}/${project.zip}"
+				  property="zip.md5" />
+		<echo message="${zip.md5}" />
+	</target>
+
+	<target name="web.deploy" description="deploys the web site">
+		<mkdir	dir="${target.dir}/web"/>
+		<zip	destfile="${target.dir}/${ant.project.name}-web.zip"
+				basedir="site"
+				includes="**"/>
+		<delete dir="${target.dir}/web" verbose="true"/>
+	</target>
+
+	<target name="wow" depends="test" description="copy files to currnet wow install">
+		<property name="addon.dir" location="/Applications/World of Warcraft/Interface/Addons/${ant.project.name}"/>
+		<mkdir dir="${addon.dir}"/>
+		<copy todir="${addon.dir}">
+			<fileset dir="src">
+				<include name="*.lua"/>
+				<include name="*.toc"/>
+				<include name="*.xml"/>
+				<include name="Readme.txt"/>
+			</fileset>
+			<filterset>
+				<filter token="VERSION" value="${version.number}"/>
+			</filterset>
+		</copy>
+	</target>
+
+	<target name="test" description="run unit tests" if="test.check">
+		<mkdir  dir="${report.dir}"/>
 		<exec executable="lua" dir="test" resultproperty="testResult">
 			<arg value="test.lua"/>
 		</exec>
-		<move file="${test.dir}/testOut.xml"
-		      todir="${report.dir}"/>
+		<move todir="${report.dir}" file="${test.dir}/testOut.xml"/>
 		<fail message="The tests failed. Please see the output for details.">
 			<condition>
 				<not>
@@ -32,8 +122,31 @@
 		</fail>
 	</target>
 
-	<target name="package" depends="test" description="Package the files for distribution">
-		<zip  destfile="${target.dir}/${project.zip}"
-		      basedir="${src.dir}" />
+	<target name="report" depends="test" description="test reports">
+		<junitreport todir="${report.dir}">
+			<fileset dir="${report.dir}">
+				<include name="testOut.xml"/>
+			</fileset>
+			<report todir="${report.dir}/html"
+					format="noframes"/>
+		</junitreport>
 	</target>
+
+	<target name="deploy" depends="deploy.check" description="deploys the file" if="deploy.run">
+		<copy todir="${deploy.dir}">
+			<fileset dir="${deploy.from}">
+				<include name="*.zip"/>
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="deploy.check">
+		<condition property="deploy.run">
+			<and>
+				<available file="${deploy.from}" type="dir"/>
+				<available file="${deploy.dir}" type="dir"/>
+			</and>
+		</condition>
+	</target>
+
 </project>
