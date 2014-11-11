@@ -214,6 +214,9 @@ end
 function test.testStub_GetCurrencyLink()
 	assertEquals( "|cffffffff|Hcurrency:703|h[Fictional Currency]|h|r", GetCurrencyLink( "703" ) )
 end
+function test.testStub_GetCurrencyLink()
+	assertIsNil( GetCurrencyLink( "704" ) )
+end
 
 --[[
 
