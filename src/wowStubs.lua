@@ -120,7 +120,6 @@ function CreateFrame( frameType, frameName, parentFrame, inheritFrame )
 	--http://www.wowwiki.com/API_CreateFrame
 	return Frame
 end
-
 function CreateFontString(name,...)
 	--print("Creating new FontString: "..name)
 	FontString = {}
@@ -135,7 +134,6 @@ function CreateFontString(name,...)
 	--print("FontString made?")
 	return FontString
 end
-
 function CreateStatusBar(name,...)
 	StatusBar = {}
 	for k,v in pairs(Frame) do
@@ -145,7 +143,6 @@ function CreateStatusBar(name,...)
 
 	return StatusBar
 end
-
 Slider = {
 		["GetName"] = function() return ""; end,
 		["SetText"] = function(text) end,
@@ -163,6 +160,7 @@ function CreateSlider( name, ... )
 end
 
 function ChatFrame_AddMessageEventFilter()
+	print("I am untested")
 end
 
 -- WOW's resources
@@ -170,7 +168,10 @@ DEFAULT_CHAT_FRAME={ ["AddMessage"] = print, }
 UIErrorsFrame={ ["AddMessage"] = print, }
 
 -- stub some external API functions (try to keep alphabetical)
-function CombatTextSetActiveUnit( who ) end
+function CombatTextSetActiveUnit( who )
+	print("I am untested")
+end
+--[[
 function BuyMerchantItem( index, quantity )
 	-- adds quantity of index to myInventory
 	-- no return value
@@ -283,12 +284,14 @@ function GetMerchantItemInfo( index )
 		local item = MerchantInventory[ index ]
 		return item.name, "", item.cost, item.quantity, -1, item.isUsable
 	end
+	]]
 	--[[
 	local merchantItemInfo = { { "Broken Fang", "", 5000, 1 },  -- 50 silver
 			{ "UnBroken Fang", "", 10000, 1 },            -- 1 gold
 	}
 	return unpack( merchantItemInfo[index] )
 	]]
+	--[[
 end
 function GetMerchantItemMaxStack( index )
 	-- Max allowable amount per purchase.  Hard code to 20 for now
@@ -445,3 +448,4 @@ function UnitSex( who )
 	}
 	return unitSex[who]
 end
+]]
