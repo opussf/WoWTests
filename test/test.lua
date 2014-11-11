@@ -157,6 +157,10 @@ end
 function test.testStub_GetAccountExpansionLevel()
 	assertTrue( 4, GetAccountExpansionLevel() )
 end
+function test.testStub_GetAddOnMetadata()
+	addonData = {["version"] = "1.0", }
+	assertTrue( "1.0", GetAddOnMetadata("version") )
+end
 function test.testStub_GetTradeSkillNumMade_maxMade()
 	local _, maxMade = GetTradeSkillNumMade( 1 )
 	assertEquals( 1, maxMade )

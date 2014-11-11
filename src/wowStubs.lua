@@ -192,12 +192,12 @@ function GetAccountExpansionLevel()
 	-- returns 0 to 4 (5)
 	return accountExpansionLevel
 end
---[[
 function GetAddOnMetadata(addon, field)
---	local addonData = { ["version"] = "1.0",
---	}
+	-- returns addonData[field] for 'addon'
+	-- local addonData = { ["version"] = "1.0", }
 	return addonData[field]
 end
+--[[
 function GetCoinTextureString( copperIn, fontHeight )
 -- simulates the Wow function:  http://www.wowwiki.com/API_GetCoinTextureString
 -- fontHeight is ignored for now.
