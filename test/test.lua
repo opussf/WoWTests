@@ -212,6 +212,8 @@ function test.testStub_GetCurrencyInfo_WeeklyMax()
 	-- returns name, amount, texturePath, earnedThisWeek, weeklyMax, totalMax, isDiscovered
 end
 
+--[[
+
 function test.testStub_GetTradeSkillNumMade_maxMade()
 	local _, maxMade = GetTradeSkillNumMade( 1 )
 	assertEquals( 1, maxMade )
@@ -280,6 +282,7 @@ function test.testStub_UnitSex_01()
 	assertEquals( 3, UnitSex( "player" ) )
 end
 
+]]
 ----------------------------------
 -- Run the tests
 ----------------------------------
