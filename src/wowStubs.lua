@@ -224,7 +224,6 @@ function GetContainerNumFreeSlots( bagId )
 		return 0, 0
 	end
 end
---[[
 function GetCurrencyInfo( id ) -- id is string
 	-- http://wowprogramming.com/docs/api/GetCurrencyInfo
 	-- returns name, amount, texturePath, earnedThisWeek, weeklyMax, totalMax, isDiscovered
@@ -233,6 +232,7 @@ function GetCurrencyInfo( id ) -- id is string
 		return c["name"], (myCurrencies[id] or 0), "", 0, c["weeklyMax"], c["totalMax"], true
 	end
 end
+--[[
 function GetCurrencyLink( id )
 	if Currencies[id] then
 		return Currencies[id].link

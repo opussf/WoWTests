@@ -186,6 +186,31 @@ end
 function test.testStub_GetContainerNumFreeSlots_1()
 	assertEquals( 0, GetContainerNumFreeSlots( 1 ) )
 end
+function test.testStub_GetCurrencyInfo_Amount_0()
+	assertEquals( 0, select(2, GetCurrencyInfo( "703" ) ) )
+end
+function test.testStub_GetCurrencyInfo_Amount_1()
+	myCurrencies = {["703"] = 1, }
+	assertEquals( 1, select(2, GetCurrencyInfo( "703" ) ) )
+end
+function test.testStub_GetCurrencyInfo_EarnedThisWeek()
+	-- Currently hardcoded to return 0
+	assertEquals( 0, select(4, GetCurrencyInfo( "703" ) ) )
+end
+function test.testStub_GetCurrencyInfo_IsDiscovered()
+	assertTrue( select( 7, GetCurrencyInfo( "703" ) ) )
+end
+function test.testStub_GetCurrencyInfo_Name()
+	assertEquals( "Fictional Currency", GetCurrencyInfo( "703" ) )
+end
+function test.testStub_GetCurrencyInfo_TotalMax()
+	assertEquals( 4000, select( 6, GetCurrencyInfo( "703" ) ) )
+end
+function test.testStub_GetCurrencyInfo_WeeklyMax()
+	assertEquals( 1000, select( 5, GetCurrencyInfo( "703" ) ) )
+	-- returns name, amount, texturePath, earnedThisWeek, weeklyMax, totalMax, isDiscovered
+end
+
 function test.testStub_GetTradeSkillNumMade_maxMade()
 	local _, maxMade = GetTradeSkillNumMade( 1 )
 	assertEquals( 1, maxMade )
