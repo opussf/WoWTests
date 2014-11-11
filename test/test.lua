@@ -130,12 +130,7 @@ function test.testStub_BuyMerchantItem_01()
 	myInventory = {}
 	BuyMerchantItem(1, 1)
 	assertEquals( myInventory[7073], 1 )
-
-
 end
-
-
-
 function test.testStub_getglobal()
 	globals['value'] = "test value"
 	assertEquals( "test value", getglobal('value') )
@@ -158,6 +153,9 @@ end
 function test.testStub_CreateStatusBar()
 	sb = CreateStatusBar("statusBar")
 	assertTrue( sb )
+end
+function test.testStub_GetAccountExpansionLevel()
+	assertTrue( 4, GetAccountExpansionLevel() )
 end
 function test.testStub_GetTradeSkillNumMade_maxMade()
 	local _, maxMade = GetTradeSkillNumMade( 1 )

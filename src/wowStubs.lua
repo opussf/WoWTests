@@ -184,13 +184,15 @@ function BuyMerchantItem( index, quantity )
 	end
 	--INEED.UNIT_INVENTORY_CHANGED()
 end
---[[ 21
-function DoEmote( emote ) end
+function DoEmote( emote )
+	-- not tested as the only side effect is the character doing an emote
+end
 function GetAccountExpansionLevel()
 	-- http://www.wowwiki.com/API_GetAccountExpansionLevel
 	-- returns 0 to 4 (5)
 	return accountExpansionLevel
 end
+--[[
 function GetAddOnMetadata(addon, field)
 --	local addonData = { ["version"] = "1.0",
 --	}
