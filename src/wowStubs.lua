@@ -232,12 +232,12 @@ function GetCurrencyInfo( id ) -- id is string
 		return c["name"], (myCurrencies[id] or 0), "", 0, c["weeklyMax"], c["totalMax"], true
 	end
 end
---[[
 function GetCurrencyLink( id )
 	if Currencies[id] then
 		return Currencies[id].link
 	end
 end
+--[[
 function GetItemCount( itemID, includeBank )
 	-- print( itemID, myInventory[itemID] )
 	return myInventory[itemID] or 0
