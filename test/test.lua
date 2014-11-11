@@ -187,6 +187,7 @@ function test.testStub_GetContainerNumFreeSlots_1()
 	assertEquals( 0, GetContainerNumFreeSlots( 1 ) )
 end
 function test.testStub_GetCurrencyInfo_Amount_0()
+	myCurrencies = {["703"] = 0, }
 	assertEquals( 0, select(2, GetCurrencyInfo( "703" ) ) )
 end
 function test.testStub_GetCurrencyInfo_Amount_1()
