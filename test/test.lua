@@ -180,6 +180,12 @@ end
 function test.testStub_GetCoinTextureString_SC()
 	assertEquals( "0G 23S 45C", GetCoinTextureString( 2345 ) )
 end
+function test.testStub_GetContainerNumFreeSlots_0()
+	assertEquals( 16, GetContainerNumFreeSlots( 0 ) )
+end
+function test.testStub_GetContainerNumFreeSlots_1()
+	assertEquals( 0, GetContainerNumFreeSlots( 1 ) )
+end
 function test.testStub_GetTradeSkillNumMade_maxMade()
 	local _, maxMade = GetTradeSkillNumMade( 1 )
 	assertEquals( 1, maxMade )

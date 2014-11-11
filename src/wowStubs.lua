@@ -210,7 +210,6 @@ function GetCoinTextureString( copperIn, fontHeight )
 				(copper and copper.."C"))
 	end
 end
---[[
 function GetContainerNumFreeSlots( bagId )
 	-- http://www.wowwiki.com/API_GetContainerNumFreeSlots
 	-- http://www.wowwiki.com/BagType
@@ -225,6 +224,7 @@ function GetContainerNumFreeSlots( bagId )
 		return 0, 0
 	end
 end
+--[[
 function GetCurrencyInfo( id ) -- id is string
 	-- http://wowprogramming.com/docs/api/GetCurrencyInfo
 	-- returns name, amount, texturePath, earnedThisWeek, weeklyMax, totalMax, isDiscovered
