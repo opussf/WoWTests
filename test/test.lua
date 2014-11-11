@@ -125,6 +125,17 @@ end
 ----------------------------------
 -- These tests focus on the WoWStubs
 ----------------------------------
+function test.testStub_BuyMerchantItem_01()
+	--BuyMerchantItem( index, quantity )
+	myInventory = {}
+	BuyMerchantItem(1, 1)
+	assertEquals( myInventory[7073], 1 )
+
+
+end
+
+
+
 function test.testStub_getglobal()
 	globals['value'] = "test value"
 	assertEquals( "test value", getglobal('value') )
@@ -144,8 +155,9 @@ function test.testStub_CreateSlider()
 	s = CreateSlider("slider")
 	assertTrue( s )
 end
-function test.testStub_BuyMerchantItem_01()
-	--BuyMerchantItem( )
+function test.testStub_CreateStatusBar()
+	sb = CreateStatusBar("statusBar")
+	assertTrue( sb )
 end
 function test.testStub_GetTradeSkillNumMade_maxMade()
 	local _, maxMade = GetTradeSkillNumMade( 1 )
@@ -204,10 +216,10 @@ function test.testStub_UnitFactionGroup_01()
 end
 function test.testStub_UnitFactionGroup_02()
 	assertEquals( "Alliance", select(2, UnitFactionGroup( "player" ) ) )
-end	
+end
 function test.testStub_UnitName_01()
 	assertEquals( "testPlayer", UnitName( "player" ) )
-end	
+end
 function test.testStub_UnitRace_01()
 	assertEquals( "Human", UnitRace( "player" ) )
 end
