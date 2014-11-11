@@ -120,8 +120,6 @@ function test.testAssertTrue_Fail_Test_String()
 	end
 end
 
-
-
 ----------------------------------
 -- These tests focus on the WoWStubs
 ----------------------------------
@@ -134,9 +132,6 @@ end
 function test.testStub_getglobal()
 	globals['value'] = "test value"
 	assertEquals( "test value", getglobal('value') )
-end
-function test.testStub_GetCoinTextureString()
-	assertEquals( "1G 23S 45C", GetCoinTextureString( 12345 ) )
 end
 function test.testStub_CreateFrame()
 	frame = CreateFrame("frame")
@@ -160,6 +155,9 @@ end
 function test.testStub_GetAddOnMetadata()
 	addonData = {["version"] = "1.0", }
 	assertTrue( "1.0", GetAddOnMetadata("version") )
+end
+function test.testStub_GetCoinTextureString()
+	assertEquals( "1G 23S 45C", GetCoinTextureString( 12345 ) )
 end
 function test.testStub_GetTradeSkillNumMade_maxMade()
 	local _, maxMade = GetTradeSkillNumMade( 1 )

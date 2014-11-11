@@ -197,7 +197,6 @@ function GetAddOnMetadata(addon, field)
 	-- local addonData = { ["version"] = "1.0", }
 	return addonData[field]
 end
---[[
 function GetCoinTextureString( copperIn, fontHeight )
 -- simulates the Wow function:  http://www.wowwiki.com/API_GetCoinTextureString
 -- fontHeight is ignored for now.
@@ -211,6 +210,7 @@ function GetCoinTextureString( copperIn, fontHeight )
 				(copper and ((silver and " " or "")..copper.."C")) )
 	end
 end
+--[[
 function GetContainerNumFreeSlots( bagId )
 	-- http://www.wowwiki.com/API_GetContainerNumFreeSlots
 	-- http://www.wowwiki.com/BagType
