@@ -149,4 +149,7 @@
 		</condition>
 	</target>
 
+	<target name="diffs" description="Run some freaking diffs">
+	</target>
+
 </project>
