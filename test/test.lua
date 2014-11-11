@@ -156,8 +156,29 @@ function test.testStub_GetAddOnMetadata()
 	addonData = {["version"] = "1.0", }
 	assertTrue( "1.0", GetAddOnMetadata("version") )
 end
-function test.testStub_GetCoinTextureString()
+function test.testStub_GetCoinTextureString_0()
+	assertEquals( "0G 0S 0C", GetCoinTextureString( 0 ) )
+end
+function test.testStub_GetCoinTextureString_C()
+	assertEquals( "0G 0S 45C", GetCoinTextureString( 45 ) )
+end
+function test.testStub_GetCoinTextureString_G()
+	assertEquals( "1G 0S 0C", GetCoinTextureString( 10000 ) )
+end
+function test.testStub_GetCoinTextureString_GC()
+	assertEquals( "1G 0S 45C", GetCoinTextureString( 10045 ) )
+end
+function test.testStub_GetCoinTextureString_GS()
+	assertEquals( "1G 23S 0C", GetCoinTextureString( 12300 ) )
+end
+function test.testStub_GetCoinTextureString_GSC()
 	assertEquals( "1G 23S 45C", GetCoinTextureString( 12345 ) )
+end
+function test.testStub_GetCoinTextureString_S()
+	assertEquals( "0G 23S 0C", GetCoinTextureString( 2300 ) )
+end
+function test.testStub_GetCoinTextureString_SC()
+	assertEquals( "0G 23S 45C", GetCoinTextureString( 2345 ) )
 end
 function test.testStub_GetTradeSkillNumMade_maxMade()
 	local _, maxMade = GetTradeSkillNumMade( 1 )

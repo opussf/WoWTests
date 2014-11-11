@@ -205,9 +205,9 @@ function GetCoinTextureString( copperIn, fontHeight )
 		local gold = math.floor(copperIn / 10000); copperIn = copperIn - (gold * 10000)
 		local silver = math.floor(copperIn / 100); copperIn = copperIn - (silver * 100)
 		local copper = copperIn
-		return( (gold and gold.."G")..
-				(silver and ((gold and " " or "")..silver.."S"))..
-				(copper and ((silver and " " or "")..copper.."C")) )
+		return( (gold and gold.."G ")..
+				(silver and silver.."S ")..
+				(copper and copper.."C"))
 	end
 end
 --[[
