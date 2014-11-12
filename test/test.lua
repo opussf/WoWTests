@@ -292,7 +292,9 @@ end
 function test.testStub_GetMerchantItemInfo_Texture()
 	assertEquals( "", select( 2, GetMerchantItemInfo( 1 ) ) )
 end
-
+function test.testStub_GetMerchantItemMaxStack()
+	assertEquals( 20, GetMerchantItemMaxStack( 1 ) )
+end
 -------------
 --===========
 -------------

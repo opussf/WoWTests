@@ -284,11 +284,11 @@ function GetMerchantItemInfo( index )
 		return item.name, "", item.cost, item.quantity, -1, item.isUsable
 	end
 end
---[[
 function GetMerchantItemMaxStack( index )
 	-- Max allowable amount per purchase.  Hard code to 20 for now
 	return 20
 end
+--[[
 function GetMerchantNumItems()
 	local count = 0
 	for _ in pairs(MerchantInventory) do count = count + 1 	end
