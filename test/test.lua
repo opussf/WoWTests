@@ -302,6 +302,44 @@ end
 --===========
 -------------
 
+function test.testStub_GetNumGroupMembers()
+	GetNumGroupMembers()
+end
+function test.testStub_GetNumRoutes()
+	GetNumRoutes()
+end
+function test.testStub_GetNumTradeSkills()
+	GetNumTradeSkills()
+end
+function test.testStub_GetRaidRosterInfo()
+	GetRaidRosterInfo()
+end
+function test.testStub_GetRealmName()
+	GetRealmName()
+end
+function test.testStub_GetSendMailItemLink()
+	GetSendMailItemLink()
+end
+function test.testStub_GetTradeSkillItemLink()
+	GetTradeSkillItemLink()
+end
+function test.testStub_GetTradeSkillReagentInfo_Name()
+	GetTradeSkillReagentInfo()
+end
+function test.testStub_GetTradeSkillReagentInfo_Texture()
+	GetTradeSkillReagentInfo()
+end
+function test.testStub_GetTradeSkillReagentInfo_ReagentCount()
+	GetTradeSkillReagentInfo()
+end
+function test.testStub_GetTradeSkillReagentInfo_PlayerReagentCount()
+	GetTradeSkillReagentInfo()
+end
+function test.testStub_GetTradeSkillReagentItemLink()
+	GetTradeSkillReagentItemLink()
+end
+
+
 function test.testStub_GetTradeSkillNumMade_maxMade()
 	local _, maxMade = GetTradeSkillNumMade( 1 )
 	assertEquals( 1, maxMade )

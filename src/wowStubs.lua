@@ -321,7 +321,6 @@ function GetRaidRosterInfo( raidIndex )
 	if (myParty.raid or myParty.party) and myParty.roster then
 		return unpack(myParty.roster[raidIndex]) -- unpack returns the array as seperate values
 	end
-
 end
 function GetRealmName()
 	return "testRealm"
