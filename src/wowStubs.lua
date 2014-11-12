@@ -427,13 +427,13 @@ function UnitName( who )
 	}
 	return unitNames[who]
 end
+]]
 function UnitRace( who )
 	local unitRaces = {
 		["player"] = "Human",
 	}
 	return unitRaces[who]
 end
-]]
 function UnitSex( who )
 	-- 1 = unknown, 2 = Male, 3 = Female
 	local unitSex = {
