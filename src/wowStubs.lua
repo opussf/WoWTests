@@ -269,7 +269,6 @@ function GetMerchantItemCostItem( index, currencyIndex )
 	end
 	return nil, nil, nil  -- probably don't need to do this.
 end
---[[
 function GetMerchantItemLink( index )
 	-- returns a link for item at index
 	if MerchantInventory[ index ] then
@@ -278,7 +277,6 @@ function GetMerchantItemLink( index )
 		return nil
 	end
 end
-]]
 function GetMerchantItemInfo( index )
 	--local itemName, texture, price, quantity, numAvailable, isUsable = GetMerchantItemInfo( i )
 	if MerchantInventory[ index ] then

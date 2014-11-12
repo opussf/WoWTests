@@ -266,7 +266,12 @@ function test.testStub_GetMerchantItemCostItem_Texture_Valid()
 end
 function test.testStub_GetMerchantItemCostItem_Value_Valid()
 	assertEquals( 10, select( 2, GetMerchantItemCostItem( 3, 1 ) ) ) -- 3rd item, 1st currency -- 2nd return value
-
+end
+function test.testStub_GetMerchantItemLink_Nil()
+	assertIsNil( GetMerchantItemLink( 0 ) )
+end
+function test.testStub_GetMerchantItemLink_Valid()
+	assertEquals( "|cff9d9d9d|Hitem:7073:0:0:0:0:0:0:0:80:0:0|h[Broken Fang]|h|r", GetMerchantItemLink( 1 ) )
 end
 
 -------------
