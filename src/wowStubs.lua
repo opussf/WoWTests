@@ -314,7 +314,6 @@ function GetNumTradeSkills( )
 	for _ in pairs( TradeSkillItems ) do count = count + 1 end
 	return count
 end
---[[
 function GetRaidRosterInfo( raidIndex )
 	-- http://www.wowwiki.com/API_GetRaidRosterInfo
 	-- returns name, rank, subgroup, level, class, fileName, zone, online, isDead, role, isML
@@ -322,6 +321,7 @@ function GetRaidRosterInfo( raidIndex )
 		return unpack(myParty.roster[raidIndex]) -- unpack returns the array as seperate values
 	end
 end
+--[[
 function GetRealmName()
 	return "testRealm"
 end

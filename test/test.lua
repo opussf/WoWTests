@@ -249,20 +249,20 @@ function test.testStub_GetMerchantItemCostItem_Link_Nil()
 	-- Link is hardcoded to "" for now
 	assertIsNil( select( 3, GetMerchantItemCostItem( 1, 1 ) ) ) -- this time has no alternative currency cost
 end
-function test.testStub_GetMerchantItemCostItem_Texture_Nil()
-	-- Texture is hardcoded to "" for now
-	assertIsNil( GetMerchantItemCostItem( 1, 1 ) ) -- this time has no alternative currency cost
-end
-function test.testStub_GetMerchantItemCostItem_Value_Nil()
-	assertIsNil( select( 2, GetMerchantItemCostItem( 1, 1 ) ) ) -- this time has no alternative currency cost
-end
 function test.testStub_GetMerchantItemCostItem_Link_Valid()
 	-- Link is hardcoded to "" for now
 	assertEquals( "", select(3, GetMerchantItemCostItem( 3, 1 ) ) ) -- 3rd item, 1st currency -- 3rd return value
 end
+function test.testStub_GetMerchantItemCostItem_Texture_Nil()
+	-- Texture is hardcoded to "" for now
+	assertIsNil( GetMerchantItemCostItem( 1, 1 ) ) -- this time has no alternative currency cost
+end
 function test.testStub_GetMerchantItemCostItem_Texture_Valid()
 	-- Texture is hardcoded to "" for now
 	assertEquals( "", GetMerchantItemCostItem( 3, 1 ) ) -- 3rd item, 1st currency -- 1st return value
+end
+function test.testStub_GetMerchantItemCostItem_Value_Nil()
+	assertIsNil( select( 2, GetMerchantItemCostItem( 1, 1 ) ) ) -- this time has no alternative currency cost
 end
 function test.testStub_GetMerchantItemCostItem_Value_Valid()
 	assertEquals( 10, select( 2, GetMerchantItemCostItem( 3, 1 ) ) ) -- 3rd item, 1st currency -- 2nd return value
@@ -303,8 +303,9 @@ function test.testStub_GetNumGroupMembers_0()
 	assertEquals( 0, GetNumGroupMembers() )
 end
 function test.testStub_GetNumGroupMembers_1()
+	-- returns name, rank, subgroup, level, class, fileName, zone, online, isDead, role, isML
 	myParty.group = 1  -- inGroup
-	myParty.roster = {"you"}
+	myParty.roster = { { "name", "rank", "subgroup", "level", "class", "fileName", "zone", "online", false, "role", true} }
 	assertEquals( 1, GetNumGroupMembers() )
 end
 function test.testStub_GetNumRoutes_0()
@@ -319,15 +320,66 @@ end
 function test.testStub_GetNumTradeSkills()
 	assertEquals( 1, GetNumTradeSkills() )
 end
+function test.testStub_GetRaidRosterInfo_Class_Nil()
+	myParty.raid = nil
+	myParty.roster = {}
+	assertIsNil( select( 5, GetRaidRosterInfo( 1 ) ) )
+end
+function test.testStub_GetRaidRosterInfo_Class_Valid()
+	myParty.raid = 1
+	myParty.roster = { { "name", "rank", "subgroup", "level", "class", "fileName", "zone", "online", false, "role", true} }
+	assertEquals( "class", select( 5, GetRaidRosterInfo( 1 ) ) )
+end
+function test.testStub_GetRaidRosterInfo_FileName_Nil()
+	myParty.raid = nil
+	myParty.roster = {}
+	assertIsNil( select( 6, GetRaidRosterInfo( 1 ) ) )
+end
+function test.testStub_GetRaidRosterInfo_FileName_Valid()
+	myParty.raid = 1
+	myParty.roster = { { "name", "rank", "subgroup", "level", "class", "fileName", "zone", "online", false, "role", true} }
+	assertEquals( "fileName", select( 6, GetRaidRosterInfo( 1 ) ) )
+end
+function test.testStub_GetRaidRosterInfo_IsDead_Nil()
+	myParty.raid = nil
+	myParty.roster = {}
+	assertIsNil( select( 9, GetRaidRosterInfo( 1 ) ) )
+end
+function test.testStub_GetRaidRosterInfo_IsDead_Valid()
+	myParty.raid = 1
+	myParty.roster = { { "name", "rank", "subgroup", "level", "class", "fileName", "zone", "online", false, "role", true} }
+	assertTrue( not select( 9, GetRaidRosterInfo( 1 ) ) )
+end
+function test.testStub_GetRaidRosterInfo_IsML_Nil()
+	myParty.raid = nil
+	myParty.roster = {}
+	assertIsNil( select( 11, GetRaidRosterInfo( 1 ) ) )
+end
+function test.testStub_GetRaidRosterInfo_IsML_Valid()
+	myParty.raid = 1
+	myParty.roster = { { "name", "rank", "subgroup", "level", "class", "fileName", "zone", "online", false, "role", true} }
+	assertTrue( select( 11, GetRaidRosterInfo( 1 ) ) )
+end
+
+
+
+function test.testStub_GetRaidRosterInfo_Name_Nil()
+	myParty.raid = nil
+	myParty.roster = {}
+	assertIsNil( GetRaidRosterInfo( 1 ) )
+end
+
+function test.testStub_GetRaidRosterInfo_Name_Valid()
+	myParty.raid = 1
+	myParty.roster = { { "name", "rank", "subgroup", "level", "class", "fileName", "zone", "online", "isDead", "role", "isML"} }
+	assertEquals( "name", GetRaidRosterInfo( 1 ) )
+end
 
 -------------
 --===========
 -------------
 
 
-function test.testStub_GetRaidRosterInfo()
-	assertEquals( "fail", GetRaidRosterInfo() )
-end
 function test.testStub_GetRealmName()
 	assertEquals( "fail", GetRealmName() )
 end
