@@ -241,15 +241,19 @@ function GetItemCount( itemID, includeBank )
 	-- print( itemID, myInventory[itemID] )
 	return myInventory[itemID] or 0
 end
---[[
 function GetItemInfo( itemID )
 	-- returns name, itemLink
+	--[[
 	local itemData = {
 			["7073"] = { "Broken Fang", "|cff9d9d9d|Hitem:7073:0:0:0:0:0:0:0:80:0:0|h[Broken Fang]|h|r" },
 			["6742"] = { "UnBroken Fang", "|cff9d9d9d|Hitem:6742:0:0:0:0:0:0:0:80:0:0|h[UnBroken Fang]|h|r" },
 	}
-	if itemData[itemID] then return unpack( itemData[itemID] ) end
+	]]
+	if Items[itemID] then
+		return Items[itemID].name, Items[itemID].link
+	end
 end
+--[[
 function GetMerchantItemCostInfo( index )
 	-- returns count of alterate items needed to purchase an item
 	if MerchantInventory[ index ] then  -- valid index

@@ -227,6 +227,19 @@ function test.testStub_GetItemCount_1()
 	myInventory = {["74661"] = 1, }
 	assertEquals( 1, GetItemCount( "74661" ) )
 end
+function test.testStub_GetItemInfo_Link_Nil()
+	assertIsNil( select(2, GetItemInfo("7072") ) )
+end
+function test.testStub_GetItemInfo_Name_Nil()
+	assertIsNil( GetItemInfo("7072") )
+end
+
+function test.testStub_GetItemInfo_Link_Valid()
+	assertEquals( "|cff9d9d9d|Hitem:7073:0:0:0:0:0:0:0:80:0:0|h[Broken Fang]|h|r", select(2, GetItemInfo("7073") ) )
+end
+function test.testStub_GetItemInfo_Name_Valid()
+	assertEquals( "Broken Fang", GetItemInfo("7073") )
+end
 
 
 -------------
