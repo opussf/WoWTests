@@ -293,7 +293,6 @@ function GetMerchantNumItems()
 	for _ in pairs(MerchantInventory) do count = count + 1 	end
 	return count
 end
---[[
 function GetNumGroupMembers()
 	-- http://www.wowwiki.com/API_GetNumGroupMembers
 	-- Returns number of people (include self) in raid or party, 0 if not in raid / party
@@ -304,6 +303,7 @@ function GetNumGroupMembers()
 	end
 	return 0
 end
+--[[
 function GetNumRoutes( nodeId )
 	-- http://wowprogramming.com/docs/api/GetNumRoutes
 	-- returns numHops
@@ -433,6 +433,7 @@ function UnitRace( who )
 	}
 	return unitRaces[who]
 end
+]]
 function UnitSex( who )
 	-- 1 = unknown, 2 = Male, 3 = Female
 	local unitSex = {
@@ -440,4 +441,3 @@ function UnitSex( who )
 	}
 	return unitSex[who]
 end
-]]

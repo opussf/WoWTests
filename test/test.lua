@@ -366,6 +366,10 @@ end
 function test.testStub_UnitRace_01()
 	assertEquals( "Human", UnitRace( "player" ) )
 end
+
+--------
+--======
+--------
 function test.testStub_UnitSex_01()
 	assertEquals( 3, UnitSex( "player" ) )
 end
