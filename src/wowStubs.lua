@@ -237,11 +237,11 @@ function GetCurrencyLink( id )
 		return Currencies[id].link
 	end
 end
---[[
 function GetItemCount( itemID, includeBank )
 	-- print( itemID, myInventory[itemID] )
 	return myInventory[itemID] or 0
 end
+--[[
 function GetItemInfo( itemID )
 	-- returns name, itemLink
 	local itemData = {

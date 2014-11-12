@@ -217,9 +217,21 @@ end
 function test.testStub_GetCurrencyLink()
 	assertIsNil( GetCurrencyLink( "704" ) )
 end
+function test.testStub_GetItemCount_0()
+	-- Does not support the Bank now
+	myInventory = {["74661"] = nil, }
+	assertEquals( 0, GetItemCount( "74661" ) )
+end
+function test.testStub_GetItemCount_1()
+	-- Does not support the Bank now
+	myInventory = {["74661"] = 1, }
+	assertEquals( 1, GetItemCount( "74661" ) )
+end
 
---[[
 
+-------------
+--===========
+-------------
 function test.testStub_GetTradeSkillNumMade_maxMade()
 	local _, maxMade = GetTradeSkillNumMade( 1 )
 	assertEquals( 1, maxMade )
@@ -288,7 +300,6 @@ function test.testStub_UnitSex_01()
 	assertEquals( 3, UnitSex( "player" ) )
 end
 
-]]
 ----------------------------------
 -- Run the tests
 ----------------------------------
