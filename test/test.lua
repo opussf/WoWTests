@@ -307,44 +307,50 @@ function test.testStub_GetNumGroupMembers_1()
 	myParty.roster = {"you"}
 	assertEquals( 1, GetNumGroupMembers() )
 end
+function test.testStub_GetNumRoutes_0()
+	assertEquals( 0, GetNumRoutes( 1 ) )
+end
+function test.testStub_GetNumRoutes_1()
+	assertEquals( 1, GetNumRoutes( 2 ) )
+end
+function test.testStub_GetNumRoutes_2()
+	assertEquals( 1, GetNumRoutes( 3 ) )
+end
 
 -------------
 --===========
 -------------
 
 
-function test.testStub_GetNumRoutes()
-	GetNumRoutes()
-end
 function test.testStub_GetNumTradeSkills()
-	GetNumTradeSkills()
+	assertEquals( "fail", GetNumTradeSkills() )
 end
 function test.testStub_GetRaidRosterInfo()
-	GetRaidRosterInfo()
+	assertEquals( "fail", GetRaidRosterInfo() )
 end
 function test.testStub_GetRealmName()
-	GetRealmName()
+	assertEquals( "fail", GetRealmName() )
 end
 function test.testStub_GetSendMailItemLink()
-	GetSendMailItemLink()
+	assertEquals( "fail", GetSendMailItemLink() )
 end
 function test.testStub_GetTradeSkillItemLink()
-	GetTradeSkillItemLink()
+	assertEquals( "fail", GetTradeSkillItemLink() )
 end
 function test.testStub_GetTradeSkillReagentInfo_Name()
-	GetTradeSkillReagentInfo()
+	assertEquals( "fail", GetTradeSkillReagentInfo() )
 end
 function test.testStub_GetTradeSkillReagentInfo_Texture()
-	GetTradeSkillReagentInfo()
+	assertEquals( "fail", GetTradeSkillReagentInfo() )
 end
 function test.testStub_GetTradeSkillReagentInfo_ReagentCount()
-	GetTradeSkillReagentInfo()
+	assertEquals( "fail", GetTradeSkillReagentInfo() )
 end
 function test.testStub_GetTradeSkillReagentInfo_PlayerReagentCount()
-	GetTradeSkillReagentInfo()
+	assertEquals( "fail", GetTradeSkillReagentInfo() )
 end
 function test.testStub_GetTradeSkillReagentItemLink()
-	GetTradeSkillReagentItemLink()
+	assertEquals( "fail", GetTradeSkillReagentItemLink() )
 end
 
 

@@ -303,12 +303,12 @@ function GetNumGroupMembers()
 	end
 	return 0
 end
---[[
 function GetNumRoutes( nodeId )
 	-- http://wowprogramming.com/docs/api/GetNumRoutes
 	-- returns numHops
 	return TaxiNodes[nodeId].hops
 end
+--[[
 function GetNumTradeSkills( )
 	-- returns number of lines in the tradeskill window to show
 	local count = 0
