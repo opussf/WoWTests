@@ -361,6 +361,9 @@ end
 function test.testStub_IsInGuild()
 	assertTrue( IsInGuild() )
 end
+function test.testStub_IsInRaid()
+	IsInRaid()
+end
 function test.testStub_NumTaxiNodes()
 	assertEquals( 3, NumTaxiNodes() )
 end
