@@ -360,13 +360,14 @@ end
 function test.testStub_UnitFactionGroup_02()
 	assertEquals( "Alliance", select(2, UnitFactionGroup( "player" ) ) )
 end
-function test.testStub_UnitName_01()
-	assertEquals( "testPlayer", UnitName( "player" ) )
-end
+
 
 --------
 --======
 --------
+function test.testStub_UnitName_01()
+	assertEquals( "testPlayer", UnitName( "player" ) )
+end
 function test.testStub_UnitRace_01()
 	assertEquals( "Human", UnitRace( "player" ) )
 end

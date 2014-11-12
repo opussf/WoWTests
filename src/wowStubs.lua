@@ -421,13 +421,13 @@ function UnitFactionGroup( who )
 	}
 	return unpack( unitFactions[who] )
 end
+]]
 function UnitName( who )
 	local unitNames = {
 		["player"] = "testPlayer",
 	}
 	return unitNames[who]
 end
-]]
 function UnitRace( who )
 	local unitRaces = {
 		["player"] = "Human",
