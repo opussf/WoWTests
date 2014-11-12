@@ -288,12 +288,12 @@ function GetMerchantItemMaxStack( index )
 	-- Max allowable amount per purchase.  Hard code to 20 for now
 	return 20
 end
---[[
 function GetMerchantNumItems()
 	local count = 0
 	for _ in pairs(MerchantInventory) do count = count + 1 	end
 	return count
 end
+--[[
 function GetNumGroupMembers()
 	-- http://www.wowwiki.com/API_GetNumGroupMembers
 	-- Returns number of people (include self) in raid or party, 0 if not in raid / party

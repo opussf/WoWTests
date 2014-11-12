@@ -295,6 +295,9 @@ end
 function test.testStub_GetMerchantItemMaxStack()
 	assertEquals( 20, GetMerchantItemMaxStack( 1 ) )
 end
+function test.testStub_GetMerchantNumItems()
+	assertEquals( 6, GetMerchantNumItems() )
+end
 -------------
 --===========
 -------------
