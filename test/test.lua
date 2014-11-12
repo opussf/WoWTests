@@ -298,13 +298,21 @@ end
 function test.testStub_GetMerchantNumItems()
 	assertEquals( 6, GetMerchantNumItems() )
 end
+function test.testStub_GetNumGroupMembers_0()
+	myParty = { ["group"] = nil, ["raid"] = nil, ["roster"] = {} }
+	assertEquals( 0, GetNumGroupMembers() )
+end
+function test.testStub_GetNumGroupMembers_1()
+	myParty.group = 1  -- inGroup
+	myParty.roster = {"you"}
+	assertEquals( 1, GetNumGroupMembers() )
+end
+
 -------------
 --===========
 -------------
 
-function test.testStub_GetNumGroupMembers()
-	GetNumGroupMembers()
-end
+
 function test.testStub_GetNumRoutes()
 	GetNumRoutes()
 end
