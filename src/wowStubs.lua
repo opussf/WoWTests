@@ -47,11 +47,11 @@ MerchantInventory = {
 	{["id"] = 7073, ["name"] = "Broken Fang", ["cost"] = 5000, ["quantity"] = 1, ["isUsable"] = 1, ["link"] = "|cff9d9d9d|Hitem:7073:0:0:0:0:0:0:0:80:0:0|h[Broken Fang]|h|r"},
 	{["id"] = 6742, ["name"] = "UnBroken Fang", ["cost"] = 10000, ["quantity"] = 1, ["isUsable"] = 1, ["link"] = "|cff9d9d9d|Hitem:6742:0:0:0:0:0:0:0:80:0:0|h[UnBroken Fang]|h|r"},
 	{["id"] = 22261, ["name"] = "Love Fool", ["cost"] = 0, ["quantity"] = 1, ["isUsable"] = 1, ["link"] = "|cff9d9d9d|Hitem:22261:0:0:0:0:0:0:0:80:0:0|h[Love Fool]|h|r",
-		["currencies"] = {["id"] = 49927, ["quantity"] = 10},},
+		["currencies"] = {{["id"] = 49927, ["quantity"] = 10},}},
 	{["id"] = 49927, ["name"] = "Love Token", ["cost"] = 0, ["quantity"] = 1, ["isUsable"] = 1, ["link"] = "",
-		["currencies"] = {["id"] = 49916, ["quantity"] = 1},},  -- Lovely Charm Bracelet
+		["currencies"] = {{["id"] = 49916, ["quantity"] = 1},}},  -- Lovely Charm Bracelet
 	{["id"] = 74661, ["name"] = "Black Pepper", ["cost"] = 0, ["quantity"] = 1, ["isUsable"] = 1, ["link"] = "﻿|cffffffff|Hitem:74661:0:0:0:0:0:0:0:90:0:0|h[Black Pepper]|h|r",
-		["currencies"] = {["id"] = 402, ["quantity"] = 1},},
+		["currencies"] = {{["id"] = 402, ["quantity"] = 1},}},
 	{["id"] = 85216, ["name"] = "Enigma Seed", ["cost"] = 2500, ["quantity"] = 1, ["isUsable"] = nil, ["link"]= "|cffffffff|Hitem:85216:0:0:0:0:0:0:0:90:0:0|h[Enigma Seed]|h|r"},
 }
 TradeSkillItems = {
@@ -243,17 +243,10 @@ function GetItemCount( itemID, includeBank )
 end
 function GetItemInfo( itemID )
 	-- returns name, itemLink
-	--[[
-	local itemData = {
-			["7073"] = { "Broken Fang", "|cff9d9d9d|Hitem:7073:0:0:0:0:0:0:0:80:0:0|h[Broken Fang]|h|r" },
-			["6742"] = { "UnBroken Fang", "|cff9d9d9d|Hitem:6742:0:0:0:0:0:0:0:80:0:0|h[UnBroken Fang]|h|r" },
-	}
-	]]
 	if Items[itemID] then
 		return Items[itemID].name, Items[itemID].link
 	end
 end
---[[
 function GetMerchantItemCostInfo( index )
 	-- returns count of alterate items needed to purchase an item
 	if MerchantInventory[ index ] then  -- valid index
@@ -265,6 +258,7 @@ function GetMerchantItemCostInfo( index )
 	end
 	return 0  -- returns 0 not nil on 0 currencies
 end
+--[[
 function GetMerchantItemCostItem( index, currencyIndex )
 	-- returns texture, value, and link for 1..GetMerchantItemCostInfo() for index item
 	if MerchantInventory[ index ] then  -- valid index

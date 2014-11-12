@@ -233,14 +233,18 @@ end
 function test.testStub_GetItemInfo_Name_Nil()
 	assertIsNil( GetItemInfo("7072") )
 end
-
 function test.testStub_GetItemInfo_Link_Valid()
 	assertEquals( "|cff9d9d9d|Hitem:7073:0:0:0:0:0:0:0:80:0:0|h[Broken Fang]|h|r", select(2, GetItemInfo("7073") ) )
 end
 function test.testStub_GetItemInfo_Name_Valid()
 	assertEquals( "Broken Fang", GetItemInfo("7073") )
 end
-
+function test.testStub_GetMerchantItemCostInfo_0()
+	assertEquals( 0, GetMerchantItemCostInfo( 1 ) ) -- Broken Fang
+end
+function test.testStub_GetMerchantItemCostInfo_1()
+	assertEquals( 1, GetMerchantItemCostInfo( 3 ) ) -- "Love Fool"
+end
 
 -------------
 --===========
