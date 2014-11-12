@@ -316,15 +316,15 @@ end
 function test.testStub_GetNumRoutes_2()
 	assertEquals( 1, GetNumRoutes( 3 ) )
 end
+function test.testStub_GetNumTradeSkills()
+	assertEquals( 1, GetNumTradeSkills() )
+end
 
 -------------
 --===========
 -------------
 
 
-function test.testStub_GetNumTradeSkills()
-	assertEquals( "fail", GetNumTradeSkills() )
-end
 function test.testStub_GetRaidRosterInfo()
 	assertEquals( "fail", GetRaidRosterInfo() )
 end

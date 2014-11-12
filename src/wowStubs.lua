@@ -308,13 +308,13 @@ function GetNumRoutes( nodeId )
 	-- returns numHops
 	return TaxiNodes[nodeId].hops
 end
---[[
 function GetNumTradeSkills( )
 	-- returns number of lines in the tradeskill window to show
 	local count = 0
 	for _ in pairs( TradeSkillItems ) do count = count + 1 end
 	return count
 end
+--[[
 function GetRaidRosterInfo( raidIndex )
 	-- http://www.wowwiki.com/API_GetRaidRosterInfo
 	-- returns name, rank, subgroup, level, class, fileName, zone, online, isDead, role, isML
