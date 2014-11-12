@@ -228,7 +228,7 @@ function test.testStub_GetItemCount_1()
 	assertEquals( 1, GetItemCount( "74661" ) )
 end
 function test.testStub_GetItemInfo_Link_Nil()
-	assertIsNil( select(2, GetItemInfo("7072") ) )
+	assertIsNil( select( 2, GetItemInfo("7072") ) )
 end
 function test.testStub_GetItemInfo_Name_Nil()
 	assertIsNil( GetItemInfo("7072") )
@@ -244,6 +244,29 @@ function test.testStub_GetMerchantItemCostInfo_0()
 end
 function test.testStub_GetMerchantItemCostInfo_1()
 	assertEquals( 1, GetMerchantItemCostInfo( 3 ) ) -- "Love Fool"
+end
+function test.testStub_GetMerchantItemCostItem_Link_Nil()
+	-- Link is hardcoded to "" for now
+	assertIsNil( select( 3, GetMerchantItemCostItem( 1, 1 ) ) ) -- this time has no alternative currency cost
+end
+function test.testStub_GetMerchantItemCostItem_Texture_Nil()
+	-- Texture is hardcoded to "" for now
+	assertIsNil( GetMerchantItemCostItem( 1, 1 ) ) -- this time has no alternative currency cost
+end
+function test.testStub_GetMerchantItemCostItem_Value_Nil()
+	assertIsNil( select( 2, GetMerchantItemCostItem( 1, 1 ) ) ) -- this time has no alternative currency cost
+end
+function test.testStub_GetMerchantItemCostItem_Link_Valid()
+	-- Link is hardcoded to "" for now
+	assertEquals( "", select(3, GetMerchantItemCostItem( 3, 1 ) ) ) -- 3rd item, 1st currency -- 3rd return value
+end
+function test.testStub_GetMerchantItemCostItem_Texture_Valid()
+	-- Texture is hardcoded to "" for now
+	assertEquals( "", GetMerchantItemCostItem( 3, 1 ) ) -- 3rd item, 1st currency -- 1st return value
+end
+function test.testStub_GetMerchantItemCostItem_Value_Valid()
+	assertEquals( 10, select( 2, GetMerchantItemCostItem( 3, 1 ) ) ) -- 3rd item, 1st currency -- 2nd return value
+
 end
 
 -------------

@@ -258,7 +258,6 @@ function GetMerchantItemCostInfo( index )
 	end
 	return 0  -- returns 0 not nil on 0 currencies
 end
---[[
 function GetMerchantItemCostItem( index, currencyIndex )
 	-- returns texture, value, and link for 1..GetMerchantItemCostInfo() for index item
 	if MerchantInventory[ index ] then  -- valid index
@@ -270,6 +269,7 @@ function GetMerchantItemCostItem( index, currencyIndex )
 	end
 	return nil, nil, nil  -- probably don't need to do this.
 end
+--[[
 function GetMerchantItemLink( index )
 	-- returns a link for item at index
 	if MerchantInventory[ index ] then
