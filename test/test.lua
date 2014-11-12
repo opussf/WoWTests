@@ -273,10 +273,30 @@ end
 function test.testStub_GetMerchantItemLink_Valid()
 	assertEquals( "|cff9d9d9d|Hitem:7073:0:0:0:0:0:0:0:80:0:0|h[Broken Fang]|h|r", GetMerchantItemLink( 1 ) )
 end
+--local itemName, texture, price, quantity, numAvailable, isUsable = GetMerchantItemInfo( i )
+function test.testStub_GetMerchantItemInfo_IsUsable()
+	assertEquals( 1, select( 6, GetMerchantItemInfo( 1 ) ) )
+end
+function test.testStub_GetMerchantItemInfo_Name()
+	assertEquals( "Broken Fang", GetMerchantItemInfo( 1 ) )
+end
+function test.testStub_GetMerchantItemInfo_NumAvailable()
+	assertEquals( -1, select( 5, GetMerchantItemInfo( 1 ) ) )
+end
+function test.testStub_GetMerchantItemInfo_Price()
+	assertEquals( 5000, select( 3, GetMerchantItemInfo( 1 ) ) )
+end
+function test.testStub_GetMerchantItemInfo_Quantity()
+	assertEquals( 1, select( 4, GetMerchantItemInfo( 1 ) ) )
+end
+function test.testStub_GetMerchantItemInfo_Texture()
+	assertEquals( "", select( 2, GetMerchantItemInfo( 1 ) ) )
+end
 
 -------------
 --===========
 -------------
+
 function test.testStub_GetTradeSkillNumMade_maxMade()
 	local _, maxMade = GetTradeSkillNumMade( 1 )
 	assertEquals( 1, maxMade )

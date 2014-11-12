@@ -283,12 +283,6 @@ function GetMerchantItemInfo( index )
 		local item = MerchantInventory[ index ]
 		return item.name, "", item.cost, item.quantity, -1, item.isUsable
 	end
-	--[[
-	local merchantItemInfo = { { "Broken Fang", "", 5000, 1 },  -- 50 silver
-			{ "UnBroken Fang", "", 10000, 1 },            -- 1 gold
-	}
-	return unpack( merchantItemInfo[index] )
-	]]
 end
 --[[
 function GetMerchantItemMaxStack( index )
