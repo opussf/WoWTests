@@ -411,14 +411,15 @@ function test.testStub_GetRaidRosterInfo_Zone_Valid()
 	myParty.roster = { { "name", "rank", 1, 100, "class", "fileName", "zone", true, false, "role", true} }
 	assertEquals( "zone", select( 7, GetRaidRosterInfo( 1 ) ) )
 end
+function test.testStub_GetRealmName()
+	assertEquals( "testRealm", GetRealmName() )
+end
 -------------
 --===========
 -------------
 
 
-function test.testStub_GetRealmName()
-	assertEquals( "fail", GetRealmName() )
-end
+
 function test.testStub_GetSendMailItemLink()
 	assertEquals( "fail", GetSendMailItemLink() )
 end
