@@ -305,7 +305,7 @@ end
 function test.testStub_GetNumGroupMembers_1()
 	-- returns name, rank, subgroup, level, class, fileName, zone, online, isDead, role, isML
 	myParty.group = 1  -- inGroup
-	myParty.roster = { { "name", "rank", "subgroup", "level", "class", "fileName", "zone", "online", false, "role", true} }
+	myParty.roster = { { "name", "rank", 1, 100, "class", "fileName", "zone", true, false, "role", true} }
 	assertEquals( 1, GetNumGroupMembers() )
 end
 function test.testStub_GetNumRoutes_0()
@@ -327,7 +327,7 @@ function test.testStub_GetRaidRosterInfo_Class_Nil()
 end
 function test.testStub_GetRaidRosterInfo_Class_Valid()
 	myParty.raid = 1
-	myParty.roster = { { "name", "rank", "subgroup", "level", "class", "fileName", "zone", "online", false, "role", true} }
+	myParty.roster = { { "name", "rank", 1, 100, "class", "fileName", "zone", true, false, "role", true} }
 	assertEquals( "class", select( 5, GetRaidRosterInfo( 1 ) ) )
 end
 function test.testStub_GetRaidRosterInfo_FileName_Nil()
@@ -337,7 +337,7 @@ function test.testStub_GetRaidRosterInfo_FileName_Nil()
 end
 function test.testStub_GetRaidRosterInfo_FileName_Valid()
 	myParty.raid = 1
-	myParty.roster = { { "name", "rank", "subgroup", "level", "class", "fileName", "zone", "online", false, "role", true} }
+	myParty.roster = { { "name", "rank", 1, 100, "class", "fileName", "zone", true, false, "role", true} }
 	assertEquals( "fileName", select( 6, GetRaidRosterInfo( 1 ) ) )
 end
 function test.testStub_GetRaidRosterInfo_IsDead_Nil()
@@ -347,7 +347,7 @@ function test.testStub_GetRaidRosterInfo_IsDead_Nil()
 end
 function test.testStub_GetRaidRosterInfo_IsDead_Valid()
 	myParty.raid = 1
-	myParty.roster = { { "name", "rank", "subgroup", "level", "class", "fileName", "zone", "online", false, "role", true} }
+	myParty.roster = { { "name", "rank", 1, 100, "class", "fileName", "zone", true, false, "role", true} }
 	assertTrue( not select( 9, GetRaidRosterInfo( 1 ) ) )
 end
 function test.testStub_GetRaidRosterInfo_IsML_Nil()
@@ -357,24 +357,60 @@ function test.testStub_GetRaidRosterInfo_IsML_Nil()
 end
 function test.testStub_GetRaidRosterInfo_IsML_Valid()
 	myParty.raid = 1
-	myParty.roster = { { "name", "rank", "subgroup", "level", "class", "fileName", "zone", "online", false, "role", true} }
+	myParty.roster = { { "name", "rank", 1, 100, "class", "fileName", "zone", true, false, "role", true} }
 	assertTrue( select( 11, GetRaidRosterInfo( 1 ) ) )
 end
-
-
-
-function test.testStub_GetRaidRosterInfo_Name_Nil()
+-- returns name, rank, subgroup, level, class, fileName, zone, online, isDead, role, isML
+function test.testStub_GetRaidRosterInfo_Level_Nil()
 	myParty.raid = nil
 	myParty.roster = {}
-	assertIsNil( GetRaidRosterInfo( 1 ) )
+	assertIsNil( select( 4, GetRaidRosterInfo( 1 ) ) )
 end
-
-function test.testStub_GetRaidRosterInfo_Name_Valid()
+function test.testStub_GetRaidRosterInfo_Level_Valid()
 	myParty.raid = 1
-	myParty.roster = { { "name", "rank", "subgroup", "level", "class", "fileName", "zone", "online", "isDead", "role", "isML"} }
-	assertEquals( "name", GetRaidRosterInfo( 1 ) )
+	myParty.roster = { { "name", "rank", 1, 100, "class", "fileName", "zone", true, false, "role", true} }
+	assertEquals( 100, select( 4, GetRaidRosterInfo( 1 ) ) )
 end
-
+function test.testStub_GetRaidRosterInfo_Online_Nil()
+	myParty.raid = nil
+	myParty.roster = {}
+	assertIsNil( select( 4, GetRaidRosterInfo( 1 ) ) )
+end
+function test.testStub_GetRaidRosterInfo_Online_Valid()
+	myParty.raid = 1
+	myParty.roster = { { "name", "rank", 1, 100, "class", "fileName", "zone", true, false, "role", true} }
+	assertEquals( 100, select( 4, GetRaidRosterInfo( 1 ) ) )
+end
+function test.testStub_GetRaidRosterInfo_Rank_Nil()
+	myParty.raid = nil
+	myParty.roster = {}
+	assertIsNil( select( 2, GetRaidRosterInfo( 1 ) ) )
+end
+function test.testStub_GetRaidRosterInfo_Rank_Valid()
+	myParty.raid = 1
+	myParty.roster = { { "name", "rank", 1, 100, "class", "fileName", "zone", true, false, "role", true} }
+	assertEquals( "rank", select( 2, GetRaidRosterInfo( 1 ) ) )
+end
+function test.testStub_GetRaidRosterInfo_Subgroup_Nil()
+	myParty.raid = nil
+	myParty.roster = {}
+	assertIsNil( select( 3, GetRaidRosterInfo( 1 ) ) )
+end
+function test.testStub_GetRaidRosterInfo_Subgroup_Valid()
+	myParty.raid = 1
+	myParty.roster = { { "name", "rank", 1, 100, "class", "fileName", "zone", true, false, "role", true} }
+	assertEquals( 1, select( 3, GetRaidRosterInfo( 1 ) ) )
+end
+function test.testStub_GetRaidRosterInfo_Zone_Nil()
+	myParty.raid = nil
+	myParty.roster = {}
+	assertIsNil( select( 7, GetRaidRosterInfo( 1 ) ) )
+end
+function test.testStub_GetRaidRosterInfo_Zone_Valid()
+	myParty.raid = 1
+	myParty.roster = { { "name", "rank", 1, 100, "class", "fileName", "zone", true, false, "role", true} }
+	assertEquals( "zone", select( 7, GetRaidRosterInfo( 1 ) ) )
+end
 -------------
 --===========
 -------------
