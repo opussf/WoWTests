@@ -133,6 +133,12 @@ function test.testStub_getglobal()
 	globals['value'] = "test value"
 	assertEquals( "test value", getglobal('value') )
 end
+function test.testStub_ClearSendMail()
+	fail("Not written")
+end
+function test.testStub_ClickSendMailItemButton()
+	fail("Not written")
+end
 function test.testStub_CreateFrame()
 	frame = CreateFrame("frame")
 	assertTrue( frame )

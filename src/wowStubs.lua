@@ -170,9 +170,6 @@ DEFAULT_CHAT_FRAME={ ["AddMessage"] = print, }
 UIErrorsFrame={ ["AddMessage"] = print, }
 
 -- stub some external API functions (try to keep alphabetical)
-function CombatTextSetActiveUnit( who )
-	print("I am untested")
-end
 function BuyMerchantItem( index, quantity )
 	-- adds quantity of index to myInventory
 	-- no return value
@@ -183,6 +180,26 @@ function BuyMerchantItem( index, quantity )
 		myInventory[itemID] = quantity
 	end
 	--INEED.UNIT_INVENTORY_CHANGED()
+end
+function ClearSendMail()
+	-- http://www.wowwiki.com/API_ClearSendMail
+	-- clears any text, items or money from the mail message to be sent
+	-- @TODO - Write this
+end
+function ClickSendMailItemButton( slot, clearItem )
+	-- http://www.wowwiki.com/API_ClickSendMailItemButton
+	--
+	-- @TODO - Write this
+end
+function CloseMail()
+	-- http://www.wowwiki.com/API_CloseMail
+	-- Fires the MAIL_CLOSED event
+	-- returns: nil
+	-- @TODO - Write this
+end
+function CombatTextSetActiveUnit( who )
+	-- http://www.wowwiki.com/API_CombatTextSetActiveUnit
+	-- @TODO - Write this
 end
 function DoEmote( emote )
 	-- not tested as the only side effect is the character doing an emote
@@ -324,10 +341,21 @@ end
 function GetRealmName()
 	return "testRealm"
 end
---[[
-function GetSendMailItemLink( slot )
-	-- todo:  Write this
+function GetSendMailItem( slot )
+	-- 1 <= slot <= ATTACHMENTS_MAX_SEND
+	-- returns: itemName, itemTexture, stackCount, quality
 end
+function GetSendMailItemLink( slot )
+	-- 1 <= slot <= ATTACHMENTS_MAX_SEND
+	-- returns: itemlink
+end
+function GetSendMailMoney()
+	-- returns: amount (in copper)
+end
+function GetSendMailPrice()
+	-- returns: amount (in copper) to send the mail
+end
+--[[
 function GetTradeSkillItemLink( index )
 	if TradeSkillItems[index] then
 		return TradeSkillItems[index].ilink
