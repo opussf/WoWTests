@@ -428,16 +428,29 @@ function PlaySoundFile( file )
 	-- do not test.
 end
 ]]
-function SecondsToTime( seconds, noSeconds, notAbbreviated, maxCount )
+function SecondsToTime( secondsIn, noSeconds, notAbbreviated, maxCount )
 	-- http://www.wowwiki.com/API_SecondsToTime
 	-- formats seconds to a readable time
-	-- seconds: number of seconds to work with
+	-- secondsIn: number of seconds to work with
 	-- noSeconds: True to ommit seconds display (optional - default: false)
 	-- notAbbreviated: True to use full unit text, short text otherwise (optional - default: false)
 	-- maxCount: Maximum number of terms to return (optional - default: 2)
 	maxCount = maxCount or 2
-	print("maxCount: "..maxCount)
-	return ""
+	local days = nil
+	local outStr = ""
+	if secondsIn >= 86400 then
+		days = math.floor(secondsIn / 86400)
+		secondsIn = secondsIn - (days * 86400)
+	end
+	--print("days: "..(days or "nil"))
+	dayText = "Day"..(days and (days>1 and "s" or "") or "")
+	local seconds = secondsIn
+	secText = notAbbreviated and
+			"Second"..(seconds>1 and "s" or "") or
+			"Sec"
+	local outStr = days and string.format("%i %s", days, dayText)
+	outStr = outStr .. string.format("%i %s", seconds, secText)
+	return outStr
 end
 --[[
 function SendChatMessage( msg, chatType, language, channel )
@@ -462,6 +475,7 @@ function UnitClass( who )
 	}
 	return unitClasses[who]
 end
+]]
 function UnitFactionGroup( who )
 	-- http://www.wowwiki.com/API_UnitFactionGroup
 	local unitFactions = {
@@ -469,7 +483,6 @@ function UnitFactionGroup( who )
 	}
 	return unpack( unitFactions[who] )
 end
-]]
 function UnitName( who )
 	local unitNames = {
 		["player"] = "testPlayer",
