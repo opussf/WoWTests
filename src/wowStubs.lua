@@ -20,6 +20,7 @@ myCurrencies = {}
 -- roster should be an array for GetRaidRosterInfo
 myParty = { ["group"] = nil, ["raid"] = nil, ["roster"] = {} }
 outMail = {}
+inbox = {}
 globals = {}
 accountExpansionLevel = 4   -- 0 to 5
 
@@ -180,6 +181,11 @@ function BuyMerchantItem( index, quantity )
 		myInventory[itemID] = quantity
 	end
 	--INEED.UNIT_INVENTORY_CHANGED()
+end
+function CheckInbox()
+	-- http://www.wowwiki.com/API_CheckInbox
+	-- Fires the MAIL_INBOX_UPDATE event when data is available
+	-- @TODO - Write this
 end
 function ClearSendMail()
 	-- http://www.wowwiki.com/API_ClearSendMail
@@ -392,6 +398,9 @@ end
 function GetTradeSkillRecipeLink( index )
 	return TradeSkillItems[index].elink
 end
+function HasNewMail()
+	return true
+end
 function InterfaceOptionsFrame_OpenToCategory()
 end
 function IsInGuild()
@@ -414,11 +423,23 @@ function NumTaxiNodes()
 	end
 	return count
 end
-function PlaySoundFile( file ) end
-function SecondsToTime( seconds )
+function PlaySoundFile( file )
+	-- does nothing except play a sound.
+	-- do not test.
+end
+]]
+function SecondsToTime( seconds, noSeconds, notAbbreviated, maxCount )
+	-- http://www.wowwiki.com/API_SecondsToTime
 	-- formats seconds to a readable time
+	-- seconds: number of seconds to work with
+	-- noSeconds: True to ommit seconds display (optional - default: false)
+	-- notAbbreviated: True to use full unit text, short text otherwise (optional - default: false)
+	-- maxCount: Maximum number of terms to return (optional - default: 2)
+	maxCount = maxCount or 2
+	print("maxCount: "..maxCount)
 	return ""
 end
+--[[
 function SendChatMessage( msg, chatType, language, channel )
 	-- http://www.wowwiki.com/API_SendChatMessage
 	-- returns nil

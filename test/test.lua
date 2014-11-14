@@ -420,15 +420,14 @@ end
 function test.testStub_GetRealmName()
 	assertEquals( "testRealm", GetRealmName() )
 end
+function test.testStub_GetSendMailItemLink()
+	assertEquals( "fail", GetSendMailItemLink() )
+end
 -------------
 --===========
 -------------
 
 
-
-function test.testStub_GetSendMailItemLink()
-	assertEquals( "fail", GetSendMailItemLink() )
-end
 function test.testStub_GetTradeSkillItemLink()
 	assertEquals( "fail", GetTradeSkillItemLink() )
 end
@@ -479,9 +478,30 @@ end
 function test.testStub_PlaySoundFile()
 	assertIsNil( PlaySoundFile( "File" ) )
 end
-function test.testStub_SecondsToTime()
-	assertEquals( "", SecondsToTime( 5000 ) )
+
+
+function test.testStub_SecondsToTime_Sec()
+	assertEquals( "59 Sec", SecondsToTime( 59 ) )
 end
+function test.testStub_SecondsToTime_MinSec()
+	assertEquals( "1 Min 40 Sec", SecondsToTime( 100 ) )
+end
+function test.testStub_SecondsToTime_MinSec_noSeconds()
+	assertEquals( "1 Min", SecondsToTime( 100, true ) )
+end
+function test.testStub_SecondsToTime_HrMinSec()
+	assertEquals( "2 Hr 46 Min", SecondsToTime( 10000 ) )
+end
+function test.testStub_SecondsToTime_HrMinSec_noAbbr()
+	assertEquals( "2 Hours 46 Minutes", SecondsToTime( 10000, false, true ) )
+end
+function test.testStub_SecondsToTime_DayHrMinSec_MaxCount()
+	assertEquals( "1 Day 3 Hr 46 Min 40 Sec", SecondsToTime( 100000, false, false, 5 ) )
+end
+
+
+
+
 function test.testStub_SendChatMessage()
     -- This is fairly no-op function.  How do you test it?
 	assertIsNil( SendChatMessage( "Hello" ) )
