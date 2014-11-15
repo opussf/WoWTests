@@ -473,14 +473,12 @@ function TaxiNodeGetType( nodeId )
 	-- http://www.wowwiki.com/API_TaxiNodeGetType
 	return TaxiNodes[nodeId].type
 end
---[[
 function UnitClass( who )
 	local unitClasses = {
 		["player"] = "Warlock",
 	}
 	return unitClasses[who]
 end
-]]
 function UnitFactionGroup( who )
 	-- http://www.wowwiki.com/API_UnitFactionGroup
 	local unitFactions = {
