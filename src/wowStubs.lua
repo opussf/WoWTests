@@ -21,6 +21,7 @@ myCurrencies = {}
 myParty = { ["group"] = nil, ["raid"] = nil, ["roster"] = {} }
 outMail = {}
 inbox = {}
+onCursor = {}
 globals = {}
 accountExpansionLevel = 4   -- 0 to 5
 
@@ -367,6 +368,7 @@ function GetTradeSkillItemLink( index )
 		return TradeSkillItems[index].ilink
 	end
 end
+]]
 function GetTradeSkillReagentInfo( skillIndex, reagentIndex )
 	-- reagentName, reagentTexture, reagentCount, playerReagentCount = GetTradeSkillReagentInfo(tradeSkillRecipeId, reagentId)
 	if TradeSkillItems[skillIndex] then
@@ -378,6 +380,7 @@ function GetTradeSkillReagentInfo( skillIndex, reagentIndex )
 		end
 	end
 end
+--[[
 function GetTradeSkillReagentItemLink( skillIndex, reagentIndex )
 	-- link = GetTradeSkillReagentItemLink(skillId, reagentId)
 	-- skillId = TradeSkillIndex
@@ -452,11 +455,13 @@ function SecondsToTime( secondsIn, noSeconds, notAbbreviated, maxCount )
 	outStr = outStr .. string.format("%i %s", seconds, secText)
 	return outStr
 end
---[[
 function SendChatMessage( msg, chatType, language, channel )
 	-- http://www.wowwiki.com/API_SendChatMessage
+	-- This could simulate sending text to the channel, in the language, and raise the correct event.
 	-- returns nil
+	-- @TODO: Expand this
 end
+--[[
 function TaxiNodeCost( nodeId )
 	-- http://www.wowwiki.com/API_TaxiNodeCost
 	return TaxiNodes[nodeId].cost

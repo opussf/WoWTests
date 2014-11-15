@@ -133,6 +133,11 @@ function test.testStub_getglobal()
 	globals['value'] = "test value"
 	assertEquals( "test value", getglobal('value') )
 end
+function test.testStub_ClearCursor()
+	PickupItem( 7073 )
+	ClearCursor()
+	assertEquals( {}, onCursor )
+end
 function test.testStub_ClearSendMail()
 	fail("Not written")
 end
@@ -423,26 +428,31 @@ end
 function test.testStub_GetSendMailItemLink()
 	assertEquals( "fail", GetSendMailItemLink() )
 end
+function test.testStub_GetTradeSkillItemLink()
+	assertEquals( "fail", GetTradeSkillItemLink() )
+end
+function test.testStub_GetTradeSkillReagentInfo_Name()
+	local actual = select(1, GetTradeSkillReagentInfo( 1, 1 ) )
+	assertEquals( "Adamantite Frame", actual )
+end
+function test.testStub_GetTradeSkillReagentInfo_Texture()
+	local actual = select(2, GetTradeSkillReagentInfo( 1, 1 ) )
+	assertEquals( "", actual ) -- always ""
+end
+function test.testStub_GetTradeSkillReagentInfo_ReagentCount()
+	local actual = select(3, GetTradeSkillReagentInfo( 1, 1 ) )
+	assertEquals( "", actual )
+end
+function test.testStub_GetTradeSkillReagentInfo_PlayerReagentCount()
+	local actual = select(4, GetTradeSkillReagentInfo( 1, 1 ) )
+	assertEquals( "", actual )
+end
 -------------
 --===========
 -------------
 
 
-function test.testStub_GetTradeSkillItemLink()
-	assertEquals( "fail", GetTradeSkillItemLink() )
-end
-function test.testStub_GetTradeSkillReagentInfo_Name()
-	assertEquals( "fail", GetTradeSkillReagentInfo() )
-end
-function test.testStub_GetTradeSkillReagentInfo_Texture()
-	assertEquals( "fail", GetTradeSkillReagentInfo() )
-end
-function test.testStub_GetTradeSkillReagentInfo_ReagentCount()
-	assertEquals( "fail", GetTradeSkillReagentInfo() )
-end
-function test.testStub_GetTradeSkillReagentInfo_PlayerReagentCount()
-	assertEquals( "fail", GetTradeSkillReagentInfo() )
-end
+
 function test.testStub_GetTradeSkillReagentItemLink()
 	assertEquals( "fail", GetTradeSkillReagentItemLink() )
 end
