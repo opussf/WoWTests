@@ -465,7 +465,6 @@ function TaxiNodeCost( nodeId )
 	-- http://www.wowwiki.com/API_TaxiNodeCost
 	return TaxiNodes[nodeId].cost
 end
---[[
 function TaxiNodeName( nodeId )
 	-- http://www.wowwiki.com/API_TaxiNodeName
 	return TaxiNodes[nodeId].name
@@ -474,6 +473,7 @@ function TaxiNodeGetType( nodeId )
 	-- http://www.wowwiki.com/API_TaxiNodeGetType
 	return TaxiNodes[nodeId].type
 end
+--[[
 function UnitClass( who )
 	local unitClasses = {
 		["player"] = "Warlock",
