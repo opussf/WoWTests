@@ -362,13 +362,11 @@ end
 function GetSendMailPrice()
 	-- returns: amount (in copper) to send the mail
 end
---[[
 function GetTradeSkillItemLink( index )
 	if TradeSkillItems[index] then
 		return TradeSkillItems[index].ilink
 	end
 end
-]]
 function GetTradeSkillReagentInfo( skillIndex, reagentIndex )
 	-- reagentName, reagentTexture, reagentCount, playerReagentCount = GetTradeSkillReagentInfo(tradeSkillRecipeId, reagentId)
 	if TradeSkillItems[skillIndex] then
