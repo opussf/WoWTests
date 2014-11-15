@@ -441,11 +441,16 @@ function test.testStub_GetTradeSkillReagentInfo_Texture()
 end
 function test.testStub_GetTradeSkillReagentInfo_ReagentCount()
 	local actual = select(3, GetTradeSkillReagentInfo( 1, 1 ) )
-	assertEquals( "", actual )
+	assertEquals( 4, actual )
 end
-function test.testStub_GetTradeSkillReagentInfo_PlayerReagentCount()
+function test.testStub_GetTradeSkillReagentInfo_PlayerReagentCount_Nil()
 	local actual = select(4, GetTradeSkillReagentInfo( 1, 1 ) )
-	assertEquals( "", actual )
+	assertIsNil( actual )
+end
+function test.testStub_GetTradeSkillReagentInfo_PlayerReagentCount_Value()
+	myInventory={[23784] = 1}
+	local actual = select(4, GetTradeSkillReagentInfo( 1, 1 ) )
+	assertEquals( 1, actual )
 end
 -------------
 --===========
