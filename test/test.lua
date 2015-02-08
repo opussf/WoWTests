@@ -515,9 +515,15 @@ function test.testStub_PlaySoundFile()
 	assertIsNil( PlaySoundFile( "File" ) )
 end
 
-
 function test.testStub_SecondsToTime_Sec()
 	assertEquals( "59 Sec", SecondsToTime( 59 ) )
+end
+function test.testStub_SecondsToTime_Sec_noAbbr()
+	assertEquals( "59 Seconds", SecondsToTime( 59, false, true ) )
+end
+function test.testStub_SecondsToTime_MinSec_oneMin()
+	-- @TODO - This test may be in error
+	assertEquals( "1 Min 0 Sec", SecondsToTime( 60 ) )
 end
 function test.testStub_SecondsToTime_MinSec()
 	assertEquals( "1 Min 40 Sec", SecondsToTime( 100 ) )
@@ -534,9 +540,6 @@ end
 function test.testStub_SecondsToTime_DayHrMinSec_MaxCount()
 	assertEquals( "1 Day 3 Hr 46 Min 40 Sec", SecondsToTime( 100000, false, false, 5 ) )
 end
-
-
-
 
 function test.testStub_SendChatMessage()
     -- This is fairly no-op function.  How do you test it?

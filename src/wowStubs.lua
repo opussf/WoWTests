@@ -462,33 +462,27 @@ function SecondsToTime( secondsIn, noSeconds, notAbbreviated, maxCount )
 	minutes = math.floor( secondsIn / 60 )
 	seconds = secondsIn - (minutes * 60)
 
-	print(days.."D"..hours.."h"..minutes.."m"..seconds.."s")
-	print(#outArray)
-
-
-
-
-	return "<toTime "..secondsIn.."s>"
-end
---[[
-	maxCount = maxCount or 2
-	local days = nil
-	local outStr = ""
-	if secondsIn >= 86400 then
-		days = math.floor(secondsIn / 86400)
-		secondsIn = secondsIn - (days * 86400)
+	-- format output
+	local includeZero = false
+	formats = { { "%i Day", "%i Day", days},
+			{ "%i Hr", "%i Hours", hours},
+			{ "%i Min", "%i Minutes", minutes},
+			{ "%i Sec", "%i Seconds", seconds},
+		}
+	if noSeconds then  -- remove the seconds format if no seconds
+		table.remove(formats, 4)
 	end
-	--print("days: "..(days or "nil"))
-	dayText = "Day"..(days and (days>1 and "s" or "") or "")
-	local seconds = secondsIn
-	secText = notAbbreviated and
-			"Second"..(seconds>1 and "s" or "") or
-			"Sec"
-	local outStr = days and string.format("%i %s", days, dayText)
-	outStr = outStr .. string.format("%i %s", seconds, secText)
-	return outStr
+
+	for i = 1,#formats do
+		if (#outArray < maxCount) and (((formats[i][3] > 0) or includeZero)) then
+			table.insert( outArray,
+					string.format( formats[i][(notAbbreviated and 2 or 1)], formats[i][3] )
+			)
+			includeZero = true  -- include subsequent 0 values
+		end
+	end
+	return( table.concat( outArray, " " ) )
 end
-]]
 function SendChatMessage( msg, chatType, language, channel )
 	-- http://www.wowwiki.com/API_SendChatMessage
 	-- This could simulate sending text to the channel, in the language, and raise the correct event.
