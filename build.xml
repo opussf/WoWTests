@@ -80,7 +80,7 @@
 		<delete dir="${package.dir}" verbose="false"/>
 		<checksum file="${target.dir}/${project.zip}"
 				  property="zip.md5" />
-		<echo message="${zip.md5}" />
+		<echo file="${target.dir}/${project.zip}.md5">${zip.md5} ${project.zip}${line.separator}</echo>
 	</target>
 
 	<target name="web.deploy" description="deploys the web site">
