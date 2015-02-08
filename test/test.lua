@@ -489,8 +489,14 @@ function test.testStub_IsInGuild_false()
 	assertIsNil( IsInGuild() )
 	myGuild = { ["name"] = "Test Guild", }
 end
-function test.testStub_IsInRaid()
-	IsInRaid()
+function test.testStub_IsInRaid_true()
+	myParty.raid = true
+	assertTrue( IsInRaid() )
+	myParty.raid = nil
+end
+function test.testStub_IsInRaid_false()
+	myParty.raid = nil
+	assertIsNil( IsInRaid() )
 end
 function test.testStub_NumTaxiNodes()
 	assertEquals( 3, NumTaxiNodes() )

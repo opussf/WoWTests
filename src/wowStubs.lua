@@ -416,17 +416,14 @@ function IsInGuild()
 	-- http://www.wowwiki.com/API_IsInGuild
 	-- 1, nil boolean return of being in guild
 	return (myGuild and myGuild.name) and 1 or nil
-	--return 1
 end
---[[
 function IsInRaid()
 	-- http://www.wowwiki.com/API_IsInRaid
 	-- 1, nill boolean return of being in raid
 	-- myParty = { ["group"] = nil, ["raid"] = nil } -- set one of these to true to reflect being in group or raid.
-
 	return ( myParty["raid"] and 1 or nil )
 end
-]]
+
 function NumTaxiNodes()
 	-- http://www.wowwiki.com/API_NumTaxiNodes
 	local count = 0
