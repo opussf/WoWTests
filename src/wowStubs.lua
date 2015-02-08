@@ -1,5 +1,5 @@
 -----------------------------------------
--- Author  :  $Author:$
+-- Author  :  Opussf
 -- Date    :  $Date:$
 -- Revision:  $Revision:$
 -----------------------------------------
@@ -192,6 +192,10 @@ function CheckInbox()
 	-- Fires the MAIL_INBOX_UPDATE event when data is available
 	-- @TODO - Write this
 end
+function ClearCursor()
+	-- @TODO - Write this
+end
+--[[
 function ClearSendMail()
 	-- http://www.wowwiki.com/API_ClearSendMail
 	-- clears any text, items or money from the mail message to be sent
@@ -208,6 +212,7 @@ function CloseMail()
 	-- returns: nil
 	-- @TODO - Write this
 end
+]]
 function CombatTextSetActiveUnit( who )
 	-- http://www.wowwiki.com/API_CombatTextSetActiveUnit
 	-- @TODO - Write this
@@ -432,6 +437,9 @@ function NumTaxiNodes()
 	end
 	return count
 end
+function PickupItem( itemID )
+	-- TODO: WriteThis
+end
 function PlaySoundFile( file )
 	-- does nothing except play a sound.  Do not test.
 end
@@ -442,6 +450,21 @@ function SecondsToTime( secondsIn, noSeconds, notAbbreviated, maxCount )
 	-- noSeconds: True to ommit seconds display (optional - default: false)
 	-- notAbbreviated: True to use full unit text, short text otherwise (optional - default: false)
 	-- maxCount: Maximum number of terms to return (optional - default: 2)
+	maxCount = maxCount or 2
+	local days, hours, minutes, seconds = 0
+	local outArray = {}
+	days = math.floor( secondsIn / 86400 )
+	secondsIn = secondsIn - (days * 86400)
+
+	hours = math.floor( secondsIn / 3600 )
+	secondsIn = secondsIn - (hours * 3600)
+
+	minutes = math.floor( secondsIn / 60 )
+	seconds = secondsIn - (minutes * 60)
+
+	print(days.."D"..hours.."h"..minutes.."m"..seconds.."s")
+	print(#outArray)
+
 
 	return "<toTime "..secondsIn.."s>"
 end

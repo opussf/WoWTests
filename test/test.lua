@@ -136,14 +136,24 @@ end
 function test.testStub_ClearCursor()
 	PickupItem( 7073 )
 	ClearCursor()
-	assertEquals( {}, onCursor )
+	for _,v in pairs(onCursor) do
+		if v then
+			fail("nothing should be 'onCursor'")
+		end
+	end
+	--assertEquals( {}, onCursor, "nothing should be 'onCursor'" )
 end
+--[[
 function test.testStub_ClearSendMail()
 	fail("Not written")
 end
 function test.testStub_ClickSendMailItemButton()
 	fail("Not written")
 end
+function test.testStub_CloseMail()
+	fail("Not written")
+end
+]]
 function test.testStub_CreateFrame()
 	frame = CreateFrame("frame")
 	assertTrue( frame )
