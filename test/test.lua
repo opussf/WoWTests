@@ -466,13 +466,9 @@ end
 --===========
 -------------
 
-
-
 function test.testStub_GetTradeSkillReagentItemLink()
 	assertEquals( "fail", GetTradeSkillReagentItemLink() )
 end
-
-
 function test.testStub_GetTradeSkillNumMade_maxMade()
 	local _, maxMade = GetTradeSkillNumMade( 1 )
 	assertEquals( 1, maxMade )

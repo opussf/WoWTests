@@ -398,19 +398,17 @@ function GetTradeSkillReagentItemLink( skillIndex, reagentIndex )
 		end
 	end
 end
---[[
 function GetTradeSkillNumMade( index )
 	-- returns minMade, maxMade of the target item
 	return TradeSkillItems[index].minMade, TradeSkillItems[index].maxMade
 end
-]]
 function GetTradeSkillNumReagents( index )
 	return TradeSkillItems[index].numReagents
 end
---[[
 function GetTradeSkillRecipeLink( index )
 	return TradeSkillItems[index].elink
 end
+--[[
 function HasNewMail()
 	return true
 end
