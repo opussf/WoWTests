@@ -481,8 +481,13 @@ end
 function test.testStub_InterfaceOptionsFrame_OpenToCategory()
 	-- continue 1 to many API - Test relationship
 end
-function test.testStub_IsInGuild()
+function test.testStub_IsInGuild_true()
 	assertTrue( IsInGuild() )
+end
+function test.testStub_IsInGuild_false()
+	myGuild = {}
+	assertIsNil( IsInGuild() )
+	myGuild = { ["name"] = "Test Guild", }
 end
 function test.testStub_IsInRaid()
 	IsInRaid()

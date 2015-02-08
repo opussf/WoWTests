@@ -19,6 +19,8 @@ myCurrencies = {}
 -- set one of these to the number of people in the raid or party to reflect being in group or raid.
 -- roster should be an array for GetRaidRosterInfo
 myParty = { ["group"] = nil, ["raid"] = nil, ["roster"] = {} }
+myGuild = { ["name"] = "Test Guild", }
+-- set myGuild = {} to simulate not in a guild
 outMail = {}
 inbox = {}
 onCursor = {}
@@ -144,6 +146,8 @@ function CreateStatusBar(name,...)
 		StatusBar[k] = v
 	end
 	StatusBar.name=name
+
+	StatusBar["SetMinMaxValues"] = function() end;
 
 	return StatusBar
 end
@@ -393,9 +397,13 @@ function GetTradeSkillNumMade( index )
 	-- returns minMade, maxMade of the target item
 	return TradeSkillItems[index].minMade, TradeSkillItems[index].maxMade
 end
+]]
+--[[
 function GetTradeSkillNumReagents( index )
 	return TradeSkillItems[index].numReagents
 end
+]]
+--[[
 function GetTradeSkillRecipeLink( index )
 	return TradeSkillItems[index].elink
 end
@@ -404,11 +412,14 @@ function HasNewMail()
 end
 function InterfaceOptionsFrame_OpenToCategory()
 end
+]]
 function IsInGuild()
 	-- http://www.wowwiki.com/API_IsInGuild
 	-- 1, nil boolean return of being in guild
-	return 1
+	return (myGuild and myGuild.name) and 1 or nil
+	--return 1
 end
+--[[
 function IsInRaid()
 	-- http://www.wowwiki.com/API_IsInRaid
 	-- 1, nill boolean return of being in raid
@@ -436,6 +447,9 @@ function SecondsToTime( secondsIn, noSeconds, notAbbreviated, maxCount )
 	-- noSeconds: True to ommit seconds display (optional - default: false)
 	-- notAbbreviated: True to use full unit text, short text otherwise (optional - default: false)
 	-- maxCount: Maximum number of terms to return (optional - default: 2)
+	return ""
+end
+--[[
 	maxCount = maxCount or 2
 	local days = nil
 	local outStr = ""
@@ -453,6 +467,7 @@ function SecondsToTime( secondsIn, noSeconds, notAbbreviated, maxCount )
 	outStr = outStr .. string.format("%i %s", seconds, secText)
 	return outStr
 end
+]]
 function SendChatMessage( msg, chatType, language, channel )
 	-- http://www.wowwiki.com/API_SendChatMessage
 	-- This could simulate sending text to the channel, in the language, and raise the correct event.
