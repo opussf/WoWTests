@@ -382,17 +382,18 @@ function GetTradeSkillReagentInfo( skillIndex, reagentIndex )
 		end
 	end
 end
---[[
 function GetTradeSkillReagentItemLink( skillIndex, reagentIndex )
 	-- link = GetTradeSkillReagentItemLink(skillId, reagentId)
 	-- skillId = TradeSkillIndex
 	-- reagentId = ReagentIndex
+	-- returns LINK or NIL (?)
 	if TradeSkillItems[skillIndex] then
 		if TradeSkillItems[skillIndex].reagents[reagentIndex] then
 			return TradeSkillItems[skillIndex].reagents[reagentIndex].link
 		end
 	end
 end
+--[[
 function GetTradeSkillNumMade( index )
 	-- returns minMade, maxMade of the target item
 	return TradeSkillItems[index].minMade, TradeSkillItems[index].maxMade
@@ -425,6 +426,7 @@ function IsInRaid()
 
 	return ( myParty["raid"] and 1 or nil )
 end
+]]
 function NumTaxiNodes()
 	-- http://www.wowwiki.com/API_NumTaxiNodes
 	local count = 0
@@ -434,10 +436,8 @@ function NumTaxiNodes()
 	return count
 end
 function PlaySoundFile( file )
-	-- does nothing except play a sound.
-	-- do not test.
+	-- does nothing except play a sound.  Do not test.
 end
-]]
 function SecondsToTime( secondsIn, noSeconds, notAbbreviated, maxCount )
 	-- http://www.wowwiki.com/API_SecondsToTime
 	-- formats seconds to a readable time
@@ -445,7 +445,8 @@ function SecondsToTime( secondsIn, noSeconds, notAbbreviated, maxCount )
 	-- noSeconds: True to ommit seconds display (optional - default: false)
 	-- notAbbreviated: True to use full unit text, short text otherwise (optional - default: false)
 	-- maxCount: Maximum number of terms to return (optional - default: 2)
-	return ""
+
+	return "<toTime "..secondsIn.."s>"
 end
 --[[
 	maxCount = maxCount or 2
