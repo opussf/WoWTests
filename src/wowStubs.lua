@@ -398,11 +398,9 @@ function GetTradeSkillNumMade( index )
 	return TradeSkillItems[index].minMade, TradeSkillItems[index].maxMade
 end
 ]]
---[[
 function GetTradeSkillNumReagents( index )
 	return TradeSkillItems[index].numReagents
 end
-]]
 --[[
 function GetTradeSkillRecipeLink( index )
 	return TradeSkillItems[index].elink
