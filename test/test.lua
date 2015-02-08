@@ -435,9 +435,11 @@ end
 function test.testStub_GetRealmName()
 	assertEquals( "testRealm", GetRealmName() )
 end
+--[[
 function test.testStub_GetSendMailItemLink()
 	assertEquals( "fail", GetSendMailItemLink() )
 end
+]]
 function test.testStub_GetTradeSkillItemLink()
 	assertEquals( "|cff9d9d9d|Hitem:34061:0:0:0:0:0:0:0:80:0:0|h[Turbo-Charged Flying Machine]|h|r", GetTradeSkillItemLink(1) )
 end
@@ -465,10 +467,11 @@ end
 -------------
 --===========
 -------------
-
+--[[
 function test.testStub_GetTradeSkillReagentItemLink()
 	assertEquals( "fail", GetTradeSkillReagentItemLink() )
 end
+]]
 function test.testStub_GetTradeSkillNumMade_maxMade()
 	local _, maxMade = GetTradeSkillNumMade( 1 )
 	assertEquals( 1, maxMade )
