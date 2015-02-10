@@ -443,7 +443,7 @@ function PlaySoundFile( file )
 end
 function SecondsToTime( secondsIn, noSeconds, notAbbreviated, maxCount )
 	-- http://www.wowwiki.com/API_SecondsToTime
-	-- formats seconds to a readable time
+	-- formats seconds to a readable time  -- WoW omits seconds if 0 even if noSeconds is false
 	-- secondsIn: number of seconds to work with
 	-- noSeconds: True to ommit seconds display (optional - default: false)
 	-- notAbbreviated: True to use full unit text, short text otherwise (optional - default: false)
@@ -467,7 +467,7 @@ function SecondsToTime( secondsIn, noSeconds, notAbbreviated, maxCount )
 			{ "%i Min", "%i Minutes", minutes},
 			{ "%i Sec", "%i Seconds", seconds},
 		}
-	if noSeconds then  -- remove the seconds format if no seconds
+	if noSeconds or seconds == 0 then  -- remove the seconds format if no seconds
 		table.remove(formats, 4)
 	end
 

@@ -522,7 +522,7 @@ function test.testStub_SecondsToTime_Sec_noAbbr()
 end
 function test.testStub_SecondsToTime_MinSec_oneMin()
 	-- @TODO - This test may be in error
-	assertEquals( "1 Min 0 Sec", SecondsToTime( 60 ) )
+	assertEquals( "1 Min", SecondsToTime( 60 ) )
 end
 function test.testStub_SecondsToTime_MinSec()
 	assertEquals( "1 Min 40 Sec", SecondsToTime( 100 ) )
