@@ -73,6 +73,10 @@ TradeSkillItems = {
 		},
 	},
 }
+-- EquipmentSets is an array (1 based numeric key table)
+EquipmentSets = {
+	{["name"] = "testSet", ["icon"] = "icon", ["items"] = {},},
+}
 
 -- WOW's function renames
 strmatch = string.match
@@ -270,6 +274,15 @@ function GetCurrencyLink( id )
 		return Currencies[id].link
 	end
 end
+function GetEquipmentSetInfo( index )
+	-- http://www.wowwiki.com/API_GetEquipmentSetInfo
+	-- Returns: name, icon, lessIndex = GetEquipmentSetInfo(index)
+	-- Returns: nill if no equipmentSet at that index
+	-- lessIndex is index-1 ( not used )
+	if EquipmentSets[index] then
+		return EquipmentSets[index].name, EquipmentSets[index].icon, index-1
+	end
+end
 function GetItemCount( itemID, includeBank )
 	-- print( itemID, myInventory[itemID] )
 	return myInventory[itemID] or 0
@@ -325,6 +338,11 @@ function GetMerchantNumItems()
 	local count = 0
 	for _ in pairs(MerchantInventory) do count = count + 1 	end
 	return count
+end
+function GetNumEquipmentSets()
+	-- http://www.wowwiki.com/API_GetNumEquipmentSets
+	-- Returns 0,MAX_NUM_EQUIPMENT_SETS
+	return #EquipmentSets
 end
 function GetNumGroupMembers()
 	-- http://www.wowwiki.com/API_GetNumGroupMembers

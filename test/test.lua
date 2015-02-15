@@ -238,6 +238,26 @@ end
 function test.testStub_GetCurrencyLink()
 	assertIsNil( GetCurrencyLink( "704" ) )
 end
+function test.testStub_GetEquipmentSetInfo_NoSets_NilName()
+	EquipmentSets = {}
+	assertIsNil( GetEquipmentSetInfo(1) )
+end
+function test.testStub_GetEquipmentSetInfo_OutOfRange()
+	EquipmentSets = { {["name"] = "testSet", ["icon"] = "icon", ["items"] = {},}, }
+	assertIsNil( GetEquipmentSetInfo(2) )
+end
+function test.testStub_GetEquipmentSetInfo_ValidName()
+	EquipmentSets = { {["name"] = "testSet", ["icon"] = "icon", ["items"] = {},}, }
+	assertEquals( "testSet", GetEquipmentSetInfo(1) )
+end
+function test.testStub_GetEquipmentSetInfo_ValidIcon()
+	EquipmentSets = { {["name"] = "testSet", ["icon"] = "icon", ["items"] = {},}, }
+	assertEquals( "icon", select( 2, GetEquipmentSetInfo(1) ) )
+end
+function test.testStub_GetEquipmentSetInfo_ValidLessIndex()
+	EquipmentSets = { {["name"] = "testSet", ["icon"] = "icon", ["items"] = {},}, }
+	assertEquals( 0, select( 3, GetEquipmentSetInfo(1) ) )
+end
 function test.testStub_GetItemCount_0()
 	-- Does not support the Bank now
 	myInventory = {["74661"] = nil, }
@@ -318,6 +338,14 @@ function test.testStub_GetMerchantItemMaxStack()
 end
 function test.testStub_GetMerchantNumItems()
 	assertEquals( 6, GetMerchantNumItems() )
+end
+function test.testStub_GetNumEquipmentSets_0()
+	EquipmentSets = {}
+	assertEquals( 0, GetNumEquipmentSets() )
+end
+function test.testStub_GetNumEquipmentSets_1()
+	EquipmentSets = { {["name"] = "testSet", ["icon"] = "icon", ["items"] = {},}, }
+	assertEquals( 1, GetNumEquipmentSets() )
 end
 function test.testStub_GetNumGroupMembers_0()
 	myParty = { ["group"] = nil, ["raid"] = nil, ["roster"] = {} }
