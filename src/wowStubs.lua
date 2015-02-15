@@ -283,6 +283,15 @@ function GetEquipmentSetInfo( index )
 		return EquipmentSets[index].name, EquipmentSets[index].icon, index-1
 	end
 end
+function GetEquipmentSetInfoByName( nameIn )
+	-- http://www.wowwiki.com/API_GetEquipmentSetInfo
+	-- Returns: icon, lessIndex = GetEquipmentSetInfoByName
+	for i = 1, #EquipmentSets do
+		if EquipmentSets[i].name == nameIn then  -- Since EquipementSet names are case sensitve...
+			return EquipmentSets[i].icon, i-1
+		end
+	end
+end
 function GetItemCount( itemID, includeBank )
 	-- print( itemID, myInventory[itemID] )
 	return myInventory[itemID] or 0

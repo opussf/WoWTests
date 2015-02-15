@@ -258,6 +258,22 @@ function test.testStub_GetEquipmentSetInfo_ValidLessIndex()
 	EquipmentSets = { {["name"] = "testSet", ["icon"] = "icon", ["items"] = {},}, }
 	assertEquals( 0, select( 3, GetEquipmentSetInfo(1) ) )
 end
+function test.testStub_GetEquipmentSetInfoByName_NoSets()
+	EquipmentSets = {}
+	assertIsNil( GetEquipmentSetInfoByName("testSet") )
+end
+function test.testStub_GetEquipmentSetInfoByName_InValidName()
+	EquipmentSets = { {["name"] = "testSet", ["icon"] = "icon", ["items"] = {},}, }
+	assertIsNil( GetEquipmentSetInfoByName("icon") )
+end
+function test.testStub_GetEquipmentSetInfoByName_ValidName_Name()
+	EquipmentSets = { {["name"] = "testSet", ["icon"] = "icon", ["items"] = {},}, }
+	assertEquals( "icon", GetEquipmentSetInfoByName("testSet") )
+end
+function test.testStub_GetEquipmentSetInfoByName_ValidName_LessIndex()
+	EquipmentSets = { {["name"] = "testSet", ["icon"] = "icon", ["items"] = {},}, }
+	assertEquals( 0, select( 2, GetEquipmentSetInfoByName("testSet") ) )
+end
 function test.testStub_GetItemCount_0()
 	-- Does not support the Bank now
 	myInventory = {["74661"] = nil, }
