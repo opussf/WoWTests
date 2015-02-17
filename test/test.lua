@@ -274,6 +274,15 @@ function test.testStub_GetEquipmentSetInfoByName_ValidName_LessIndex()
 	EquipmentSets = { {["name"] = "testSet", ["icon"] = "icon", ["items"] = {},}, }
 	assertEquals( 0, select( 2, GetEquipmentSetInfoByName("testSet") ) )
 end
+function test.testStub_GetInventorySlotInfo_Integer()
+	-- test that the first value is a number (the actual number is unimportant)
+	local result = GetInventorySlotInfo("HeadSlot")
+	assertTrue( type(result) == "number" )
+end
+function test.testStub_GetInventorySlotInfo_String()
+	local result = select( 2, GetInventorySlotInfo("HeadSlot") )
+	assertTrue( type(result) == "string" )
+end
 function test.testStub_GetItemCount_0()
 	-- Does not support the Bank now
 	myInventory = {["74661"] = nil, }

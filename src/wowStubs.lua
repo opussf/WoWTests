@@ -27,6 +27,11 @@ onCursor = {}
 globals = {}
 accountExpansionLevel = 4   -- 0 to 5
 
+SlotListMap={ "HeadSlot","NeckSlot","ShoulderSlot","ShirtSlot","ChestSlot","WaistSlot","LegsSlot",
+		"FeetSlot", "WristSlot", "HandsSlot", "Finger0Slot","Finger1Slot","Trinket0Slot","Trinket1Slot",
+		"BackSlot","MainHandSlot","SecondaryHandSlot","RangedSlot","TabardSlot", "Bag0Slot", "Bag1Slot",
+		"Bag2Slot", "Bag3Slot",
+}
 Items = {
 	["7073"] = {["name"] = "Broken Fang", ["link"] = "|cff9d9d9d|Hitem:7073:0:0:0:0:0:0:0:80:0:0|h[Broken Fang]|h|r"},
 	["6742"] = {["name"] = "UnBroken Fang", ["link"] = "|cff9d9d9d|Hitem:6742:0:0:0:0:0:0:0:80:0:0|h[UnBroken Fang]|h|r"},
@@ -289,6 +294,16 @@ function GetEquipmentSetInfoByName( nameIn )
 	for i = 1, #EquipmentSets do
 		if EquipmentSets[i].name == nameIn then  -- Since EquipementSet names are case sensitve...
 			return EquipmentSets[i].icon, i-1
+		end
+	end
+end
+function GetInventorySlotInfo( slotName )
+	-- http://www.wowwiki.com/API_GetInventorySlotInfo
+	-- Returns: slotID, textureName
+	-- Return empty string for textureName for now.
+	for k,v in pairs(SlotListMap) do
+		if v == slotName then
+			return k,""
 		end
 	end
 end
