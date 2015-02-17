@@ -32,6 +32,7 @@ SlotListMap={ "HeadSlot","NeckSlot","ShoulderSlot","ShirtSlot","ChestSlot","Wais
 		"BackSlot","MainHandSlot","SecondaryHandSlot","RangedSlot","TabardSlot", "Bag0Slot", "Bag1Slot",
 		"Bag2Slot", "Bag3Slot",
 }
+myGear = {} -- items that are equipped in the above slots, index matching
 Items = {
 	["7073"] = {["name"] = "Broken Fang", ["link"] = "|cff9d9d9d|Hitem:7073:0:0:0:0:0:0:0:80:0:0|h[Broken Fang]|h|r"},
 	["6742"] = {["name"] = "UnBroken Fang", ["link"] = "|cff9d9d9d|Hitem:6742:0:0:0:0:0:0:0:80:0:0|h[UnBroken Fang]|h|r"},
@@ -295,6 +296,15 @@ function GetEquipmentSetInfoByName( nameIn )
 		if EquipmentSets[i].name == nameIn then  -- Since EquipementSet names are case sensitve...
 			return EquipmentSets[i].icon, i-1
 		end
+	end
+end
+function GetInventoryItemID( unitID, invSlot )
+	-- http://www.wowwiki.com/API_GetInventoryItemID
+	-- unitID: string   (http://www.wowwiki.com/API_TYPE_UnitId)  (bossN 1-4, player, partyN 1-4, raidN 1-40)
+	-- invSlot: number  (http://www.wowwiki.com/InventorySlotId)
+	-- Returns: itemID of the item in that slot, or nil
+	if unitID == "player" then
+		return myGear[invSlot]
 	end
 end
 function GetInventorySlotInfo( slotName )

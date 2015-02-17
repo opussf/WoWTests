@@ -274,6 +274,20 @@ function test.testStub_GetEquipmentSetInfoByName_ValidName_LessIndex()
 	EquipmentSets = { {["name"] = "testSet", ["icon"] = "icon", ["items"] = {},}, }
 	assertEquals( 0, select( 2, GetEquipmentSetInfoByName("testSet") ) )
 end
+function test.testStub_GetInventoryItemID_Player_isNil()
+	myGear={}
+	assertIsNil( GetInventoryItemID("player", 1) )
+end
+function test.testStub_GetInventoryItemID_Player_ItemId()
+	myGear[1] = 3372
+	assertEquals( 3372, GetInventoryItemID( "player", 1 ) )
+	myGear={}
+end
+function test.testStub_GetInventoryItemID_nonPlayerNotSupported()
+	myGear[1] = 3372
+	assertIsNil( GetInventoryItemID( "party1", 1 ) )
+	myGear={}
+end
 function test.testStub_GetInventorySlotInfo_Integer()
 	-- test that the first value is a number (the actual number is unimportant)
 	local result = GetInventorySlotInfo("HeadSlot")
