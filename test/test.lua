@@ -137,11 +137,8 @@ function test.testStub_ClearCursor()
 	PickupItem( 7073 )
 	ClearCursor()
 	for _,v in pairs(onCursor) do
-		if v then
-			fail("nothing should be 'onCursor'")
-		end
+		fail("nothing should be 'onCursor'")
 	end
-	--assertEquals( {}, onCursor, "nothing should be 'onCursor'" )
 end
 --[[
 function test.testStub_ClearSendMail()
@@ -279,14 +276,22 @@ function test.testStub_GetInventoryItemID_Player_isNil()
 	assertIsNil( GetInventoryItemID("player", 1) )
 end
 function test.testStub_GetInventoryItemID_Player_ItemId()
-	myGear[1] = 3372
-	assertEquals( 3372, GetInventoryItemID( "player", 1 ) )
+	myGear[1] = "3372"
+	assertEquals( "3372", GetInventoryItemID( "player", 1 ) )
 	myGear={}
 end
 function test.testStub_GetInventoryItemID_nonPlayerNotSupported()
-	myGear[1] = 3372
+	myGear[1] = "3372"
 	assertIsNil( GetInventoryItemID( "party1", 1 ) )
 	myGear={}
+end
+function test.testStub_GetInventoryItemLink_Player_isNil()
+	myGear={}
+	assertIsNil( GetInventoryItemLink("player", 1) )  -- HeadSlot
+end
+function test.testStub_GetInventoryItemLink_Player_ItemLink()
+	myGear[1] = "7073"
+	assertEquals( "|cff9d9d9d|Hitem:7073:0:0:0:0:0:0:0:80:0:0|h[Broken Fang]|h|r", GetInventoryItemLink( "player", 1 ) )
 end
 function test.testStub_GetInventorySlotInfo_Integer()
 	-- test that the first value is a number (the actual number is unimportant)
@@ -577,6 +582,12 @@ end
 function test.testStub_NumTaxiNodes()
 	assertEquals( 3, NumTaxiNodes() )
 end
+function test.testStub_PickupItem_ItemID()
+	PickupItem( 7073 )
+	assertEquals( 7073, onCursor['item'] )
+	assertEquals( 1, onCursor['quantity'] )
+end
+
 function test.testStub_PlaySoundFile()
 	assertIsNil( PlaySoundFile( "File" ) )
 end
