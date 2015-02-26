@@ -24,6 +24,8 @@ myGuild = { ["name"] = "Test Guild", }
 outMail = {}
 inbox = {}
 onCursor = {}
+-- onCursor["item"] = itemLink
+-- onCursor["quantity"] = # of item
 globals = {}
 accountExpansionLevel = 4   -- 0 to 5
 
@@ -203,7 +205,7 @@ function CheckInbox()
 	-- @TODO - Write this
 end
 function ClearCursor()
-	-- @TODO - Write this
+	onCursor = {}
 end
 --[[
 function ClearSendMail()
@@ -305,6 +307,19 @@ function GetInventoryItemID( unitID, invSlot )
 	-- Returns: itemID of the item in that slot, or nil
 	if unitID == "player" then
 		return myGear[invSlot]
+	end
+end
+function GetInventoryItemLink( unitID, slotID )
+	-- http://www.wowwiki.com/API_GetInventoryItemLink
+	-- unitID: string
+	-- slotID: number
+	-- Returns: itemLink or nil
+	if unitID == "player" then
+		if myGear[slotID] then -- has an item in the slot
+			if Items[myGear[slotID]] then -- knows about the item ID
+				return Items[myGear[slotID]].link
+			end
+		end
 	end
 end
 function GetInventorySlotInfo( slotName )
@@ -487,7 +502,17 @@ function NumTaxiNodes()
 	end
 	return count
 end
-function PickupItem( itemID )
+function PickupItem( itemString )
+	-- http://www.wowwiki.com/API_PickupItem
+	-- itemString is:
+	--   ItemID (Numeric value)
+	--   ItemString (item:#######)
+	--   ItemName ("Hearthstone")
+	--   ItemLink (Full link text as if Shift-Clicking Item)
+	-- Not sure what this should do if there is already something on the cursor
+	onCursor={}
+	onCursor['item'] = itemString
+	onCursor['quantity'] = 1
 	-- TODO: WriteThis
 end
 function PlaySoundFile( file )
