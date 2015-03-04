@@ -502,7 +502,7 @@ function NumTaxiNodes()
 	end
 	return count
 end
-function PickupItem( itemString )
+function PickupItem( itemIn )
 	-- http://www.wowwiki.com/API_PickupItem
 	-- itemString is:
 	--   ItemID (Numeric value)
@@ -511,9 +511,14 @@ function PickupItem( itemString )
 	--   ItemLink (Full link text as if Shift-Clicking Item)
 	-- Not sure what this should do if there is already something on the cursor
 	onCursor={}
-	onCursor['item'] = itemString
+	onCursor['item'] = itemIn
 	onCursor['quantity'] = 1
-	-- TODO: WriteThis
+end
+function PickupInventoryItem( slotID )
+	-- http://www.wowwiki.com/API_PickupInventoryItem
+	if myGear[slotID] then
+		PickupItem( myGear[slotID] )
+	end
 end
 function PlaySoundFile( file )
 	-- does nothing except play a sound.  Do not test.
