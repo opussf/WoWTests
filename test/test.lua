@@ -167,6 +167,14 @@ function test.testStub_CreateStatusBar()
 	sb = CreateStatusBar("statusBar")
 	assertTrue( sb )
 end
+--[[
+function test.testStub_CursorHasItem()
+	fail("Write This")
+end
+function test.testStub_EquipCursorItem()
+	fail("Write This")
+end
+]]
 function test.testStub_GetAccountExpansionLevel()
 	assertTrue( 4, GetAccountExpansionLevel() )
 end
@@ -583,11 +591,33 @@ function test.testStub_NumTaxiNodes()
 	assertEquals( 3, NumTaxiNodes() )
 end
 function test.testStub_PickupItem_ItemID()
-	PickupItem( 7073 )
-	assertEquals( 7073, onCursor['item'] )
+	PickupItem( "7073" )
+	assertEquals( "7073", onCursor['item'] )
 	assertEquals( 1, onCursor['quantity'] )
 end
-
+function test.testStub_PickupItem_ItemString()
+	PickupItem( "item:7073" )
+	assertEquals( "item:7073", onCursor['item'] )
+	assertEquals( 1, onCursor['quantity'] )
+end
+function test.testStub_PickupItem_ItemName()
+	fail("Write This")
+end
+function test.testStub_PickupItem_ItemLink()
+	fail("Write This")
+end
+function test.testStub_PickupInventoryItem()
+	myGear[1] = "7073"
+	ClearCursor()
+	PickupInventoryItem(1)  -- returns nothing
+	assertEquals( "7073", onCursor['item'] )
+end
+function test.testStub_PutItemInBackpack()
+	ClearCursor()
+	PickupItem( "7073" )
+	PutItemInBackpack()
+	fail("Find out what side effects this has.  IE, does it clear the cursor?")
+end
 function test.testStub_PlaySoundFile()
 	assertIsNil( PlaySoundFile( "File" ) )
 end
