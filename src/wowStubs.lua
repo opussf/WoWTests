@@ -229,6 +229,13 @@ function CombatTextSetActiveUnit( who )
 	-- http://www.wowwiki.com/API_CombatTextSetActiveUnit
 	-- @TODO - Write this
 end
+function CursorHasItem()
+	-- http://www.wowwiki.com/API_CursorHasItem
+	-- Returns: 1-nil  if cursor has an item
+	if onCursor["item"] then
+		return true
+	end
+end
 function DoEmote( emote )
 	-- not tested as the only side effect is the character doing an emote
 end
