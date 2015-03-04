@@ -167,10 +167,16 @@ function test.testStub_CreateStatusBar()
 	sb = CreateStatusBar("statusBar")
 	assertTrue( sb )
 end
---[[
-function test.testStub_CursorHasItem()
-	fail("Write This")
+function test.testStub_CursorHasItem_Nil()
+	ClearCursor()
+	assertIsNil( CursorHasItem() )
 end
+
+function test.testStub_CursorHasItem_True()
+	PickupItem( "7073" )
+	assertTrue( CursorHasItem() )
+end
+--[[
 function test.testStub_EquipCursorItem()
 	fail("Write This")
 end
