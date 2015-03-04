@@ -530,6 +530,17 @@ end
 function PlaySoundFile( file )
 	-- does nothing except play a sound.  Do not test.
 end
+function PutItemInBackpack()
+	-- http://www.wowwiki.com/API_PutItemInBackpack
+	-- no argument, no return
+	-- Test to see if it clears the cursor
+end
+--[[
+function PutItemInBag( bagNum )
+	-- http://www.wowwiki.com/API_PutItemInBag
+	-- bagNum, numberic (20 right most - 23 left most)
+end
+]]
 function SecondsToTime( secondsIn, noSeconds, notAbbreviated, maxCount )
 	-- http://www.wowwiki.com/API_SecondsToTime
 	-- formats seconds to a readable time
