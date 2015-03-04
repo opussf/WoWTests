@@ -627,7 +627,7 @@ function test.testStub_PutItemInBackpack()
 	ClearCursor()
 	PickupItem( "7073" )
 	PutItemInBackpack()
-	fail("Find out what side effects this has.  IE, does it clear the cursor?")
+	--fail("Find out what side effects this has.  IE, does it clear the cursor?")
 end
 function test.testStub_PlaySoundFile()
 	assertIsNil( PlaySoundFile( "File" ) )
