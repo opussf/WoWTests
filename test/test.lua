@@ -171,7 +171,6 @@ function test.testStub_CursorHasItem_Nil()
 	ClearCursor()
 	assertIsNil( CursorHasItem() )
 end
-
 function test.testStub_CursorHasItem_True()
 	PickupItem( "7073" )
 	assertTrue( CursorHasItem() )
@@ -598,19 +597,25 @@ function test.testStub_NumTaxiNodes()
 end
 function test.testStub_PickupItem_ItemID()
 	PickupItem( "7073" )
+	assertTrue( CursorHasItem() )
 	assertEquals( "7073", onCursor['item'] )
 	assertEquals( 1, onCursor['quantity'] )
 end
 function test.testStub_PickupItem_ItemString()
 	PickupItem( "item:7073" )
+	assertTrue( CursorHasItem() )
 	assertEquals( "item:7073", onCursor['item'] )
 	assertEquals( 1, onCursor['quantity'] )
 end
 function test.testStub_PickupItem_ItemName()
-	fail("Write This")
+	-- TODO: Fix this?
+	PickupItem( "Broken Fang" )
+	assertTrue( CursorHasItem() )
 end
 function test.testStub_PickupItem_ItemLink()
-	fail("Write This")
+	-- TODO: Fix this?
+	PickupItem( "|cff9d9d9d|Hitem:7073:0:0:0:0:0:0:0:80:0:0|h[Broken Fang]|h|r" )
+	assertTrue( CursorHasItem() )
 end
 function test.testStub_PickupInventoryItem()
 	myGear[1] = "7073"
