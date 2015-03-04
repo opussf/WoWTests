@@ -137,11 +137,8 @@ function test.testStub_ClearCursor()
 	PickupItem( 7073 )
 	ClearCursor()
 	for _,v in pairs(onCursor) do
-		if v then
-			fail("nothing should be 'onCursor'")
-		end
+		fail("nothing should be 'onCursor'")
 	end
-	--assertEquals( {}, onCursor, "nothing should be 'onCursor'" )
 end
 --[[
 function test.testStub_ClearSendMail()
@@ -170,6 +167,19 @@ function test.testStub_CreateStatusBar()
 	sb = CreateStatusBar("statusBar")
 	assertTrue( sb )
 end
+function test.testStub_CursorHasItem_Nil()
+	ClearCursor()
+	assertIsNil( CursorHasItem() )
+end
+function test.testStub_CursorHasItem_True()
+	PickupItem( "7073" )
+	assertTrue( CursorHasItem() )
+end
+--[[
+function test.testStub_EquipCursorItem()
+	fail("Write This")
+end
+]]
 function test.testStub_GetAccountExpansionLevel()
 	assertTrue( 4, GetAccountExpansionLevel() )
 end
@@ -237,6 +247,73 @@ function test.testStub_GetCurrencyLink()
 end
 function test.testStub_GetCurrencyLink()
 	assertIsNil( GetCurrencyLink( "704" ) )
+end
+function test.testStub_GetEquipmentSetInfo_NoSets_NilName()
+	EquipmentSets = {}
+	assertIsNil( GetEquipmentSetInfo(1) )
+end
+function test.testStub_GetEquipmentSetInfo_OutOfRange()
+	EquipmentSets = { {["name"] = "testSet", ["icon"] = "icon", ["items"] = {},}, }
+	assertIsNil( GetEquipmentSetInfo(2) )
+end
+function test.testStub_GetEquipmentSetInfo_ValidName()
+	EquipmentSets = { {["name"] = "testSet", ["icon"] = "icon", ["items"] = {},}, }
+	assertEquals( "testSet", GetEquipmentSetInfo(1) )
+end
+function test.testStub_GetEquipmentSetInfo_ValidIcon()
+	EquipmentSets = { {["name"] = "testSet", ["icon"] = "icon", ["items"] = {},}, }
+	assertEquals( "icon", select( 2, GetEquipmentSetInfo(1) ) )
+end
+function test.testStub_GetEquipmentSetInfo_ValidLessIndex()
+	EquipmentSets = { {["name"] = "testSet", ["icon"] = "icon", ["items"] = {},}, }
+	assertEquals( 0, select( 3, GetEquipmentSetInfo(1) ) )
+end
+function test.testStub_GetEquipmentSetInfoByName_NoSets()
+	EquipmentSets = {}
+	assertIsNil( GetEquipmentSetInfoByName("testSet") )
+end
+function test.testStub_GetEquipmentSetInfoByName_InValidName()
+	EquipmentSets = { {["name"] = "testSet", ["icon"] = "icon", ["items"] = {},}, }
+	assertIsNil( GetEquipmentSetInfoByName("icon") )
+end
+function test.testStub_GetEquipmentSetInfoByName_ValidName_Name()
+	EquipmentSets = { {["name"] = "testSet", ["icon"] = "icon", ["items"] = {},}, }
+	assertEquals( "icon", GetEquipmentSetInfoByName("testSet") )
+end
+function test.testStub_GetEquipmentSetInfoByName_ValidName_LessIndex()
+	EquipmentSets = { {["name"] = "testSet", ["icon"] = "icon", ["items"] = {},}, }
+	assertEquals( 0, select( 2, GetEquipmentSetInfoByName("testSet") ) )
+end
+function test.testStub_GetInventoryItemID_Player_isNil()
+	myGear={}
+	assertIsNil( GetInventoryItemID("player", 1) )
+end
+function test.testStub_GetInventoryItemID_Player_ItemId()
+	myGear[1] = "3372"
+	assertEquals( "3372", GetInventoryItemID( "player", 1 ) )
+	myGear={}
+end
+function test.testStub_GetInventoryItemID_nonPlayerNotSupported()
+	myGear[1] = "3372"
+	assertIsNil( GetInventoryItemID( "party1", 1 ) )
+	myGear={}
+end
+function test.testStub_GetInventoryItemLink_Player_isNil()
+	myGear={}
+	assertIsNil( GetInventoryItemLink("player", 1) )  -- HeadSlot
+end
+function test.testStub_GetInventoryItemLink_Player_ItemLink()
+	myGear[1] = "7073"
+	assertEquals( "|cff9d9d9d|Hitem:7073:0:0:0:0:0:0:0:80:0:0|h[Broken Fang]|h|r", GetInventoryItemLink( "player", 1 ) )
+end
+function test.testStub_GetInventorySlotInfo_Integer()
+	-- test that the first value is a number (the actual number is unimportant)
+	local result = GetInventorySlotInfo("HeadSlot")
+	assertTrue( type(result) == "number" )
+end
+function test.testStub_GetInventorySlotInfo_String()
+	local result = select( 2, GetInventorySlotInfo("HeadSlot") )
+	assertTrue( type(result) == "string" )
 end
 function test.testStub_GetItemCount_0()
 	-- Does not support the Bank now
@@ -318,6 +395,14 @@ function test.testStub_GetMerchantItemMaxStack()
 end
 function test.testStub_GetMerchantNumItems()
 	assertEquals( 6, GetMerchantNumItems() )
+end
+function test.testStub_GetNumEquipmentSets_0()
+	EquipmentSets = {}
+	assertEquals( 0, GetNumEquipmentSets() )
+end
+function test.testStub_GetNumEquipmentSets_1()
+	EquipmentSets = { {["name"] = "testSet", ["icon"] = "icon", ["items"] = {},}, }
+	assertEquals( 1, GetNumEquipmentSets() )
 end
 function test.testStub_GetNumGroupMembers_0()
 	myParty = { ["group"] = nil, ["raid"] = nil, ["roster"] = {} }
@@ -509,6 +594,41 @@ function test.testStub_IsInRaid_false()
 end
 function test.testStub_NumTaxiNodes()
 	assertEquals( 3, NumTaxiNodes() )
+end
+function test.testStub_PickupItem_ItemID()
+	PickupItem( "7073" )
+	assertTrue( CursorHasItem() )
+	assertEquals( "7073", onCursor['item'] )
+	assertEquals( 1, onCursor['quantity'] )
+end
+function test.testStub_PickupItem_ItemString()
+	PickupItem( "item:7073" )
+	assertTrue( CursorHasItem() )
+	assertEquals( "item:7073", onCursor['item'] )
+	assertEquals( 1, onCursor['quantity'] )
+end
+function test.testStub_PickupItem_ItemName()
+	-- TODO: Fix this?
+	PickupItem( "Broken Fang" )
+	assertTrue( CursorHasItem() )
+end
+function test.testStub_PickupItem_ItemLink()
+	-- TODO: Fix this?
+	PickupItem( "|cff9d9d9d|Hitem:7073:0:0:0:0:0:0:0:80:0:0|h[Broken Fang]|h|r" )
+	assertTrue( CursorHasItem() )
+end
+function test.testStub_PickupInventoryItem()
+	myGear[1] = "7073"
+	ClearCursor()
+	PickupInventoryItem(1)  -- returns nothing
+	assertEquals( "7073", onCursor['item'] )
+end
+function test.testStub_PutItemInBackpack()
+	ClearCursor()
+	PickupItem( "7073" )
+	PutItemInBackpack()
+	assertIsNil( CursorHasItem(), "Cursor should be empty" )
+	--fail("Find out what side effects this has.  IE, does it clear the cursor?")
 end
 function test.testStub_PlaySoundFile()
 	assertIsNil( PlaySoundFile( "File" ) )

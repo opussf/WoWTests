@@ -24,9 +24,17 @@ myGuild = { ["name"] = "Test Guild", }
 outMail = {}
 inbox = {}
 onCursor = {}
+-- onCursor["item"] = itemLink
+-- onCursor["quantity"] = # of item
 globals = {}
 accountExpansionLevel = 4   -- 0 to 5
 
+SlotListMap={ "HeadSlot","NeckSlot","ShoulderSlot","ShirtSlot","ChestSlot","WaistSlot","LegsSlot",
+		"FeetSlot", "WristSlot", "HandsSlot", "Finger0Slot","Finger1Slot","Trinket0Slot","Trinket1Slot",
+		"BackSlot","MainHandSlot","SecondaryHandSlot","RangedSlot","TabardSlot", "Bag0Slot", "Bag1Slot",
+		"Bag2Slot", "Bag3Slot",
+}
+myGear = {} -- items that are equipped in the above slots, index matching
 Items = {
 	["7073"] = {["name"] = "Broken Fang", ["link"] = "|cff9d9d9d|Hitem:7073:0:0:0:0:0:0:0:80:0:0|h[Broken Fang]|h|r"},
 	["6742"] = {["name"] = "UnBroken Fang", ["link"] = "|cff9d9d9d|Hitem:6742:0:0:0:0:0:0:0:80:0:0|h[UnBroken Fang]|h|r"},
@@ -72,6 +80,10 @@ TradeSkillItems = {
 					["link"] = "|cffffff|Hitem:34249|h[Hula Girl Doll]|h|r"},
 		},
 	},
+}
+-- EquipmentSets is an array (1 based numeric key table)
+EquipmentSets = {
+	{["name"] = "testSet", ["icon"] = "icon", ["items"] = {},},
 }
 
 -- WOW's function renames
@@ -193,7 +205,7 @@ function CheckInbox()
 	-- @TODO - Write this
 end
 function ClearCursor()
-	-- @TODO - Write this
+	onCursor = {}
 end
 --[[
 function ClearSendMail()
@@ -216,6 +228,13 @@ end
 function CombatTextSetActiveUnit( who )
 	-- http://www.wowwiki.com/API_CombatTextSetActiveUnit
 	-- @TODO - Write this
+end
+function CursorHasItem()
+	-- http://www.wowwiki.com/API_CursorHasItem
+	-- Returns: 1-nil  if cursor has an item
+	if onCursor["item"] then
+		return true
+	end
 end
 function DoEmote( emote )
 	-- not tested as the only side effect is the character doing an emote
@@ -268,6 +287,56 @@ end
 function GetCurrencyLink( id )
 	if Currencies[id] then
 		return Currencies[id].link
+	end
+end
+function GetEquipmentSetInfo( index )
+	-- http://www.wowwiki.com/API_GetEquipmentSetInfo
+	-- Returns: name, icon, lessIndex = GetEquipmentSetInfo(index)
+	-- Returns: nill if no equipmentSet at that index
+	-- lessIndex is index-1 ( not used )
+	if EquipmentSets[index] then
+		return EquipmentSets[index].name, EquipmentSets[index].icon, index-1
+	end
+end
+function GetEquipmentSetInfoByName( nameIn )
+	-- http://www.wowwiki.com/API_GetEquipmentSetInfo
+	-- Returns: icon, lessIndex = GetEquipmentSetInfoByName
+	for i = 1, #EquipmentSets do
+		if EquipmentSets[i].name == nameIn then  -- Since EquipementSet names are case sensitve...
+			return EquipmentSets[i].icon, i-1
+		end
+	end
+end
+function GetInventoryItemID( unitID, invSlot )
+	-- http://www.wowwiki.com/API_GetInventoryItemID
+	-- unitID: string   (http://www.wowwiki.com/API_TYPE_UnitId)  (bossN 1-4, player, partyN 1-4, raidN 1-40)
+	-- invSlot: number  (http://www.wowwiki.com/InventorySlotId)
+	-- Returns: itemID of the item in that slot, or nil
+	if unitID == "player" then
+		return myGear[invSlot]
+	end
+end
+function GetInventoryItemLink( unitID, slotID )
+	-- http://www.wowwiki.com/API_GetInventoryItemLink
+	-- unitID: string
+	-- slotID: number
+	-- Returns: itemLink or nil
+	if unitID == "player" then
+		if myGear[slotID] then -- has an item in the slot
+			if Items[myGear[slotID]] then -- knows about the item ID
+				return Items[myGear[slotID]].link
+			end
+		end
+	end
+end
+function GetInventorySlotInfo( slotName )
+	-- http://www.wowwiki.com/API_GetInventorySlotInfo
+	-- Returns: slotID, textureName
+	-- Return empty string for textureName for now.
+	for k,v in pairs(SlotListMap) do
+		if v == slotName then
+			return k,""
+		end
 	end
 end
 function GetItemCount( itemID, includeBank )
@@ -325,6 +394,11 @@ function GetMerchantNumItems()
 	local count = 0
 	for _ in pairs(MerchantInventory) do count = count + 1 	end
 	return count
+end
+function GetNumEquipmentSets()
+	-- http://www.wowwiki.com/API_GetNumEquipmentSets
+	-- Returns 0,MAX_NUM_EQUIPMENT_SETS
+	return #EquipmentSets
 end
 function GetNumGroupMembers()
 	-- http://www.wowwiki.com/API_GetNumGroupMembers
@@ -435,12 +509,39 @@ function NumTaxiNodes()
 	end
 	return count
 end
-function PickupItem( itemID )
-	-- TODO: WriteThis
+function PickupItem( itemIn )
+	-- http://www.wowwiki.com/API_PickupItem
+	-- itemString is:
+	--   ItemID (Numeric value)
+	--   ItemString (item:#######)
+	--   ItemName ("Hearthstone")
+	--   ItemLink (Full link text as if Shift-Clicking Item)
+	-- Not sure what this should do if there is already something on the cursor
+	onCursor={}
+	onCursor['item'] = itemIn
+	onCursor['quantity'] = 1
+end
+function PickupInventoryItem( slotID )
+	-- http://www.wowwiki.com/API_PickupInventoryItem
+	if myGear[slotID] then
+		PickupItem( myGear[slotID] )
+	end
 end
 function PlaySoundFile( file )
 	-- does nothing except play a sound.  Do not test.
 end
+function PutItemInBackpack()
+	-- http://www.wowwiki.com/API_PutItemInBackpack
+	-- no argument, no return
+	-- This puts the item in the Backpack, or next free bag, and clears the cursor
+	onCursor = {}
+end
+--[[
+function PutItemInBag( bagNum )
+	-- http://www.wowwiki.com/API_PutItemInBag
+	-- bagNum, numberic (20 right most - 23 left most)
+end
+]]
 function SecondsToTime( secondsIn, noSeconds, notAbbreviated, maxCount )
 	-- http://www.wowwiki.com/API_SecondsToTime
 	-- formats seconds to a readable time  -- WoW omits seconds if 0 even if noSeconds is false
