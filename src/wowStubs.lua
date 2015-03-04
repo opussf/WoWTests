@@ -533,7 +533,8 @@ end
 function PutItemInBackpack()
 	-- http://www.wowwiki.com/API_PutItemInBackpack
 	-- no argument, no return
-	-- Test to see if it clears the cursor
+	-- This puts the item in the Backpack, or next free bag, and clears the cursor
+	onCursor = {}
 end
 --[[
 function PutItemInBag( bagNum )
