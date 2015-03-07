@@ -134,6 +134,7 @@ function test.testStub_getglobal()
 	assertEquals( "test value", getglobal('value') )
 end
 function test.testStub_ClearCursor()
+	myInventory["7073"] = 1
 	PickupItem( 7073 )
 	ClearCursor()
 	for _,v in pairs(onCursor) do
@@ -172,6 +173,7 @@ function test.testStub_CursorHasItem_Nil()
 	assertIsNil( CursorHasItem() )
 end
 function test.testStub_CursorHasItem_True()
+	myInventory["7073"] = 1
 	PickupItem( "7073" )
 	assertTrue( CursorHasItem() )
 end
@@ -596,24 +598,38 @@ function test.testStub_NumTaxiNodes()
 	assertEquals( 3, NumTaxiNodes() )
 end
 function test.testStub_PickupItem_ItemID()
+	myInventory["7073"] = 1
 	PickupItem( "7073" )
 	assertTrue( CursorHasItem() )
 	assertEquals( "7073", onCursor['item'] )
 	assertEquals( 1, onCursor['quantity'] )
 end
 function test.testStub_PickupItem_ItemString()
+	myInventory["7073"] = 1
 	PickupItem( "item:7073" )
 	assertTrue( CursorHasItem() )
-	assertEquals( "item:7073", onCursor['item'] )
+	assertEquals( "7073", onCursor['item'] )
 	assertEquals( 1, onCursor['quantity'] )
 end
 function test.testStub_PickupItem_ItemName()
-	-- TODO: Fix this?
+	-- TODO: Expand to test that the cursor actually has the right item.
+	myInventory["7073"] = 1
 	PickupItem( "Broken Fang" )
 	assertTrue( CursorHasItem() )
 end
+function test.testStub_PickupItem_ItemName_Bad()
+	myInventory["7073"] = 1
+	PickupItem( "Invalid item" )
+	assertIsNil( CursorHasItem() )
+end
+function test.testStub_Item_NotInInventory()
+	myInventory = {} -- force clearing of inventory
+	PickupItem( "7073" )
+	assertIsNil( CursorHasItem() )
+end
 function test.testStub_PickupItem_ItemLink()
-	-- TODO: Fix this?
+	-- TODO: Expand to test that the cursor actually has the right item.
+	myInventory["7073"] = 1
 	PickupItem( "|cff9d9d9d|Hitem:7073:0:0:0:0:0:0:0:80:0:0|h[Broken Fang]|h|r" )
 	assertTrue( CursorHasItem() )
 end
@@ -622,14 +638,43 @@ function test.testStub_PickupInventoryItem()
 	ClearCursor()
 	PickupInventoryItem(1)  -- returns nothing
 	assertEquals( "7073", onCursor['item'] )
+	assertEquals( "myGear", onCursor['from'] )
+	assertEquals( 1, onCursor['fromSlot'] )
 end
-function test.testStub_PutItemInBackpack()
+function test.testStub_PutItemInBackpack_FromInventory()
+	myInventory["7073"] = 1
 	ClearCursor()
 	PickupItem( "7073" )
 	PutItemInBackpack()
 	assertIsNil( CursorHasItem(), "Cursor should be empty" )
+	assertEquals( 1, myInventory["7073"] )
 	--fail("Find out what side effects this has.  IE, does it clear the cursor?")
 end
+function test.testStub_PutItemInBackpack_FromEquipped_PutInInventory()
+	myInventory["113596"] = nil  -- not in inventory
+	myGear[1] = "113596"  -- is equipped
+	ClearCursor()
+	PickupInventoryItem(1)
+	PutItemInBackpack()
+	assertEquals( 1, myInventory["113596"], "Item should be in the bags" )
+end
+function test.testStub_PutItemInBackpack_FromEquipped_RemovedFromCursor()
+	myInventory["113596"] = nil  -- not in inventory
+	myGear[1] = "113596"  -- is equipped
+	ClearCursor()
+	PickupInventoryItem(1)
+	PutItemInBackpack()
+	assertIsNil( CursorHasItem(), "Cursor should be empty" )
+end
+function test.testStub_PutItemInBackpack_FromEquipped_RemovedFromGear()
+	myInventory["113596"] = nil  -- not in inventory
+	myGear[1] = "113596"  -- is equipped
+	ClearCursor()
+	PickupInventoryItem(1)
+	PutItemInBackpack()
+	assertIsNil( myGear[1], "Item should not be in my equipped inventory" )
+end
+
 function test.testStub_PlaySoundFile()
 	assertIsNil( PlaySoundFile( "File" ) )
 end

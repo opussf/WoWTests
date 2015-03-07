@@ -24,8 +24,9 @@ myGuild = { ["name"] = "Test Guild", }
 outMail = {}
 inbox = {}
 onCursor = {}
--- onCursor["item"] = itemLink
+-- onCursor["item"] = itemId
 -- onCursor["quantity"] = # of item
+-- onCursor["from"] = picked up from -- Should have enough info to effect an item swap "myInventory | myGear"
 globals = {}
 accountExpansionLevel = 4   -- 0 to 5
 
@@ -42,6 +43,8 @@ Items = {
 	["49927"]= {["name"] = "Love Token", ["link"] = ""},
 	["74661"]= {["name"] = "Black Pepper", ["link"] = "|cffffffff|Hitem:74661:0:0:0:0:0:0:0:90:0:0|h[Black Pepper]|h|r"},
 	["85216"]= {["name"] = "Enigma Seed", ["link"]= "|cffffffff|Hitem:85216:0:0:0:0:0:0:0:90:0:0|h[Enigma Seed]|h|r"},
+	["113596"] = {["name"] = "Head Thing", ["link"] = "|cffffffff|Hitem:113596:0:0:0:0:0:0:0:90:0:0|h[Head Thing|h|r"},
+    -- ^^ Look up this item to build the correct link. (not super important)
 }
 
 -- simulate the data structure that is the flight map
@@ -500,7 +503,6 @@ function IsInRaid()
 	-- myParty = { ["group"] = nil, ["raid"] = nil } -- set one of these to true to reflect being in group or raid.
 	return ( myParty["raid"] and 1 or nil )
 end
-
 function NumTaxiNodes()
 	-- http://www.wowwiki.com/API_NumTaxiNodes
 	local count = 0
@@ -516,15 +518,39 @@ function PickupItem( itemIn )
 	--   ItemString (item:#######)
 	--   ItemName ("Hearthstone")
 	--   ItemLink (Full link text as if Shift-Clicking Item)
+	-- Should only pick up an item that you know about. (in bags for now (myInventory) )
+	-- -- Note: Does not pick up an item from equipped inventory
 	-- Not sure what this should do if there is already something on the cursor
+	local itemID
+	if tonumber(itemIn) then -- got the itemID
+		itemID = itemIn
+	elseif strmatch( itemIn, "item:(%d*)" ) then -- got an ItemString or ItemLink
+		itemID = string.format("%s", strmatch( itemIn, "item:(%d*)" ) )
+	else -- Anything else, treat it as an ItemName.
+		for ID, data in pairs(Items) do
+			if itemIn == data.name then
+				itemID = ID
+				break  -- break the loop once the item is found.
+			end
+		end
+	end
 	onCursor={}
-	onCursor['item'] = itemIn
-	onCursor['quantity'] = 1
+	if myInventory[itemID] then
+		onCursor['item'] = itemID
+		onCursor['quantity'] = myInventory[itemID]	-- pickup the quantity of the item in the inventory
+		onCursor['from'] = "myInventory"
+	end
 end
 function PickupInventoryItem( slotID )
 	-- http://www.wowwiki.com/API_PickupInventoryItem
-	if myGear[slotID] then
-		PickupItem( myGear[slotID] )
+	-- If the cursor is empty, then it will attempt to pick up the item in the slotId.
+    -- If the cursor has an item, then it will attempt to equip the item to the slotId and place the previous slotId item (if any) where the item on cursor orginated.
+    -- If the cursor is in repair or spell-casting mode, it will attempt the action on the slotId.
+	if myGear[slotID] then -- There is an item in this slot.
+		onCursor['item'] = myGear[slotID]
+		onCursor['quantity'] = 1
+		onCursor['from'] = 'myGear'
+		onCursor['fromSlot'] = slotID
 	end
 end
 function PlaySoundFile( file )
@@ -533,7 +559,14 @@ end
 function PutItemInBackpack()
 	-- http://www.wowwiki.com/API_PutItemInBackpack
 	-- no argument, no return
-	-- This puts the item in the Backpack, or next free bag, and clears the cursor
+	-- This puts the item in the Backpack and clears the cursor
+	-- Removes item from source
+	if onCursor["item"] then -- Cursor has an item
+		myInventory[onCursor['item']] = onCursor['quantity']
+		if (onCursor["from"] == "myGear" and onCursor['fromSlot']) then  -- Came from equipped items
+			myGear[onCursor['fromSlot']] = nil  -- Remove it from Gear
+		end
+	end
 	onCursor = {}
 end
 --[[
