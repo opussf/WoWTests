@@ -7,6 +7,9 @@ package.path = "../src/?.lua;" .. package.path
 require "wowTest"
 
 function test.before()
+	bagInfo = {  -- reset bags (only have empty backpack)
+		[0] = {16, 0},
+	}
 end
 function test.after()
 end
@@ -213,11 +216,14 @@ end
 function test.testStub_GetCoinTextureString_SC()
 	assertEquals( "0G 23S 45C", GetCoinTextureString( 2345 ) )
 end
-function test.testStub_GetContainerNumFreeSlots_0()
+function test.testStub_GetContainerNumFreeSlots_EmptyBackpack_FreeSlots()
 	assertEquals( 16, GetContainerNumFreeSlots( 0 ) )
 end
-function test.testStub_GetContainerNumFreeSlots_1()
-	assertEquals( 0, GetContainerNumFreeSlots( 1 ) )
+function test.testStub_GetContainerNumFreeSlots_EmptyBackpack_BagType()
+	assertEquals( 0, select( 2, GetContainerNumFreeSlots( 1 ) ) )
+end
+function test_testStub_GetContainerNumFreeSlots_FullBackpack_FreeSlots()
+	assertEquals( 0, GetContainerNumFreeSlots( 0 ) )
 end
 function test.testStub_GetCurrencyInfo_Amount_0()
 	myCurrencies = {["703"] = nil, }
@@ -674,7 +680,18 @@ function test.testStub_PutItemInBackpack_FromEquipped_RemovedFromGear()
 	PutItemInBackpack()
 	assertIsNil( myGear[1], "Item should not be in my equipped inventory" )
 end
-
+function test.testStub_PutItemInBag_FromInventory()
+	fail()
+end
+function test.testStub_PutItemInBag_FromEquipped_PutInInventory()
+	fail()
+end
+function test.testStub_PutItemInBag_FromEquipped_RemovedFromCursor()
+	fail()
+end
+function test.testStub_PutItemInBag_FromEquipped_RemovedFromGear()
+	fail()
+end
 function test.testStub_PlaySoundFile()
 	assertIsNil( PlaySoundFile( "File" ) )
 end
