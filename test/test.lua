@@ -681,21 +681,56 @@ function test.testStub_PutItemInBackpack_FromEquipped_RemovedFromGear()
 	assertIsNil( myGear[1], "Item should not be in my equipped inventory" )
 end
 function test.testStub_PutItemInBag_FromInventory()
-	fail()
+	bagInfo = {  -- reset bags (only have empty backpack)
+		[0] = {0, 0},
+		[1] = {8, 0},
+	}
+	myInventory["7073"] = 1
+	ClearCursor()
+	PickupItem( "7073" )
+	PutItemInBag(1)
+	assertIsNil( CursorHasItem(), "Cursor should be empty" )
+	assertEquals( 1, myInventory["7073"] )
 end
 function test.testStub_PutItemInBag_FromEquipped_PutInInventory()
-	fail()
+	bagInfo = {  -- reset bags (only have empty backpack)
+		[0] = {0, 0},
+		[1] = {8, 0},
+	}
+	myInventory["113596"] = nil  -- not in inventory
+	myGear[1] = "113596"  -- is equipped
+	ClearCursor()
+	PickupInventoryItem(1)
+	PutItemInBag(1)
+	assertEquals( 1, myInventory["113596"], "Item should be in the bags" )
 end
 function test.testStub_PutItemInBag_FromEquipped_RemovedFromCursor()
-	fail()
+	bagInfo = {  -- reset bags (only have empty backpack)
+		[0] = {0, 0},
+		[1] = {8, 0},
+	}
+	myInventory["113596"] = nil  -- not in inventory
+	myGear[1] = "113596"  -- is equipped
+	ClearCursor()
+	PickupInventoryItem(1)
+	PutItemInBag(1)
+	assertIsNil( CursorHasItem(), "Cursor should be empty" )
 end
 function test.testStub_PutItemInBag_FromEquipped_RemovedFromGear()
-	fail()
+	bagInfo = {  -- reset bags (only have empty backpack)
+		[0] = {0, 0},
+		[1] = {8, 0},
+	}
+	myInventory["113596"] = nil  -- not in inventory
+	myGear[1] = "113596"  -- is equipped
+	ClearCursor()
+	PickupInventoryItem(1)
+	PutItemInBag(1)
+	assertIsNil( myGear[1], "Item should not be in my equipped inventory" )
 end
 function test.testStub_PlaySoundFile()
 	assertIsNil( PlaySoundFile( "File" ) )
 end
-
 function test.testStub_SecondsToTime_Sec()
 	assertEquals( "59 Sec", SecondsToTime( 59 ) )
 end
