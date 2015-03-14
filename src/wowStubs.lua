@@ -562,6 +562,7 @@ function PutItemInBackpack()
 	-- http://www.wowwiki.com/API_PutItemInBackpack
 	-- no argument, no return
 	-- This puts the item in the Backpack and clears the cursor
+	-- Really, it does not really put it in any bag, just clears the cursor, or removes it from inventory
 	-- Removes item from source
 	if onCursor["item"] then -- Cursor has an item
 		myInventory[onCursor['item']] = onCursor['quantity']
@@ -571,12 +572,18 @@ function PutItemInBackpack()
 	end
 	onCursor = {}
 end
---[[
 function PutItemInBag( bagNum )
 	-- http://www.wowwiki.com/API_PutItemInBag
 	-- bagNum, numberic (20 right most - 23 left most)
+	-- Really, it does not really put it in any bag, just clears the cursor, or removes it from inventory
+	if onCursor["item"] then
+		myInventory[onCursor['item']] = onCursor['quantity']
+		if (onCursor["from"] == "myGear" and onCursor['fromSlot']) then
+			myGear[onCursor['fromSlot']] = nil -- Remove it from Gear
+		end
+	end
+	onCursor = {}
 end
-]]
 function SecondsToTime( secondsIn, noSeconds, notAbbreviated, maxCount )
 	-- http://www.wowwiki.com/API_SecondsToTime
 	-- formats seconds to a readable time
