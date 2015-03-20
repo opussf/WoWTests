@@ -256,6 +256,16 @@ end
 function test.testStub_GetCurrencyLink()
 	assertIsNil( GetCurrencyLink( "704" ) )
 end
+function test.testStub_GetEquipmentSetItemIDs_nil()
+	EquipmentSets = { {["name"] = "testSet", ["icon"] = "icon", ["items"] = {[1] = "113596"},},}
+	local equipmentSetItemIDs = GetEquipmentSetItemIDs("nilSet")
+	assertIsNil( equipmentSetItemIDs )
+end
+function test.testStub_GetEquipmentSetItemIDs_testSet()
+	EquipmentSets = { {["name"] = "testSet", ["icon"] = "icon", ["items"] = {[1] = "113596"},},}
+	local equipmentSetItemIDs = GetEquipmentSetItemIDs("testSet")
+	assertEquals( "113596", equipmentSetItemIDs[1] )
+end
 function test.testStub_GetEquipmentSetInfo_NoSets_NilName()
 	EquipmentSets = {}
 	assertIsNil( GetEquipmentSetInfo(1) )
