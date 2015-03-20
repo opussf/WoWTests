@@ -89,7 +89,7 @@ TradeSkillItems = {
 }
 -- EquipmentSets is an array (1 based numeric key table)
 EquipmentSets = {
-	{["name"] = "testSet", ["icon"] = "icon", ["items"] = {},},
+	{["name"] = "testSet", ["icon"] = "icon", ["items"] = {[1] = "113596"},},
 }
 
 -- WOW's function renames
@@ -292,6 +292,15 @@ end
 function GetCurrencyLink( id )
 	if Currencies[id] then
 		return Currencies[id].link
+	end
+end
+function GetEquipmentSetItemIDs( setName )
+	-- http://wowprogramming.com/docs/api/GetEquipmentSetItemIDs
+	-- Returns a table of item IDs keyed by slotID of items in the equipmentSet
+	for _, set in pairs(EquipmentSets) do
+		if setName == set.name then
+			return set.items
+		end
 	end
 end
 function GetEquipmentSetInfo( index )
