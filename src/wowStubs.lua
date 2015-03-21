@@ -46,8 +46,10 @@ Items = {
 	["49927"]= {["name"] = "Love Token", ["link"] = ""},
 	["74661"]= {["name"] = "Black Pepper", ["link"] = "|cffffffff|Hitem:74661:0:0:0:0:0:0:0:90:0:0|h[Black Pepper]|h|r"},
 	["85216"]= {["name"] = "Enigma Seed", ["link"]= "|cffffffff|Hitem:85216:0:0:0:0:0:0:0:90:0:0|h[Enigma Seed]|h|r"},
-	["113596"] = {["name"] = "Head Thing", ["link"] = "|cffffffff|Hitem:113596:0:0:0:0:0:0:0:90:0:0|h[Head Thing|h|r"},
+	["113596"] = {["name"] = "Head Thing", ["link"] = "|cffffffff|Hitem:113596:0:0:0:0:0:0:0:90:0:0|h[Head Thing|h|r", ["slotPrefix"] = "Head"},
     -- ^^ Look up this item to build the correct link. (not super important)
+    -- ^^ Also need another head item for testing.
+    ["999999"] = {["name"] = "Finger Thing", ["link"] = "|cffffffff|Hitem:999999:0:0:0:0:0:0:0:90:0:0|h[Finger Thing|h|r", ["slotPrefix"] = "Finger"},
 }
 
 -- simulate the data structure that is the flight map
@@ -245,6 +247,49 @@ function CursorHasItem()
 end
 function DoEmote( emote )
 	-- not tested as the only side effect is the character doing an emote
+end
+function EquipItemByName( itemIn, slotIDIn )
+	-- http://www.wowwiki.com/API_EquipItemByName
+	-- item: string (itemID, itemName, or itemLink)
+	-- slot: number (optional: where to place it)
+	local itemID
+	local slotID
+	if tonumber(itemIn) then -- got the itemID
+		itemID = itemIn
+	elseif strmatch( itemIn, "item:(%d*)" ) then -- got an ItemString or ItemLink
+		itemID = string.format("%s", strmatch( itemIn, "item:(%d*)" ) )
+	else -- Anything else, treat it as an ItemName.
+		for ID, data in pairs(Items) do
+			if itemIn == data.name then
+				itemID = ID
+				break  -- break the loop once the item is found.
+			end
+		end
+	end
+	--print(itemID,type(itemID),(slotIDIn or "nil"))
+	-- look for the item in inventory
+	if myInventory[itemID] then -- is in inventory
+		if Items[itemID] then -- is a valid item
+			if Items[itemID].slotPrefix then -- item has a slot prefix (it can be equipped - to that slot)
+				-- find valid slot ID, set slotID if slotIDIn is valid, or not set
+				for i, slotName in pairs(SlotListMap) do
+					if strmatch( slotName, Items[itemID].slotPrefix ) then -- valid possible slot
+						if (not slotIDIn) or (slotIDIn and slotIDIn == i) then
+							slotID = slotID or i
+						end
+					end
+				end
+			end
+		else
+			error("item:"..itemID.." is unknown. This should not the thrown by the client, but this is for testing.")
+		end
+		if slotID then
+			local swapItem = myGear[slotID]
+			myGear[slotID] = itemID
+			if swapItem then myInventory[swapItem] = 1 end
+			myInventory[itemID] = nil
+		end
+	end
 end
 function GetAccountExpansionLevel()
 	-- http://www.wowwiki.com/API_GetAccountExpansionLevel
