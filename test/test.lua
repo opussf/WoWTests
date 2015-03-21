@@ -184,49 +184,73 @@ function test.testStub_EquipItemByName_itemID()
 	myInventory = {["113596"] = 1, }
 	myGear = {}
 	EquipItemByName("113596")
-	assertEquals( "113596", myGear[1] )
+	assertEquals( "113596", myGear[1], "Item should be equipped in the HeadSlot" )
 end
 function test.testStub_EquipItemByName_itemLink()
 	myInventory = {["113596"] = 1, }
 	myGear = {}
 	EquipItemByName("|cffffffff|Hitem:113596:0:0:0:0:0:0:0:90:0:0|h[Head Thing|h|r")
-	assertEquals( "113596", myGear[1] )
+	assertEquals( "113596", myGear[1], "Item should be equipped in the HeadSlot" )
 end
 function test.testStub_EquipItemByName_itemName()
 	myInventory = {["113596"] = 1, }
 	myGear = {}
 	EquipItemByName("Head Thing")
-	assertEquals( "113596", myGear[1] )
+	assertEquals( "113596", myGear[1], "Item should be equipped in the HeadSlot" )
 end
 function test.testStub_EquipItemByName_itemID_wSlotID()
 	myInventory = {["113596"] = 1, }
 	myGear = {}
 	EquipItemByName("113596", 1)
-	assertEquals( "113596", myGear[1] )
+	assertEquals( "113596", myGear[1], "Item should be equipped in the HeadSlot" )
 end
 function test.testStub_EquipItemByName_itemLink_wSlotID()
 	myInventory = {["113596"] = 1, }
 	myGear = {}
 	EquipItemByName("|cffffffff|Hitem:113596:0:0:0:0:0:0:0:90:0:0|h[Head Thing|h|r", 1)
-	assertEquals( "113596", myGear[1] )
+	assertEquals( "113596", myGear[1], "Item should be equipped in the HeadSlot" )
 end
 function test.testStub_EquipItemByName_itemName_wSlotID()
 	myInventory = {["113596"] = 1, }
 	myGear = {}
 	EquipItemByName("Head Thing", 1)
-	assertEquals( "113596", myGear[1] )
+	assertEquals( "113596", myGear[1], "Item should be equipped in the HeadSlot" )
 end
 function test.testStub_EquipItemByName_removesFromInv()
 	myInventory = {["113596"] = 1, }
 	myGear = {}
 	EquipItemByName("113596")
-	assertIsNil( myInventory["113596"] )
+	assertIsNil( myInventory["113596"], "Item should be out of inventory." )
 end
 function test.testStub_EquipItemByName_noEquipIfNotInInventory()
 	myInventory = {["7073"] = 1, }
 	myGear = {}
 	EquipItemByName("113596")
-	assertIsNil( myGear[1] )
+	assertIsNil( myGear[1], "Item should not be equipped" )
+end
+function test.testStub_EquipItemByName_replacesEquippedItem_isEquipped()
+	myInventory = {["113596"] = 1, }
+	myGear = {[1] = "7073"}
+	EquipItemByName("113596")
+	assertEquals( "113596", myGear[1], "Item should be equipped in the HeadSlot" )
+end
+function test.testStub_EquipItemByName_replacesEquippedItem_itemIsReturnedToInventory()
+	myInventory = {["113596"] = 1, }
+	myGear = {[1] = "7073"}
+	EquipItemByName("113596")
+	assertTrue( myInventory["7090"] )
+end
+function test.testStub_EquipItemByName_placesReplacedItemInInventory()
+	myInventory = {["113596"] = 1, }
+	myGear = {[1] = "7073"}
+	EquipItemByName("113596")
+	assertTrue( myInventory["7073"], "Replaced item should be in inventory" )
+end
+function test.testStub_EquipItemByName_doNotEquipItemToInvalidSlot()
+	myInventory = {["999999"] = 1, } -- finger item
+	myGear = {}
+	EquipItemByName("999999", 1 ) -- try to equip finger thing to the head slot
+	assertIsNil( myGear[1], "Nothing should be equipped to the head slot" )
 end
 
 --[[
