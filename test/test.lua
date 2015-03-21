@@ -181,42 +181,53 @@ function test.testStub_CursorHasItem_True()
 	assertTrue( CursorHasItem() )
 end
 function test.testStub_EquipItemByName_itemID()
-	myInventory = {["74661"] = 1, }
+	myInventory = {["113596"] = 1, }
 	myGear = {}
 	EquipItemByName("113596")
 	assertEquals( "113596", myGear[1] )
 end
 function test.testStub_EquipItemByName_itemLink()
-	myInventory = {["74661"] = 1, }
+	myInventory = {["113596"] = 1, }
 	myGear = {}
 	EquipItemByName("|cffffffff|Hitem:113596:0:0:0:0:0:0:0:90:0:0|h[Head Thing|h|r")
 	assertEquals( "113596", myGear[1] )
 end
 function test.testStub_EquipItemByName_itemName()
-	myInventory = {["74661"] = 1, }
+	myInventory = {["113596"] = 1, }
 	myGear = {}
 	EquipItemByName("Head Thing")
 	assertEquals( "113596", myGear[1] )
 end
 function test.testStub_EquipItemByName_itemID_wSlotID()
-	myInventory = {["74661"] = 1, }
+	myInventory = {["113596"] = 1, }
 	myGear = {}
 	EquipItemByName("113596", 1)
 	assertEquals( "113596", myGear[1] )
 end
 function test.testStub_EquipItemByName_itemLink_wSlotID()
-	myInventory = {["74661"] = 1, }
+	myInventory = {["113596"] = 1, }
 	myGear = {}
 	EquipItemByName("|cffffffff|Hitem:113596:0:0:0:0:0:0:0:90:0:0|h[Head Thing|h|r", 1)
 	assertEquals( "113596", myGear[1] )
 end
 function test.testStub_EquipItemByName_itemName_wSlotID()
-	myInventory = {["74661"] = 1, }
+	myInventory = {["113596"] = 1, }
 	myGear = {}
 	EquipItemByName("Head Thing", 1)
 	assertEquals( "113596", myGear[1] )
 end
-
+function test.testStub_EquipItemByName_removesFromInv()
+	myInventory = {["113596"] = 1, }
+	myGear = {}
+	EquipItemByName("113596")
+	assertIsNil( myInventory["113596"] )
+end
+function test.testStub_EquipItemByName_noEquipIfNotInInventory()
+	myInventory = {["7073"] = 1, }
+	myGear = {}
+	EquipItemByName("113596")
+	assertIsNil( myGear[1] )
+end
 
 --[[
 function test.testStub_EquipCursorItem()
