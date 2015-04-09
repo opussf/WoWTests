@@ -495,6 +495,11 @@ end
 function test.testStub_GetMerchantNumItems()
 	assertEquals( 6, GetMerchantNumItems() )
 end
+function test.testStub_GetMoney()
+	myCopper = 150000
+	assertEquals( 150000, GetMoney() )
+	myCopper = 0
+end
 function test.testStub_GetNumEquipmentSets_0()
 	EquipmentSets = {}
 	assertEquals( 0, GetNumEquipmentSets() )

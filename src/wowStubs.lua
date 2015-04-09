@@ -19,6 +19,8 @@ bagInfo = {
 	[0] = {16, 0},
 }
 myCurrencies = {}
+myCopper = 0
+-- myCopper is the amount of Copper that you own on this toon
 -- set one of these to the number of people in the raid or party to reflect being in group or raid.
 -- roster should be an array for GetRaidRosterInfo
 myParty = { ["group"] = nil, ["raid"] = nil, ["roster"] = {} }
@@ -454,6 +456,9 @@ function GetMerchantNumItems()
 	local count = 0
 	for _ in pairs(MerchantInventory) do count = count + 1 	end
 	return count
+end
+function GetMoney()
+	return myCopper
 end
 function GetNumEquipmentSets()
 	-- http://www.wowwiki.com/API_GetNumEquipmentSets
