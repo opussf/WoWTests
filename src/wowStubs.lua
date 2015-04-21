@@ -298,10 +298,53 @@ function GetAccountExpansionLevel()
 	-- returns 0 to 4 (5)
 	return accountExpansionLevel
 end
+function GetAchievementInfo( id, index )
+	-- http://wowprogramming.com/docs/api/GetAchievementInfo
+	-- Arguments:
+	-- id: achievement category ID or achievement ID
+	-- index: index of achievement in given category ID
+	-- Returns:
+	-- id: The numeric ID of the achievement or statistic (number)
+	-- name: Name of the achievement or statistic (string)
+    -- points: Amount of achievement points awarded for completing the achievement (number)
+	-- completed: True if any toon on the account has completed the achievement; otherwise false (boolean)
+	-- month: Month in which the player completed the achievement (number)
+	-- day: Day of the month on which the player completed the achievement (number)
+	-- year: Year in which the player completed the achievement. (Two digit year, assumed to be 21st century.) (number)
+	-- description: Description of the achievement (string)
+	-- flags: Test against the following masks with bit.band() to reveal additional information: (bitfield)
+	--		0x00000001 - Info is for a statistic, not an achievement
+	--		0x00000002 - Achievement should be hidden in normal displays
+	--		0x00000080 - Achievement should display its criteria as a progress bar regardless of per-criterion flags
+	-- icon: Path to an icon texture for the achievement (string)
+	-- rewardText: Text describing a reward for the achievement, or the empty string if no reward is offered (string)
+	-- isGuildAch: True if the achievement is a Guild achievement; otherwise false (boolean)
+	-- wasEarnedByMe: True if the achievement was earned by the player; otherwise false (boolean)
+	-- earnedBy: Who earned the achivement, if not the player; otherwise nil (string)
+
+end
+
 function GetAddOnMetadata(addon, field)
 	-- returns addonData[field] for 'addon'
 	-- local addonData = { ["version"] = "1.0", }
 	return addonData[field]
+end
+function GetCategoryList()
+	-- http://www.wowwiki.com/API_GetCategoryList
+	-- Returns a table of achievement categories
+	return {"10","47454"}
+end
+function GetCategoryNumAchievements( catID )
+	-- http://wowprogramming.com/docs/api/GetCategoryNumAchievements
+	-- http://wow.gamepedia.com/API_GetCategoryNumAchievements    <---  MUCH BETTER
+	-- Arguments:
+	-- catID: Category to return the number of displayable achievements
+	-- includeAll: (optional) boolean include all achievements, or just visible (if false)
+	-- Returns:
+	-- numItems: Number of achievements or stats to display
+	-- numCompleted: Number of completed achievements (or 0 for stats)
+	-- numIncomplete: Number of incomplete achievements
+	return 5,0,5
 end
 function GetCoinTextureString( copperIn, fontHeight )
 -- simulates the Wow function:  http://www.wowwiki.com/API_GetCoinTextureString
