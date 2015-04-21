@@ -269,9 +269,19 @@ end
 function test.testStub_GetAccountExpansionLevel()
 	assertTrue( 4, GetAccountExpansionLevel() )
 end
+function test.testStub_GetAchievementInfo()
+	fail("Write this")
+end
 function test.testStub_GetAddOnMetadata()
 	addonData = {["version"] = "1.0", }
 	assertTrue( "1.0", GetAddOnMetadata("version") )
+end
+function test.testStub_GetCategoryList_returnsTable()
+	local CatList = GetCategoryList()
+	assertTrue( type(CatList) == "table" )
+end
+function test.testStub_GetCategoryNumAchievements_01()
+	assertEquals( 5, GetCategoryNumAchievements(16) )
 end
 function test.testStub_GetCoinTextureString_0()
 	assertEquals( "0G 0S 0C", GetCoinTextureString( 0 ) )
