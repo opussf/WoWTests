@@ -132,6 +132,8 @@ FACTION_BAR_COLORS = {
 -- http://www.wowwiki.com/BagId
 NUM_BAG_SLOTS=4
 ATTACHMENTS_MAX_SEND=8
+ITEM_SOULBOUND="Soulbound"
+ITEM_BIND_ON_PICKUP="Binds when picked up"
 
 -- WOW's frames
 Frame = {
@@ -141,6 +143,9 @@ Frame = {
 		["SetPoint"] = function() end,
 		["UnregisterEvent"] = function(event) Frame.Events.event = nil; end,
 		["GetName"] = function(self) return self.name end,
+		["SetOwner"] = function(self, newOwner) end, -- this is only for tooltip frames...
+		["ClearLines"] = function(self) end, -- this is only for tooltip frames...
+		["SetHyperlink"] = function(self, hyperLink) end, -- this is only for tooltip frames...
 }
 function CreateFrame( frameType, frameName, parentFrame, inheritFrame )
 	--http://www.wowwiki.com/API_CreateFrame
