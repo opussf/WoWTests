@@ -130,7 +130,7 @@ function test.testStub_BuyMerchantItem_01()
 	--BuyMerchantItem( index, quantity )
 	myInventory = {}
 	BuyMerchantItem(1, 1)
-	assertEquals( myInventory[7073], 1 )
+	assertEquals( myInventory["7073"], 1 )
 end
 function test.testStub_getglobal()
 	globals['value'] = "test value"
