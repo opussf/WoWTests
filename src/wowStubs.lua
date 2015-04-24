@@ -66,18 +66,18 @@ Currencies = {
 	["703"] = { ["name"] = "Fictional Currency", ["texturePath"] = "", ["weeklyMax"] = 1000, ["totalMax"] = 4000, isDiscovered = true, ["link"] = "|cffffffff|Hcurrency:703|h[Fictional Currency]|h|r"},
 }
 MerchantInventory = {
-	{["id"] = 7073, ["name"] = "Broken Fang", ["cost"] = 5000, ["quantity"] = 1, ["isUsable"] = 1, ["link"] = "|cff9d9d9d|Hitem:7073:0:0:0:0:0:0:0:80:0:0|h[Broken Fang]|h|r"},
-	{["id"] = 6742, ["name"] = "UnBroken Fang", ["cost"] = 10000, ["quantity"] = 1, ["isUsable"] = 1, ["link"] = "|cff9d9d9d|Hitem:6742:0:0:0:0:0:0:0:80:0:0|h[UnBroken Fang]|h|r"},
-	{["id"] = 22261, ["name"] = "Love Fool", ["cost"] = 0, ["quantity"] = 1, ["isUsable"] = 1, ["link"] = "|cff9d9d9d|Hitem:22261:0:0:0:0:0:0:0:80:0:0|h[Love Fool]|h|r",
+	{["id"] = "7073", ["name"] = "Broken Fang", ["cost"] = 5000, ["quantity"] = 1, ["isUsable"] = 1, ["link"] = "|cff9d9d9d|Hitem:7073:0:0:0:0:0:0:0:80:0:0|h[Broken Fang]|h|r"},
+	{["id"] = "6742", ["name"] = "UnBroken Fang", ["cost"] = 10000, ["quantity"] = 1, ["isUsable"] = 1, ["link"] = "|cff9d9d9d|Hitem:6742:0:0:0:0:0:0:0:80:0:0|h[UnBroken Fang]|h|r"},
+	{["id"] = "22261", ["name"] = "Love Fool", ["cost"] = 0, ["quantity"] = 1, ["isUsable"] = 1, ["link"] = "|cff9d9d9d|Hitem:22261:0:0:0:0:0:0:0:80:0:0|h[Love Fool]|h|r",
 		["currencies"] = {{["id"] = 49927, ["quantity"] = 10},}},
-	{["id"] = 49927, ["name"] = "Love Token", ["cost"] = 0, ["quantity"] = 1, ["isUsable"] = 1, ["link"] = "",
+	{["id"] = "49927", ["name"] = "Love Token", ["cost"] = 0, ["quantity"] = 1, ["isUsable"] = 1, ["link"] = "",
 		["currencies"] = {{["id"] = 49916, ["quantity"] = 1},}},  -- Lovely Charm Bracelet
-	{["id"] = 74661, ["name"] = "Black Pepper", ["cost"] = 0, ["quantity"] = 1, ["isUsable"] = 1, ["link"] = "﻿|cffffffff|Hitem:74661:0:0:0:0:0:0:0:90:0:0|h[Black Pepper]|h|r",
+	{["id"] = "74661", ["name"] = "Black Pepper", ["cost"] = 0, ["quantity"] = 1, ["isUsable"] = 1, ["link"] = "|cffffffff|Hitem:74661:0:0:0:0:0:0:0:90:0:0|h[Black Pepper]|h|r",
 		["currencies"] = {{["id"] = 402, ["quantity"] = 1},}},
-	{["id"] = 85216, ["name"] = "Enigma Seed", ["cost"] = 2500, ["quantity"] = 1, ["isUsable"] = nil, ["link"]= "|cffffffff|Hitem:85216:0:0:0:0:0:0:0:90:0:0|h[Enigma Seed]|h|r"},
+	{["id"] = "85216", ["name"] = "Enigma Seed", ["cost"] = 2500, ["quantity"] = 1, ["isUsable"] = nil, ["link"]= "|cffffffff|Hitem:85216:0:0:0:0:0:0:0:90:0:0|h[Enigma Seed]|h|r"},
 }
 TradeSkillItems = {
-	{["id"] = 44157, ["name"] = "Engineering: Turbo-Charged Flying Machine", ["cost"]= 0, ["numReagents"] = 4,
+	{["id"] = "44157", ["name"] = "Engineering: Turbo-Charged Flying Machine", ["cost"]= 0, ["numReagents"] = 4,
 		["minMade"] = 1, ["maxMade"] = 1,
 		["elink"] = "|cffffffff|Henchant:44157|h[Engineering: Turbo-Charged Flying Machine]|h|r",
 		["ilink"] = "|cff9d9d9d|Hitem:34061:0:0:0:0:0:0:0:80:0:0|h[Turbo-Charged Flying Machine]|h|r",
@@ -142,14 +142,33 @@ Frame = {
 		["RegisterEvent"] = function(event) Frame.Events.event = true; end,
 		["SetPoint"] = function() end,
 		["UnregisterEvent"] = function(event) Frame.Events.event = nil; end,
+}
+FrameGameTooltip = {
 		["GetName"] = function(self) return self.name end,
 		["SetOwner"] = function(self, newOwner) end, -- this is only for tooltip frames...
 		["ClearLines"] = function(self) end, -- this is only for tooltip frames...
 		["SetHyperlink"] = function(self, hyperLink) end, -- this is only for tooltip frames...
+		["init"] = function(frameName)
+			_G[frameName.."TextLeft2"] = CreateFontString(frameName.."TextLeft2")
+			_G[frameName.."TextLeft3"] = CreateFontString(frameName.."TextLeft3")
+			_G[frameName.."TextLeft4"] = CreateFontString(frameName.."TextLeft4")
+		end,
 }
 function CreateFrame( frameType, frameName, parentFrame, inheritFrame )
+--	print("CreateFrame: needing a new frame of type: "..(frameType or "nil"))
+	newFrame = Frame  -- deep copy of this?
+	if frameType and _G["Frame"..frameType] then  -- construct the name of the table to pull from, use _G to reference it.
+		for k, f in pairs(_G["Frame"..frameType]) do  -- add the methods in the sub frame to the returned frame
+			if k == "init" then  -- check to see if the key is 'init', which is a function to run when creating the Frame
+				f(frameName)  -- run the ["init"] function
+			else
+				newFrame[k] = f  -- add the method to the frame
+			end
+		end
+	end
+	frameName = newFrame
 	--http://www.wowwiki.com/API_CreateFrame
-	return Frame
+	return newFrame
 end
 
 function CreateFontString(name,...)
@@ -208,12 +227,12 @@ function BuyMerchantItem( index, quantity )
 	-- adds quantity of index to myInventory
 	-- no return value
 	local itemID = MerchantInventory[index].id
+
 	if myInventory[itemID] then
 		myInventory[itemID] = myInventory[itemID] + quantity
 	else
 		myInventory[itemID] = quantity
 	end
-	--INEED.UNIT_INVENTORY_CHANGED()
 end
 function CheckInbox()
 	-- http://www.wowwiki.com/API_CheckInbox
@@ -599,9 +618,9 @@ end
 function HasNewMail()
 	return true
 end
+]]
 function InterfaceOptionsFrame_OpenToCategory()
 end
-]]
 function IsInGuild()
 	-- http://www.wowwiki.com/API_IsInGuild
 	-- 1, nil boolean return of being in guild
