@@ -659,7 +659,7 @@ function test.testStub_GetTradeSkillReagentInfo_PlayerReagentCount_Nil()
 	assertIsNil( actual )
 end
 function test.testStub_GetTradeSkillReagentInfo_PlayerReagentCount_Value()
-	myInventory={[23784] = 1}
+	myInventory={["23784"] = 1}
 	local actual = select(4, GetTradeSkillReagentInfo( 1, 1 ) )
 	assertEquals( 1, actual )
 end
