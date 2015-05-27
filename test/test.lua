@@ -189,13 +189,13 @@ end
 function test.testStub_EquipItemByName_itemLink_noSlotID()
 	myInventory = {["113596"] = 1, }
 	myGear = {}
-	EquipItemByName("|cffffffff|Hitem:113596:0:0:0:0:0:0:0:90:0:0|h[Head Thing|h|r")
+	EquipItemByName("|cffffffff|Hitem:113596:0:0:0:0:0:0:0:90:0:0|h[Vilebreath Mask]|h|r")
 	assertEquals( "113596", myGear[1], "Item should be equipped in the HeadSlot" )
 end
 function test.testStub_EquipItemByName_itemName_noSlotID()
 	myInventory = {["113596"] = 1, }
 	myGear = {}
-	EquipItemByName("Head Thing")
+	EquipItemByName("Vilebreath Mask")
 	assertEquals( "113596", myGear[1], "Item should be equipped in the HeadSlot" )
 end
 function test.testStub_EquipItemByName_itemID_wSlotID()
@@ -207,13 +207,13 @@ end
 function test.testStub_EquipItemByName_itemLink_wSlotID()
 	myInventory = {["113596"] = 1, }
 	myGear = {}
-	EquipItemByName("|cffffffff|Hitem:113596:0:0:0:0:0:0:0:90:0:0|h[Head Thing|h|r", 1)
+	EquipItemByName("|cffffffff|Hitem:113596:0:0:0:0:0:0:0:90:0:0|h[Vilebreath Mask]|h|r", 1)
 	assertEquals( "113596", myGear[1], "Item should be equipped in the HeadSlot" )
 end
 function test.testStub_EquipItemByName_itemName_wSlotID()
 	myInventory = {["113596"] = 1, }
 	myGear = {}
-	EquipItemByName("Head Thing", 1)
+	EquipItemByName("Vilebreath Mask", 1)
 	assertEquals( "113596", myGear[1], "Item should be equipped in the HeadSlot" )
 end
 function test.testStub_EquipItemByName_removesFromInv()
