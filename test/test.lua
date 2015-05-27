@@ -270,7 +270,7 @@ function test.testStub_GetAccountExpansionLevel()
 	assertTrue( 4, GetAccountExpansionLevel() )
 end
 function test.testStub_GetAchievementInfo()
-	fail("Write this")
+	--Itemfail("Write this")
 end
 function test.testStub_GetAddOnMetadata()
 	addonData = {["version"] = "1.0", }
@@ -456,10 +456,17 @@ function test.testStub_GetMerchantItemCostItem_Link_Nil()
 	-- Link is hardcoded to "" for now
 	assertIsNil( select( 3, GetMerchantItemCostItem( 1, 1 ) ) ) -- this time has no alternative currency cost
 end
-function test.testStub_GetMerchantItemCostItem_Link_Valid()
+function test.testStub_GetMerchantItemCostItem_Link_ValidCurrency()
 	-- Link is hardcoded to "" for now
-	assertEquals( "", select(3, GetMerchantItemCostItem( 3, 1 ) ) ) -- 3rd item, 1st currency -- 3rd return value
+	assertEquals( "|cff9d9d9d|Hcurrency:402:0:0:0:0:0:0:0:80:0:0|h[Ironpaw Token]|h|r",
+			select(3, GetMerchantItemCostItem( 5, 1 ) ) ) -- 5th item, 1st currency -- 3rd return value
 end
+function test.testStub_GetMerchantItemCostItem_Link_ValidItem()
+	-- Link is hardcoded to "" for now
+	assertEquals( "|cff9d9d9d|Hitem:49927:0:0:0:0:0:0:0:80:0:0|h[Love Token]|h|r",
+			select(3, GetMerchantItemCostItem( 3, 1 ) ) ) -- 5th item, 1st currency -- 3rd return value
+end
+
 function test.testStub_GetMerchantItemCostItem_Texture_Nil()
 	-- Texture is hardcoded to "" for now
 	assertIsNil( GetMerchantItemCostItem( 1, 1 ) ) -- this time has no alternative currency cost

@@ -50,12 +50,28 @@ Items = {
 	["23787"] = {["name"] = "Felsteel Stabilizer", ["link"] = "|cffffff|Hitem:23787|h[Felsteel Stabilizer]|h|r", ["texture"] = ""},
 	["34061"] = {["name"] = "Turbo-Charged Flying Machine", ["link"] = "|cff9d9d9d|Hitem:34061:0:0:0:0:0:0:0:80:0:0|h[Turbo-Charged Flying Machine]|h|r", ["texture"] = ""},
 	["34249"] = {["name"] = "Hula Girl Doll", ["link"] = "|cffffff|Hitem:34249|h[Hula Girl Doll]|h|r", ["texture"] = ""},
-	["49927"] = {["name"] = "Love Token", ["link"] = ""},
+	["49916"] = {["name"] = "Lovely Charm Bracelet", ["link"] = "|cff9d9d9d|Hitem:49916:0:0:0:0:0:0:0:80:0:0|h[Lovely Charm Bracelet]|h|r", ["texture"] = ""},
+	["49927"] = {["name"] = "Love Token", ["link"] = "|cff9d9d9d|Hitem:49927:0:0:0:0:0:0:0:80:0:0|h[Love Token]|h|r", ["texture"] = ""},
 	["74661"] = {["name"] = "Black Pepper", ["link"] = "|cffffffff|Hitem:74661:0:0:0:0:0:0:0:90:0:0|h[Black Pepper]|h|r", ["texture"] = ""},
 	["85216"] = {["name"] = "Enigma Seed", ["link"]= "|cffffffff|Hitem:85216:0:0:0:0:0:0:0:90:0:0|h[Enigma Seed]|h|r", ["texture"] = ""},
-	["113596"] = {["name"] = "Head Thing", ["link"] = "|cffffffff|Hitem:113596:0:0:0:0:0:0:0:90:0:0|h[Head Thing|h|r", ["slotPrefix"] = "Head", ["texture"] = ""},
-    -- ^^ Look up this item to build the correct link. (not super important)
-    -- ^^ Also need another head item for testing.
+	["113596"] = {["name"] = "Vilebreath Mask", ["link"] = "|cffffffff|Hitem:113596:0:0:0:0:0:0:0:90:0:0|h[Vilebreath Mask]|h|r", ["slotPrefix"] = "Head", ["texture"] = ""},
+--[[
+Vilebreath Mask
+Item Level 655
+Binds when picked up
+Head	Cloth
+85 Armor
++211 Intellect
++316 Stamina
++120 Mastery (1.09 @ L100)
++153 Multistrike (2.32% @ L100)
+Durability 100 / 100
+Requires Level 100
+Sell Price: 32 81 73
+Dropped by: Kargath Bladefist
+Drop Chance: 11.48%
+]]
+    -- ^^ Need another head item for testing.
     ["999999"] = {["name"] = "Finger Thing", ["link"] = "|cffffffff|Hitem:999999:0:0:0:0:0:0:0:90:0:0|h[Finger Thing|h|r", ["slotPrefix"] = "Finger", ["texture"] = ""},
 }
 
@@ -74,11 +90,11 @@ MerchantInventory = {
 	{["id"] = "7073", ["cost"] = 5000, ["quantity"] = 1, ["isUsable"] = 1},
 	{["id"] = "6742", ["cost"] = 10000, ["quantity"] = 1, ["isUsable"] = 1},
 	{["id"] = "22261", ["cost"] = 0, ["quantity"] = 1, ["isUsable"] = 1,
-		["currencies"] = {{["id"] = 49927, ["quantity"] = 10},}},
+		["currencies"] = {{["id"] = "49927", ["type"] = "item", ["quantity"] = 10},}},
 	{["id"] = "49927", ["cost"] = 0, ["quantity"] = 1, ["isUsable"] = 1,
-		["currencies"] = {{["id"] = 49916, ["quantity"] = 1},}},  -- Lovely Charm Bracelet
+		["currencies"] = {{["id"] = "49916", ["type"] = "item", ["quantity"] = 1},}},  -- Lovely Charm Bracelet
 	{["id"] = "74661", ["cost"] = 0, ["quantity"] = 1, ["isUsable"] = 1,
-		["currencies"] = {{["id"] = 402, ["quantity"] = 1},}},
+		["currencies"] = {{["id"] = "402", ["type"] = "currency", ["quantity"] = 1},}},
 	{["id"] = "85216", ["cost"] = 2500, ["quantity"] = 1, ["isUsable"] = nil},
 }
 TradeSkillItems = {
@@ -495,8 +511,14 @@ function GetMerchantItemCostItem( index, currencyIndex )
 	-- returns texture, value, and link for 1..GetMerchantItemCostInfo() for index item
 	if MerchantInventory[ index ] then  -- valid index
 		if MerchantInventory[ index ].currencies then  -- has alternate currencies
-			if MerchantInventory[ index ].currencies[ currencyIndex ] then
-				return "", MerchantInventory[ index ].currencies[ currencyIndex ].quantity, ""
+			if MerchantInventory[ index ].currencies[ currencyIndex ] then -- currencyIndex exists
+				local currencyLink = ""
+				if MerchantInventory[ index ].currencies[ currencyIndex ].type == "item" then
+					currencyLink = Items[ MerchantInventory[ index ].currencies[ currencyIndex ].id ].link
+				elseif MerchantInventory[ index ].currencies[ currencyIndex ].type == "currency" then
+					currencyLink = Currencies[ MerchantInventory[ index ].currencies[ currencyIndex ].id ].link
+				end
+				return "", MerchantInventory[ index ].currencies[ currencyIndex ].quantity, currencyLink
 			end
 		end
 	end
