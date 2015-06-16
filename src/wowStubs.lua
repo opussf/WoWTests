@@ -1,7 +1,7 @@
 -----------------------------------------
 -- Author  :  Opussf
 -- Date    :  $Date:$
--- Revision:  $Revision:$
+-- Revision:  @VERSION@
 -----------------------------------------
 -- These are functions from wow that have been needed by addons so far
 -- Not a complete list of the functions.
@@ -157,9 +157,9 @@ ITEM_BIND_ON_PICKUP="Binds when picked up"
 Frame = {
 		["Events"] = {},
 		["Hide"] = function() end,
-		["RegisterEvent"] = function(event) Frame.Events.event = true; end,
+		["RegisterEvent"] = function(event) Frame.Events[event] = true; end,
 		["SetPoint"] = function() end,
-		["UnregisterEvent"] = function(event) Frame.Events.event = nil; end,
+		["UnregisterEvent"] = function(event) Frame.Events[event] = nil; end,
 }
 FrameGameTooltip = {
 		["GetName"] = function(self) return self.name end,

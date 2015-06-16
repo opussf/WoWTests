@@ -1,7 +1,7 @@
 -----------------------------------------
--- Author  :  $Author:$
+-- Author  :  Opussf
 -- Date    :  $Date:$
--- Revision:  $Revision:$
+-- VERSION :  @VERSION@
 -----------------------------------------
 -- This is an uber simple unit test implementation
 -- It creates a dictionary called test.
