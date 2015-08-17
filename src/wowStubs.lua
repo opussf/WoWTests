@@ -640,7 +640,7 @@ function GetTradeSkillReagentItemLink( skillIndex, reagentIndex )
 	-- returns LINK or NIL (?)
 	if TradeSkillItems[skillIndex] then
 		if TradeSkillItems[skillIndex].reagents[reagentIndex] then
-			return TradeSkillItems[skillIndex].reagents[reagentIndex].link
+			return Items[ TradeSkillItems[skillIndex].reagents[reagentIndex].id ].link
 		end
 	end
 end
