@@ -7,6 +7,9 @@ package.path = "../src/?.lua;" .. package.path
 require "wowTest"
 
 function test.before()
+	bagInfo = {  -- reset bags (only have empty backpack)
+		[0] = {16, 0},
+	}
 end
 function test.after()
 end
@@ -127,13 +130,14 @@ function test.testStub_BuyMerchantItem_01()
 	--BuyMerchantItem( index, quantity )
 	myInventory = {}
 	BuyMerchantItem(1, 1)
-	assertEquals( myInventory[7073], 1 )
+	assertEquals( myInventory["7073"], 1 )
 end
 function test.testStub_getglobal()
 	globals['value'] = "test value"
 	assertEquals( "test value", getglobal('value') )
 end
 function test.testStub_ClearCursor()
+	myInventory["7073"] = 1
 	PickupItem( 7073 )
 	ClearCursor()
 	for _,v in pairs(onCursor) do
@@ -172,9 +176,91 @@ function test.testStub_CursorHasItem_Nil()
 	assertIsNil( CursorHasItem() )
 end
 function test.testStub_CursorHasItem_True()
+	myInventory["7073"] = 1
 	PickupItem( "7073" )
 	assertTrue( CursorHasItem() )
 end
+function test.testStub_EquipItemByName_itemID_noSlotID()
+	myInventory = {["113596"] = 1, }
+	myGear = {}
+	EquipItemByName("113596")
+	assertEquals( "113596", myGear[1], "Item should be equipped in the HeadSlot" )
+end
+function test.testStub_EquipItemByName_itemLink_noSlotID()
+	myInventory = {["113596"] = 1, }
+	myGear = {}
+	EquipItemByName("|cffffffff|Hitem:113596:0:0:0:0:0:0:0:90:0:0|h[Vilebreath Mask]|h|r")
+	assertEquals( "113596", myGear[1], "Item should be equipped in the HeadSlot" )
+end
+function test.testStub_EquipItemByName_itemName_noSlotID()
+	myInventory = {["113596"] = 1, }
+	myGear = {}
+	EquipItemByName("Vilebreath Mask")
+	assertEquals( "113596", myGear[1], "Item should be equipped in the HeadSlot" )
+end
+function test.testStub_EquipItemByName_itemID_wSlotID()
+	myInventory = {["113596"] = 1, }
+	myGear = {}
+	EquipItemByName("113596", 1)
+	assertEquals( "113596", myGear[1], "Item should be equipped in the HeadSlot" )
+end
+function test.testStub_EquipItemByName_itemLink_wSlotID()
+	myInventory = {["113596"] = 1, }
+	myGear = {}
+	EquipItemByName("|cffffffff|Hitem:113596:0:0:0:0:0:0:0:90:0:0|h[Vilebreath Mask]|h|r", 1)
+	assertEquals( "113596", myGear[1], "Item should be equipped in the HeadSlot" )
+end
+function test.testStub_EquipItemByName_itemName_wSlotID()
+	myInventory = {["113596"] = 1, }
+	myGear = {}
+	EquipItemByName("Vilebreath Mask", 1)
+	assertEquals( "113596", myGear[1], "Item should be equipped in the HeadSlot" )
+end
+function test.testStub_EquipItemByName_removesFromInv()
+	myInventory = {["113596"] = 1, }
+	myGear = {}
+	EquipItemByName("113596")
+	assertIsNil( myInventory["113596"], "Item should be out of inventory." )
+end
+function test.testStub_EquipItemByName_noEquipIfNotInInventory()
+	myInventory = {["7073"] = 1, }
+	myGear = {}
+	EquipItemByName("113596")
+	assertIsNil( myGear[1], "Item should not be equipped" )
+end
+function test.testStub_EquipItemByName_replacesEquippedItem_isEquipped()
+	myInventory = {["113596"] = 1, }
+	myGear = {[1] = "7073"}
+	EquipItemByName("113596")
+	assertEquals( "113596", myGear[1], "Item should be equipped in the HeadSlot" )
+end
+function test.testStub_EquipItemByName_replacesEquippedItem_itemIsReturnedToInventory()
+	myInventory = {["113596"] = 1, }
+	myGear = {[1] = "7073"}
+	EquipItemByName("113596")
+	assertTrue( myInventory["7073"], "Item should be in inventory now." )
+end
+function test.testStub_EquipItemByName_placesReplacedItemInInventory()
+	myInventory = {["113596"] = 1, }
+	myGear = {[1] = "7073"}
+	EquipItemByName("113596")
+	assertTrue( myInventory["7073"], "Replaced item should be in inventory" )
+end
+function test.testStub_EquipItemByName_doNotEquipItemToInvalidSlot()
+	myInventory = {["999999"] = 1, } -- finger item
+	myGear = {}
+	EquipItemByName("999999", 1 ) -- try to equip finger thing to the head slot
+	assertIsNil( myGear[1], "Nothing should be equipped to the head slot" )
+	assertIsNil( myGear[11], "Should not be in the 1st finger slot" )
+	assertIsNil( myGear[12], "Should not be in the 2nd finger slot" )
+end
+function test.testStub_EquipItemByName_equipsToFirstValidItem()
+	myInventory = {["999999"] = 1, } -- finger item
+	myGear = {}
+	EquipItemByName("999999") -- try to equip finger thing
+	assertTrue( myGear[11], "Should be in the 1st finger slot" )
+end
+
 --[[
 function test.testStub_EquipCursorItem()
 	fail("Write This")
@@ -183,9 +269,19 @@ end
 function test.testStub_GetAccountExpansionLevel()
 	assertTrue( 4, GetAccountExpansionLevel() )
 end
+function test.testStub_GetAchievementInfo()
+	--Itemfail("Write this")
+end
 function test.testStub_GetAddOnMetadata()
 	addonData = {["version"] = "1.0", }
 	assertTrue( "1.0", GetAddOnMetadata("version") )
+end
+function test.testStub_GetCategoryList_returnsTable()
+	local CatList = GetCategoryList()
+	assertTrue( type(CatList) == "table" )
+end
+function test.testStub_GetCategoryNumAchievements_01()
+	assertEquals( 5, GetCategoryNumAchievements(16) )
 end
 function test.testStub_GetCoinTextureString_0()
 	assertEquals( "0G 0S 0C", GetCoinTextureString( 0 ) )
@@ -211,11 +307,14 @@ end
 function test.testStub_GetCoinTextureString_SC()
 	assertEquals( "0G 23S 45C", GetCoinTextureString( 2345 ) )
 end
-function test.testStub_GetContainerNumFreeSlots_0()
+function test.testStub_GetContainerNumFreeSlots_EmptyBackpack_FreeSlots()
 	assertEquals( 16, GetContainerNumFreeSlots( 0 ) )
 end
-function test.testStub_GetContainerNumFreeSlots_1()
-	assertEquals( 0, GetContainerNumFreeSlots( 1 ) )
+function test.testStub_GetContainerNumFreeSlots_EmptyBackpack_BagType()
+	assertEquals( 0, select( 2, GetContainerNumFreeSlots( 1 ) ) )
+end
+function test_testStub_GetContainerNumFreeSlots_FullBackpack_FreeSlots()
+	assertEquals( 0, GetContainerNumFreeSlots( 0 ) )
 end
 function test.testStub_GetCurrencyInfo_Amount_0()
 	myCurrencies = {["703"] = nil, }
@@ -247,6 +346,16 @@ function test.testStub_GetCurrencyLink()
 end
 function test.testStub_GetCurrencyLink()
 	assertIsNil( GetCurrencyLink( "704" ) )
+end
+function test.testStub_GetEquipmentSetItemIDs_nil()
+	EquipmentSets = { {["name"] = "testSet", ["icon"] = "icon", ["items"] = {[1] = "113596"},},}
+	local equipmentSetItemIDs = GetEquipmentSetItemIDs("nilSet")
+	assertIsNil( equipmentSetItemIDs )
+end
+function test.testStub_GetEquipmentSetItemIDs_testSet()
+	EquipmentSets = { {["name"] = "testSet", ["icon"] = "icon", ["items"] = {[1] = "113596"},},}
+	local equipmentSetItemIDs = GetEquipmentSetItemIDs("testSet")
+	assertEquals( "113596", equipmentSetItemIDs[1] )
 end
 function test.testStub_GetEquipmentSetInfo_NoSets_NilName()
 	EquipmentSets = {}
@@ -347,10 +456,17 @@ function test.testStub_GetMerchantItemCostItem_Link_Nil()
 	-- Link is hardcoded to "" for now
 	assertIsNil( select( 3, GetMerchantItemCostItem( 1, 1 ) ) ) -- this time has no alternative currency cost
 end
-function test.testStub_GetMerchantItemCostItem_Link_Valid()
+function test.testStub_GetMerchantItemCostItem_Link_ValidCurrency()
 	-- Link is hardcoded to "" for now
-	assertEquals( "", select(3, GetMerchantItemCostItem( 3, 1 ) ) ) -- 3rd item, 1st currency -- 3rd return value
+	assertEquals( "|cff9d9d9d|Hcurrency:402:0:0:0:0:0:0:0:80:0:0|h[Ironpaw Token]|h|r",
+			select(3, GetMerchantItemCostItem( 5, 1 ) ) ) -- 5th item, 1st currency -- 3rd return value
 end
+function test.testStub_GetMerchantItemCostItem_Link_ValidItem()
+	-- Link is hardcoded to "" for now
+	assertEquals( "|cff9d9d9d|Hitem:49927:0:0:0:0:0:0:0:80:0:0|h[Love Token]|h|r",
+			select(3, GetMerchantItemCostItem( 3, 1 ) ) ) -- 5th item, 1st currency -- 3rd return value
+end
+
 function test.testStub_GetMerchantItemCostItem_Texture_Nil()
 	-- Texture is hardcoded to "" for now
 	assertIsNil( GetMerchantItemCostItem( 1, 1 ) ) -- this time has no alternative currency cost
@@ -395,6 +511,11 @@ function test.testStub_GetMerchantItemMaxStack()
 end
 function test.testStub_GetMerchantNumItems()
 	assertEquals( 6, GetMerchantNumItems() )
+end
+function test.testStub_GetMoney()
+	myCopper = 150000
+	assertEquals( 150000, GetMoney() )
+	myCopper = 0
 end
 function test.testStub_GetNumEquipmentSets_0()
 	EquipmentSets = {}
@@ -545,7 +666,7 @@ function test.testStub_GetTradeSkillReagentInfo_PlayerReagentCount_Nil()
 	assertIsNil( actual )
 end
 function test.testStub_GetTradeSkillReagentInfo_PlayerReagentCount_Value()
-	myInventory={[23784] = 1}
+	myInventory={["23784"] = 1}
 	local actual = select(4, GetTradeSkillReagentInfo( 1, 1 ) )
 	assertEquals( 1, actual )
 end
@@ -596,24 +717,38 @@ function test.testStub_NumTaxiNodes()
 	assertEquals( 3, NumTaxiNodes() )
 end
 function test.testStub_PickupItem_ItemID()
+	myInventory["7073"] = 1
 	PickupItem( "7073" )
 	assertTrue( CursorHasItem() )
 	assertEquals( "7073", onCursor['item'] )
 	assertEquals( 1, onCursor['quantity'] )
 end
 function test.testStub_PickupItem_ItemString()
+	myInventory["7073"] = 1
 	PickupItem( "item:7073" )
 	assertTrue( CursorHasItem() )
-	assertEquals( "item:7073", onCursor['item'] )
+	assertEquals( "7073", onCursor['item'] )
 	assertEquals( 1, onCursor['quantity'] )
 end
 function test.testStub_PickupItem_ItemName()
-	-- TODO: Fix this?
+	-- TODO: Expand to test that the cursor actually has the right item.
+	myInventory["7073"] = 1
 	PickupItem( "Broken Fang" )
 	assertTrue( CursorHasItem() )
 end
+function test.testStub_PickupItem_ItemName_Bad()
+	myInventory["7073"] = 1
+	PickupItem( "Invalid item" )
+	assertIsNil( CursorHasItem() )
+end
+function test.testStub_Item_NotInInventory()
+	myInventory = {} -- force clearing of inventory
+	PickupItem( "7073" )
+	assertIsNil( CursorHasItem() )
+end
 function test.testStub_PickupItem_ItemLink()
-	-- TODO: Fix this?
+	-- TODO: Expand to test that the cursor actually has the right item.
+	myInventory["7073"] = 1
 	PickupItem( "|cff9d9d9d|Hitem:7073:0:0:0:0:0:0:0:80:0:0|h[Broken Fang]|h|r" )
 	assertTrue( CursorHasItem() )
 end
@@ -622,18 +757,93 @@ function test.testStub_PickupInventoryItem()
 	ClearCursor()
 	PickupInventoryItem(1)  -- returns nothing
 	assertEquals( "7073", onCursor['item'] )
+	assertEquals( "myGear", onCursor['from'] )
+	assertEquals( 1, onCursor['fromSlot'] )
 end
-function test.testStub_PutItemInBackpack()
+function test.testStub_PutItemInBackpack_FromInventory()
+	myInventory["7073"] = 1
 	ClearCursor()
 	PickupItem( "7073" )
 	PutItemInBackpack()
 	assertIsNil( CursorHasItem(), "Cursor should be empty" )
+	assertEquals( 1, myInventory["7073"] )
 	--fail("Find out what side effects this has.  IE, does it clear the cursor?")
+end
+function test.testStub_PutItemInBackpack_FromEquipped_PutInInventory()
+	myInventory["113596"] = nil  -- not in inventory
+	myGear[1] = "113596"  -- is equipped
+	ClearCursor()
+	PickupInventoryItem(1)
+	PutItemInBackpack()
+	assertEquals( 1, myInventory["113596"], "Item should be in the bags" )
+end
+function test.testStub_PutItemInBackpack_FromEquipped_RemovedFromCursor()
+	myInventory["113596"] = nil  -- not in inventory
+	myGear[1] = "113596"  -- is equipped
+	ClearCursor()
+	PickupInventoryItem(1)
+	PutItemInBackpack()
+	assertIsNil( CursorHasItem(), "Cursor should be empty" )
+end
+function test.testStub_PutItemInBackpack_FromEquipped_RemovedFromGear()
+	myInventory["113596"] = nil  -- not in inventory
+	myGear[1] = "113596"  -- is equipped
+	ClearCursor()
+	PickupInventoryItem(1)
+	PutItemInBackpack()
+	assertIsNil( myGear[1], "Item should not be in my equipped inventory" )
+end
+function test.testStub_PutItemInBag_FromInventory()
+	bagInfo = {  -- reset bags (only have empty backpack)
+		[0] = {0, 0},
+		[1] = {8, 0},
+	}
+	myInventory["7073"] = 1
+	ClearCursor()
+	PickupItem( "7073" )
+	PutItemInBag(1)
+	assertIsNil( CursorHasItem(), "Cursor should be empty" )
+	assertEquals( 1, myInventory["7073"] )
+end
+function test.testStub_PutItemInBag_FromEquipped_PutInInventory()
+	bagInfo = {  -- reset bags (only have empty backpack)
+		[0] = {0, 0},
+		[1] = {8, 0},
+	}
+	myInventory["113596"] = nil  -- not in inventory
+	myGear[1] = "113596"  -- is equipped
+	ClearCursor()
+	PickupInventoryItem(1)
+	PutItemInBag(1)
+	assertEquals( 1, myInventory["113596"], "Item should be in the bags" )
+end
+function test.testStub_PutItemInBag_FromEquipped_RemovedFromCursor()
+	bagInfo = {  -- reset bags (only have empty backpack)
+		[0] = {0, 0},
+		[1] = {8, 0},
+	}
+	myInventory["113596"] = nil  -- not in inventory
+	myGear[1] = "113596"  -- is equipped
+	ClearCursor()
+	PickupInventoryItem(1)
+	PutItemInBag(1)
+	assertIsNil( CursorHasItem(), "Cursor should be empty" )
+end
+function test.testStub_PutItemInBag_FromEquipped_RemovedFromGear()
+	bagInfo = {  -- reset bags (only have empty backpack)
+		[0] = {0, 0},
+		[1] = {8, 0},
+	}
+	myInventory["113596"] = nil  -- not in inventory
+	myGear[1] = "113596"  -- is equipped
+	ClearCursor()
+	PickupInventoryItem(1)
+	PutItemInBag(1)
+	assertIsNil( myGear[1], "Item should not be in my equipped inventory" )
 end
 function test.testStub_PlaySoundFile()
 	assertIsNil( PlaySoundFile( "File" ) )
 end
-
 function test.testStub_SecondsToTime_Sec()
 	assertEquals( "59 Sec", SecondsToTime( 59 ) )
 end
@@ -688,11 +898,6 @@ end
 function test.testStub_UnitFactionGroup_02()
 	assertEquals( "Alliance", select(2, UnitFactionGroup( "player" ) ) )
 end
-
-
---------
---======
---------
 function test.testStub_UnitName_01()
 	assertEquals( "testPlayer", UnitName( "player" ) )
 end
@@ -701,6 +906,22 @@ function test.testStub_UnitRace_01()
 end
 function test.testStub_UnitSex_01()
 	assertEquals( 3, UnitSex( "player" ) )
+end
+
+---------- Tests for C_WoWTokenPublic
+function test.testStub_GetCommerceSystemStatus()
+	local bool, seconds, zero = C_WowTokenPublic.GetCommerceSystemStatus()
+	assertTrue( bool )
+	assertEquals( 300, seconds )
+	assertEquals( 0, zero )
+end
+function test.testStub_GetCurrentMarketPrice()
+	local tokenPrice, five = C_WowTokenPublic.GetCurrentMarketPrice()
+	assertEquals( 123456, tokenPrice )
+	assertEquals( 5, five )
+end
+function test.testStub_UpdateMarketPrice()
+	C_WowTokenPublic.UpdateMarketPrice()
 end
 
 ----------------------------------
