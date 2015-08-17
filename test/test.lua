@@ -898,11 +898,6 @@ end
 function test.testStub_UnitFactionGroup_02()
 	assertEquals( "Alliance", select(2, UnitFactionGroup( "player" ) ) )
 end
-
-
---------
---======
---------
 function test.testStub_UnitName_01()
 	assertEquals( "testPlayer", UnitName( "player" ) )
 end
@@ -911,6 +906,22 @@ function test.testStub_UnitRace_01()
 end
 function test.testStub_UnitSex_01()
 	assertEquals( 3, UnitSex( "player" ) )
+end
+
+---------- Tests for C_WoWTokenPublic
+function test.testStub_GetCommerceSystemStatus()
+	local bool, seconds, zero = C_WowTokenPublic.GetCommerceSystemStatus()
+	assertTrue( bool )
+	assertEquals( 300, seconds )
+	assertEquals( 0, zero )
+end
+function test.testStub_GetCurrentMarketPrice()
+	local tokenPrice, five = C_WowTokenPublic.GetCurrentMarketPrice()
+	assertEquals( 123456, tokenPrice )
+	assertEquals( 5, five )
+end
+function test.testStub_UpdateMarketPrice()
+	C_WowTokenPublic.UpdateMarketPrice()
 end
 
 ----------------------------------

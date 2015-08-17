@@ -113,6 +113,8 @@ TradeSkillItems = {
 EquipmentSets = {
 	{["name"] = "testSet", ["icon"] = "icon", ["items"] = {[1] = "113596"},},
 }
+-- WowToken
+TokenPrice = 123456 -- 12G 34S 45C
 
 -- WOW's function renames
 strmatch = string.match
@@ -840,4 +842,21 @@ function UnitSex( who )
 		["player"] = 3,
 	}
 	return unitSex[who]
+end
+---------  C_WowTokenPublic
+C_WowTokenPublic = {}
+function C_WowTokenPublic.GetCommerceSystemStatus()
+	-- returns
+	-- [1] boolean - unsure
+	-- [2] seconds - minseconds between scans
+	-- [3] 0?
+	return true, 300, 0
+end
+function C_WowTokenPublic.GetCurrentMarketPrice()
+	-- returns the value, and a 2nd number (unknown)
+	return TokenPrice, 5
+end
+function C_WowTokenPublic.UpdateMarketPrice()
+	-- this has the system query the market price, and fire the TOKEN_MARKET_PRICE_UPDATED event
+	-- has no other side effects
 end
