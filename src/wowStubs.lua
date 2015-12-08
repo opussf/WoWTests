@@ -13,8 +13,12 @@ local itemDB = {
 }
 
 -- simulate an internal inventory
---myInventory = { ["9999"] = 52, }
+-- myInventory = { ["9999"] = 52, }
+		-- myInventory = { ["9999"] = {52, 0, 1}, }
+		-- myInventory = { ["<itemID"] = {<count>, <bagID>, <slotID>}, }
 myInventory = {}
+-- bagInfo is the info about the containers themselves
+-- bagInfo = {<size>, <type>}
 bagInfo = {
 	[0] = {16, 0},
 }
