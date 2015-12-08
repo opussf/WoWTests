@@ -713,6 +713,9 @@ function test.testStub_IsInRaid_false()
 	myParty.raid = nil
 	assertIsNil( IsInRaid() )
 end
+function test.testStub_IsQuestFlaggedCompleted()
+	-- TODO: Write This
+end
 function test.testStub_NumTaxiNodes()
 	assertEquals( 3, NumTaxiNodes() )
 end
