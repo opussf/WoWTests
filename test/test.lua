@@ -534,6 +534,9 @@ function test.testStub_GetNumEquipmentSets_1()
 	EquipmentSets = { {["name"] = "testSet", ["icon"] = "icon", ["items"] = {},}, }
 	assertEquals( 1, GetNumEquipmentSets() )
 end
+function test.testStub_GetNumFactions()
+	assertEquals( 4, GetNumFactions() )
+end
 function test.testStub_GetNumGroupMembers_0()
 	myParty = { ["group"] = nil, ["raid"] = nil, ["roster"] = {} }
 	assertEquals( 0, GetNumGroupMembers() )
