@@ -713,6 +713,9 @@ function test.testStub_IsInRaid_false()
 	myParty.raid = nil
 	assertIsNil( IsInRaid() )
 end
+function test.testStub_IsQuestFlaggedCompleted()
+	-- TODO: Write This
+end
 function test.testStub_NumTaxiNodes()
 	assertEquals( 3, NumTaxiNodes() )
 end
@@ -908,7 +911,8 @@ function test.testStub_UnitSex_01()
 	assertEquals( 3, UnitSex( "player" ) )
 end
 
----------- Tests for C_WoWTokenPublic
+-----
+----- Tests for C_WoWTokenPublic
 function test.testStub_GetCommerceSystemStatus()
 	local bool, seconds, zero = C_WowTokenPublic.GetCommerceSystemStatus()
 	assertTrue( bool )

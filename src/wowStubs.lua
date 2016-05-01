@@ -50,6 +50,8 @@ Items = {
 	["23787"] = {["name"] = "Felsteel Stabilizer", ["link"] = "|cffffff|Hitem:23787|h[Felsteel Stabilizer]|h|r", ["texture"] = ""},
 	["34061"] = {["name"] = "Turbo-Charged Flying Machine", ["link"] = "|cff9d9d9d|Hitem:34061:0:0:0:0:0:0:0:80:0:0|h[Turbo-Charged Flying Machine]|h|r", ["texture"] = ""},
 	["34249"] = {["name"] = "Hula Girl Doll", ["link"] = "|cffffff|Hitem:34249|h[Hula Girl Doll]|h|r", ["texture"] = ""},
+	["45579"] = {["name"] = "Darnassus Tabard", ["link"] = "|cffffffff|Hitem:45579:0:0:0:0:0:0:0:14:258:0:0:0|h[Darnassus Tabard]|h|r", ["texture"] = ""},
+	["45580"] = {["name"] = "Exodar Tabard", ["link"] = "|cffffffff|Hitem:45580:0:0:0:0:0:0:0:14:258:0:0:0|h[Exodar Tabard]|h|r", ["texture"] = ""},
 	["49916"] = {["name"] = "Lovely Charm Bracelet", ["link"] = "|cff9d9d9d|Hitem:49916:0:0:0:0:0:0:0:80:0:0|h[Lovely Charm Bracelet]|h|r", ["texture"] = ""},
 	["49927"] = {["name"] = "Love Token", ["link"] = "|cff9d9d9d|Hitem:49927:0:0:0:0:0:0:0:80:0:0|h[Love Token]|h|r", ["texture"] = ""},
 	["74661"] = {["name"] = "Black Pepper", ["link"] = "|cffffffff|Hitem:74661:0:0:0:0:0:0:0:90:0:0|h[Black Pepper]|h|r", ["texture"] = ""},
@@ -115,6 +117,38 @@ EquipmentSets = {
 }
 -- WowToken
 TokenPrice = 123456 -- 12G 34S 45C
+-- Factions
+globals.FACTION_STANDING_LABEL1 = "Hated"
+globals.FACTION_STANDING_LABEL2 = "Hostile"
+globals.FACTION_STANDING_LABEL3 = "Unfriendly"
+globals.FACTION_STANDING_LABEL4 = "Neutral"
+globals.FACTION_STANDING_LABEL5 = "Friendly"
+globals.FACTION_STANDING_LABEL6 = "Honored"
+globals.FACTION_STANDING_LABEL7 = "Revered"
+globals.FACTION_STANDING_LABEL8 = "Exalted"
+
+--			TT.fName, TT.fDescription, TT.fStandingId, TT.fBottomValue, TT.fTopValue, TT.fEarnedValue, TT.fAtWarWith,
+--					TT.fCanToggleAtWar, TT.fIsHeader, TT.fIsCollapsed, TT.fIsWatched, TT.isChild, TT.factionID,
+--					TT.hasBonusRepGain, TT.canBeLFGBonus = GetFactionInfo(factionIndex);
+FactionInfo = {
+	{ ["name"] = "Classic", ["description"] = "", ["standingID"] = 4, ["bottomValue"] = 0, ["topValue"] = 3000, ["earnedValue"] = 0,
+		["atWarWith"] = false, ["canToggleAtWar"] = true, ["isHeader"] = true, ["isCollapsed"] = false, ["hasRep"] = false,
+		["isWatched"] = false, ["isChild"] = false, ["factionID"] = 1118, ["hasBonusRepGain"] = false, ["canBeLFGBonus"] = false,
+	},
+	{ ["name"] = "Darkmoon Faire", ["description"] = "description and stuff",
+		["standingID"] = 5, ["bottomValue"] = 3000, ["topValue"] = 9000, ["earnedValue"] = 7575,
+		["atWarWith"] = false, ["canToggleAtWar"] = false, ["isHeader"] = false, ["isCollapsed"] = false, ["hasRep"] = false,
+		["isWatched"] = false, ["isChild"] = true, ["factionID"] = 909, ["hasBonusRepGain"] = false, ["canBeLFGBonus"] = false,
+	},
+	{ ["name"] = "Alliance", ["description"] = "", ["standingID"] = 6, ["bottomValue"] = 9000, ["topValue"] = 21000, ["earnedValue"] = 10390,
+		["atWarWith"] = false, ["canToggleAtWar"] = false, ["isHeader"] = true, ["isCollapsed"] = false, ["hasRep"] = false,
+		["isWatched"] = false, ["isChild"] = false, ["factionID"] = 469, ["hasBonusRepGain"] = false, ["canBeLFGBonus"] = false,
+	},
+	{ ["name"] = "Stormwind", ["description"] = "", ["standingID"] = 7, ["bottomValue"] = 21000, ["topValue"] = 42000, ["earnedValue"] = 33397,
+		["atWarWith"] = false, ["canToggleAtWar"] = false, ["isHeader"] = false, ["isCollapsed"] = false, ["hasRep"] = false,
+		["isWatched"] = true, ["isChild"] = true, ["factionID"] = 72, ["hasBonusRepGain"] = false, ["canBeLFGBonus"] = false,
+	},
+}
 
 -- WOW's function renames
 strmatch = string.match
@@ -162,9 +196,9 @@ Frame = {
 		["Hide"] = function() end,
 		["Show"] = function() end,
 		["IsShown"] = function() return(true) end,
-		["RegisterEvent"] = function(event) Frame.Events.event = true; end,
+		["RegisterEvent"] = function(self, event) Frame.Events[event] = true; end,
 		["SetPoint"] = function() end,
-		["UnregisterEvent"] = function(event) Frame.Events.event = nil; end,
+		["UnregisterEvent"] = function(self, event) Frame.Events[event] = nil; end,
 		["GetName"] = function(self) return self.framename end,
 		["SetFrameStrata"] = function() end,
 		["SetWidth"] = function(self, value) self.width = value; end,
@@ -350,6 +384,14 @@ function EquipItemByName( itemIn, slotIDIn )
 		end
 	end
 end
+function ExpandFactionHeader( index )
+	-- http://wowprogramming.com/docs/api/ExpandFactionHeader
+	if FactionInfo[index] then
+		if FactionInfo[index].isHeader then
+			FactionInfo[index].isCollapsed = false
+		end
+	end
+end
 function GetAccountExpansionLevel()
 	-- http://www.wowwiki.com/API_GetAccountExpansionLevel
 	-- returns 0 to 4 (5)
@@ -416,17 +458,27 @@ function GetCoinTextureString( copperIn, fontHeight )
 				(copper and copper.."C"))
 	end
 end
+function GetContainerItemLink( bagId, slotId )
+end
 function GetContainerNumFreeSlots( bagId )
 	-- http://www.wowwiki.com/API_GetContainerNumFreeSlots
 	-- http://www.wowwiki.com/BagType
 	-- returns numberOfFreeSlots, BagType
 	-- BagType should be 0
-	-- TODO: For API, what should it return if no bag is equipped?
+	-- TODO: For API, what should it return if no bag is equipped?  (it should not be nil it seems)
 	-- ^^ Note, the backpack(0) is ALWAYS equipped.
 	if bagInfo[bagId] then
 		return unpack(bagInfo[bagId])
 	else
 		return 0, 0
+	end
+end
+function GetContainerNumSlots( bagId )
+	-- @TODO: Research this.
+	if bagInfo[bagId] then
+		return bagInfo[bagId][1]
+	else
+		return 0
 	end
 end
 function GetCurrencyInfo( id ) -- id is string
@@ -468,6 +520,12 @@ function GetEquipmentSetInfoByName( nameIn )
 			return EquipmentSets[i].icon, i-1
 		end
 	end
+end
+function GetFactionInfo( index )
+	-- http://wowprogramming.com/docs/api/GetFactionInfo
+	local f = FactionInfo[ index ]
+	return f.name, f.description, f.standingID, f.bottomValue, f.topValue, f.earnedValue, f.atWarWith, f.canToggleAtWar,
+			f.isHeader, f.isCollapsed, f.hasRep, f.isWatched, f.isChild, f.factionID, f.hasBonusRepGain, f.canBeLFGBonus
 end
 function GetInventoryItemID( unitID, invSlot )
 	-- http://www.wowwiki.com/API_GetInventoryItemID
@@ -573,6 +631,14 @@ function GetNumEquipmentSets()
 	-- Returns 0,MAX_NUM_EQUIPMENT_SETS
 	return #EquipmentSets
 end
+function GetNumFactions()
+	-- returns number of factions
+	-- I believe that this should return the correct number that are SHOWN.
+	-- It should then process the info the describes if it is collapsed or not.
+	local count = 0
+	for _ in pairs(FactionInfo) do count = count + 1 end
+	return count
+end
 function GetNumGroupMembers()
 	-- http://www.wowwiki.com/API_GetNumGroupMembers
 	-- Returns number of people (include self) in raid or party, 0 if not in raid / party
@@ -667,6 +733,10 @@ function IsInGuild()
 	-- http://www.wowwiki.com/API_IsInGuild
 	-- 1, nil boolean return of being in guild
 	return (myGuild and myGuild.name) and 1 or nil
+end
+function IsInInstance()
+	-- returns 1nil
+	return currentInstance and true or nil
 end
 function IsInRaid()
 	-- http://www.wowwiki.com/API_IsInRaid
@@ -823,6 +893,9 @@ function UnitFactionGroup( who )
 		["player"] = {"Alliance", "Alliance"}
 	}
 	return unpack( unitFactions[who] )
+end
+function UnitIsDeadOrGhost( who )
+
 end
 function UnitName( who )
 	local unitNames = {
