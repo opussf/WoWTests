@@ -534,6 +534,7 @@ function GetFactionInfo( index )
 	local f = FactionInfo[ index ]
 	return f.name, f.description, f.standingID, f.bottomValue, f.topValue, f.earnedValue, f.atWarWith, f.canToggleAtWar,
 			f.isHeader, f.isCollapsed, f.hasRep, f.isWatched, f.isChild, f.factionID, f.hasBonusRepGain, f.canBeLFGBonus
+end
 function GetHaste()
 	return 15.42345
 end
