@@ -50,6 +50,8 @@ Items = {
 	["23787"] = {["name"] = "Felsteel Stabilizer", ["link"] = "|cffffff|Hitem:23787|h[Felsteel Stabilizer]|h|r", ["texture"] = ""},
 	["34061"] = {["name"] = "Turbo-Charged Flying Machine", ["link"] = "|cff9d9d9d|Hitem:34061:0:0:0:0:0:0:0:80:0:0|h[Turbo-Charged Flying Machine]|h|r", ["texture"] = ""},
 	["34249"] = {["name"] = "Hula Girl Doll", ["link"] = "|cffffff|Hitem:34249|h[Hula Girl Doll]|h|r", ["texture"] = ""},
+	["45579"] = {["name"] = "Darnassus Tabard", ["link"] = "|cffffffff|Hitem:45579:0:0:0:0:0:0:0:14:258:0:0:0|h[Darnassus Tabard]|h|r", ["texture"] = ""},
+	["45580"] = {["name"] = "Exodar Tabard", ["link"] = "|cffffffff|Hitem:45580:0:0:0:0:0:0:0:14:258:0:0:0|h[Exodar Tabard]|h|r", ["texture"] = ""},
 	["49916"] = {["name"] = "Lovely Charm Bracelet", ["link"] = "|cff9d9d9d|Hitem:49916:0:0:0:0:0:0:0:80:0:0|h[Lovely Charm Bracelet]|h|r", ["texture"] = ""},
 	["49927"] = {["name"] = "Love Token", ["link"] = "|cff9d9d9d|Hitem:49927:0:0:0:0:0:0:0:80:0:0|h[Love Token]|h|r", ["texture"] = ""},
 	["74661"] = {["name"] = "Black Pepper", ["link"] = "|cffffffff|Hitem:74661:0:0:0:0:0:0:0:90:0:0|h[Black Pepper]|h|r", ["texture"] = ""},
@@ -194,9 +196,9 @@ Frame = {
 		["Hide"] = function() end,
 		["Show"] = function() end,
 		["IsShown"] = function() return(true) end,
-		["RegisterEvent"] = function(event) Frame.Events.event = true; end,
+		["RegisterEvent"] = function(self, event) Frame.Events[event] = true; end,
 		["SetPoint"] = function() end,
-		["UnregisterEvent"] = function(event) Frame.Events.event = nil; end,
+		["UnregisterEvent"] = function(self, event) Frame.Events[event] = nil; end,
 		["GetName"] = function(self) return self.framename end,
 		["SetFrameStrata"] = function() end,
 		["SetWidth"] = function(self, value) self.width = value; end,
@@ -456,12 +458,14 @@ function GetCoinTextureString( copperIn, fontHeight )
 				(copper and copper.."C"))
 	end
 end
+function GetContainerItemLink( bagId, slotId )
+end
 function GetContainerNumFreeSlots( bagId )
 	-- http://www.wowwiki.com/API_GetContainerNumFreeSlots
 	-- http://www.wowwiki.com/BagType
 	-- returns numberOfFreeSlots, BagType
 	-- BagType should be 0
-	-- TODO: For API, what should it return if no bag is equipped?
+	-- TODO: For API, what should it return if no bag is equipped?  (it should not be nil it seems)
 	-- ^^ Note, the backpack(0) is ALWAYS equipped.
 	if bagInfo[bagId] then
 		return unpack(bagInfo[bagId])
@@ -473,6 +477,8 @@ function GetContainerNumSlots( bagId )
 	-- @TODO: Research this.
 	if bagInfo[bagId] then
 		return bagInfo[bagId][1]
+	else
+		return 0
 	end
 end
 function GetCurrencyInfo( id ) -- id is string
@@ -887,6 +893,9 @@ function UnitFactionGroup( who )
 		["player"] = {"Alliance", "Alliance"}
 	}
 	return unpack( unitFactions[who] )
+end
+function UnitIsDeadOrGhost( who )
+
 end
 function UnitName( who )
 	local unitNames = {
