@@ -324,6 +324,9 @@ function test.testStub_GetCurrencyInfo_Amount_1()
 	myCurrencies = {["703"] = 1, }
 	assertEquals( 1, select(2, GetCurrencyInfo( "703" ) ) )
 end
+function test.testStub_GetCurrencyLink()
+	assertEquals( "", GetCurrencyLink( "390" ) )
+end
 function test.testStub_GetCurrencyInfo_EarnedThisWeek()
 	-- Currently hardcoded to return 0
 	assertEquals( 0, select(4, GetCurrencyInfo( "703" ) ) )
@@ -393,6 +396,9 @@ function test.testStub_GetEquipmentSetInfoByName_ValidName_LessIndex()
 	EquipmentSets = { {["name"] = "testSet", ["icon"] = "icon", ["items"] = {},}, }
 	assertEquals( 0, select( 2, GetEquipmentSetInfoByName("testSet") ) )
 end
+function test.testStub_GetHaste()
+	assertEquals( 15.42345, GetHaste() )
+end
 function test.testStub_GetInventoryItemID_Player_isNil()
 	myGear={}
 	assertIsNil( GetInventoryItemID("player", 1) )
@@ -445,6 +451,9 @@ function test.testStub_GetItemInfo_Link_Valid()
 end
 function test.testStub_GetItemInfo_Name_Valid()
 	assertEquals( "Broken Fang", GetItemInfo("7073") )
+end
+function test.testStub_GetMastery()
+	assertEquals( 21.3572, GetMastery() )
 end
 function test.testStub_GetMerchantItemCostInfo_0()
 	assertEquals( 0, GetMerchantItemCostInfo( 1 ) ) -- Broken Fang

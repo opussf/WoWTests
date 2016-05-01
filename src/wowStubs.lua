@@ -13,8 +13,12 @@ local itemDB = {
 }
 
 -- simulate an internal inventory
---myInventory = { ["9999"] = 52, }
+-- myInventory = { ["9999"] = 52, }
+		-- myInventory = { ["9999"] = {52, 0, 1}, }
+		-- myInventory = { ["<itemID"] = {<count>, <bagID>, <slotID>}, }
 myInventory = {}
+-- bagInfo is the info about the containers themselves
+-- bagInfo = {<size>, <type>}
 bagInfo = {
 	[0] = {16, 0},
 }
@@ -85,6 +89,10 @@ TaxiNodes = {
 	{["name"] = "Ironforge", ["type"] = "NONE", ["hops"] = 1, ["cost"]=1000},
 }
 Currencies = {
+	["390"] = { ["name"] = "Conquest", ["texturePath"] = "", ["weeklyMax"] = 0, ["totalMax"] = 0, isDiscovered = true, ["link"] = ""},
+	["392"] = { ["name"] = "Honor",    ["texturePath"] = "", ["weeklyMax"] = 0, ["totalMax"] = 0, isDiscovered = true, ["link"] = ""},
+	["395"] = { ["name"] = "Justice",  ["texturePath"] = "", ["weeklyMax"] = 0, ["totalMax"] = 0, isDiscovered = true, ["link"] = ""},
+	["396"] = { ["name"] = "Valor",    ["texturePath"] = "", ["weeklyMax"] = 0, ["totalMax"] = 0, isDiscovered = true, ["link"] = ""},
 	["402"] = { ["name"] = "Ironpaw Token", ["texturePath"] = "", ["weeklyMax"] = 0, ["totalMax"] = 0, isDiscovered = true, ["link"] = "|cff9d9d9d|Hcurrency:402:0:0:0:0:0:0:0:80:0:0|h[Ironpaw Token]|h|r"},
 	["703"] = { ["name"] = "Fictional Currency", ["texturePath"] = "", ["weeklyMax"] = 1000, ["totalMax"] = 4000, isDiscovered = true, ["link"] = "|cffffffff|Hcurrency:703|h[Fictional Currency]|h|r"},
 }
@@ -526,6 +534,8 @@ function GetFactionInfo( index )
 	local f = FactionInfo[ index ]
 	return f.name, f.description, f.standingID, f.bottomValue, f.topValue, f.earnedValue, f.atWarWith, f.canToggleAtWar,
 			f.isHeader, f.isCollapsed, f.hasRep, f.isWatched, f.isChild, f.factionID, f.hasBonusRepGain, f.canBeLFGBonus
+function GetHaste()
+	return 15.42345
 end
 function GetInventoryItemID( unitID, invSlot )
 	-- http://www.wowwiki.com/API_GetInventoryItemID
@@ -568,6 +578,9 @@ function GetItemInfo( itemID )
 	if Items[itemID] then
 		return Items[itemID].name, Items[itemID].link
 	end
+end
+function GetMastery()
+	return 21.3572
 end
 function GetMerchantItemCostInfo( index )
 	-- returns count of alterate items needed to purchase an item
@@ -887,6 +900,13 @@ function UnitClass( who )
 	}
 	return unitClasses[who]
 end
+function UnitHealthMax( who )
+	-- http://wowwiki.wikia.com/wiki/API_UnitHealth
+	local unitHealth = {
+		["player"] = {["current"] = 100000, ["max"] = 123456},
+	}
+	return unitHealth[who].max
+end
 function UnitFactionGroup( who )
 	-- http://www.wowwiki.com/API_UnitFactionGroup
 	local unitFactions = {
@@ -902,6 +922,11 @@ function UnitName( who )
 		["player"] = "testPlayer",
 	}
 	return unitNames[who]
+end
+function UnitPowerMax( who, powerType )
+	-- http://wowwiki.wikia.com/wiki/API_UnitPowerMax
+	-- VERY simplified version of this function for now.
+	return 12345
 end
 function UnitRace( who )
 	local unitRaces = {
