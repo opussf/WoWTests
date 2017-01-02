@@ -489,7 +489,8 @@ function GetContainerNumSlots( bagId )
 		return 0
 	end
 end
-function GetCurrencyInfo( id ) -- id is string
+function GetCurrencyInfo( id ) -- id is integer, currencyLink, currencyString
+	-- integer, link, "currency:###"
 	-- http://wowprogramming.com/docs/api/GetCurrencyInfo
 	-- returns name, amount, texturePath, earnedThisWeek, weeklyMax, totalMax, isDiscovered
 	if Currencies[id] then
