@@ -38,6 +38,9 @@ onCursor = {}
 -- onCursor["from"] = picked up from -- Should have enough info to effect an item swap "myInventory | myGear"
 globals = {}
 accountExpansionLevel = 4   -- 0 to 5
+-- registeredPrefixes - populated by the RegisterAddonMessagePrefix( prefix )
+
+registeredPrefixes = {}
 
 SlotListMap={ "HeadSlot","NeckSlot","ShoulderSlot","ShirtSlot","ChestSlot","WaistSlot","LegsSlot",
 		"FeetSlot", "WristSlot", "HandsSlot", "Finger0Slot","Finger1Slot","Trinket0Slot","Trinket1Slot",
@@ -98,6 +101,7 @@ Currencies = {
 	["402"] = { ["name"] = "Ironpaw Token", ["texturePath"] = "", ["weeklyMax"] = 0, ["totalMax"] = 0, isDiscovered = true, ["link"] = "|cff9d9d9d|Hcurrency:402:0:0:0:0:0:0:0:80:0:0|h[Ironpaw Token]|h|r"},
 	["703"] = { ["name"] = "Fictional Currency", ["texturePath"] = "", ["weeklyMax"] = 1000, ["totalMax"] = 4000, isDiscovered = true, ["link"] = "|cffffffff|Hcurrency:703|h[Fictional Currency]|h|r"},
 }
+ArchaeologyCurrencies = {"999",}
 MerchantInventory = {
 	{["id"] = "7073", ["cost"] = 5000, ["quantity"] = 1, ["isUsable"] = 1},
 	{["id"] = "6742", ["cost"] = 10000, ["quantity"] = 1, ["isUsable"] = 1},
@@ -239,6 +243,7 @@ strmatch = string.match
 strfind = string.find
 strsub = string.sub
 strtolower = string.lower
+strlen = string.len
 time = os.time
 date = os.date
 max = math.max
@@ -288,6 +293,27 @@ function getglobal( globalStr )
 	return globals[ globalStr ]
 end
 function hooksecurefunc(externalFunc, internalFunc)
+end
+function strsplit( delim, subject, pieces )
+	-- delim is a string that defines all the bytes that may split the string
+	-- subject is the string to work with
+	-- pieces (optional) is the maximum number of pieces to return
+	splitTable = {}
+	--print("strsplit( "..delim..", "..subject..", "..(pieces or "nil").." )")
+	pos, count = 1, 1
+	pieces = pieces or string.len(subject)
+	while true do
+		s, e = strfind(subject, delim, pos)
+		if (s and count<pieces) then -- found delim in subject
+			tinsert( splitTable, strsub( subject, pos, s-1 ) )
+			pos = s + 1
+			count = count + 1
+		else
+			tinsert( splitTable, strsub( subject, pos ) )
+			break
+		end
+	end
+	return unpack(splitTable)
 end
 
 -- WOW's structures
@@ -730,6 +756,7 @@ function GetItemCount( itemID, includeBank )
 	return myInventory[itemID] or 0
 end
 function GetItemInfo( itemIn )
+	-- itemID is number, link or 'item:#####'
 	-- returns name, itemLink
 	local itemID = __getItemID( itemIn )
 	if Items[itemID] then
@@ -1036,6 +1063,13 @@ function PutItemInBag( bagNum )
 	end
 	onCursor = {}
 end
+function RegisterAddonMessagePrefix( prefix )
+	-- http://wowprogramming.com/docs/api/RegisterAddonMessagePrefix
+	-- returns success (512 limit)
+	-- prefix can be up to 16 characters
+	-- Cannot be empty.
+	-- What does this do?  In a bigger system, it could allow random messages to be generated
+end
 function SecondsToTime( secondsIn, noSeconds, notAbbreviated, maxCount )
 	-- http://www.wowwiki.com/API_SecondsToTime
 	-- formats seconds to a readable time  -- WoW omits seconds if 0 even if noSeconds is false
@@ -1075,6 +1109,20 @@ function SecondsToTime( secondsIn, noSeconds, notAbbreviated, maxCount )
 		end
 	end
 	return( table.concat( outArray, " " ) )
+end
+function SendAddonMessage( prefix, text, type, target )
+	-- http://wowwiki.wikia.com/wiki/API_SendAddonMessage
+	-- Fires CHAT_MSG_ADDON event
+		-- Sends these args with the event:
+		-- Arg1: prefix
+		-- Arg2: message
+		-- Arg3: distribution
+		-- Arg4: sender
+		-- Need to register the addon prefix with RegisterAddonMessagePrefix
+	-- type is in "PARTY", "RAID", "GUILD", "OFFICER", "BATTLEGROUND", "WHISPER"
+	-- length of prefix and text cannot exceed 254 characters.
+	-- \t cannot be used in the prefix
+	-- all characters 1-255 can be used (no NULL)
 end
 function SendChatMessage( msg, chatType, language, channel )
 	-- http://www.wowwiki.com/API_SendChatMessage
