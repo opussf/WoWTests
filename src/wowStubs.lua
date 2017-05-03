@@ -199,6 +199,7 @@ time = os.time
 date = os.date
 max = math.max
 min = math.min
+abs = math.abs
 random = math.random
 tinsert = table.insert
 
@@ -878,6 +879,9 @@ function PickupInventoryItem( slotID )
 		onCursor['from'] = 'myGear'
 		onCursor['fromSlot'] = slotID
 	end
+end
+function PlaySound( sound, channel )
+	-- http://wowwiki.wikia.com/wiki/API_PlaySound
 end
 function PlaySoundFile( file )
 	-- does nothing except play a sound.  Do not test.
