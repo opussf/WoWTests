@@ -125,7 +125,7 @@ EquipmentSets = {
 }
 -- WowToken
 TokenPrice = 123456 -- 12G 34S 45C
--- Factions
+--- Factions
 globals.FACTION_STANDING_LABEL1 = "Hated"
 globals.FACTION_STANDING_LABEL2 = "Hostile"
 globals.FACTION_STANDING_LABEL3 = "Unfriendly"
@@ -157,6 +157,38 @@ FactionInfo = {
 		["isWatched"] = true, ["isChild"] = true, ["factionID"] = 72, ["hasBonusRepGain"] = false, ["canBeLFGBonus"] = false,
 	},
 }
+--Auras
+-- IIRC (Look this up) Auras are index based, use an index based system
+-- ["unit"] = { [1] = { ["Fishing"] = true }}
+UnitAuras = {}
+--UnitAuras = {["player"] = { { ["Fishing"] = true } } }
+-- 'support' code for setting / clearing auras
+function wowSetAura( unit, auraName )
+	if (UnitAuras[unit]) then
+		for i, auras in pairs( UnitAuras[unit] ) do
+			if ( auras[auraName] ) then
+				return
+			end
+		end
+		table.insert( UnitAuras[unit], { { [auraName] = true } } )
+	else  -- unknown unit
+		UnitAuras[unit] = { { [auraName] = true } }
+	end
+end
+function wowClearAura( unit, auraName )
+	if UnitAuras[unit] then
+		for i, aura in pairs( UnitAuras[unit] ) do
+			for aname in pairs( aura ) do
+				if (aname == auraName) then
+					UnitAuras[unit][i] = nil
+				end
+			end
+		end
+		if (#UnitAuras[unit] == 0) then
+			UnitAuras[unit] = nil
+		end
+	end
+end
 
 -- WOW's function renames
 strmatch = string.match
@@ -169,6 +201,41 @@ max = math.max
 min = math.min
 random = math.random
 tinsert = table.insert
+
+bit = {}
+function bit.lshift( x, by )
+	return x * 2 ^ by
+end
+function bit.rshift( x, by )
+	return math.floor( x / 2 ^ by )
+end
+function bit.bor( a, b )  -- bitwise or
+	local p,c=1,0
+	while a+b>0 do
+		local ra,rb=a%2,b%2
+		if ra+rb>0 then c=c+p end
+		a,b,p=(a-ra)/2,(b-rb)/2,p*2
+	end
+	return c
+end
+function bit.band( a, b ) -- bitwise and
+	local p,c=1,0
+	while a>0 and b>0 do
+		local ra,rb=a%2,b%2
+		if ra+rb>1 then c=c+p end
+		a,b,p=(a-ra)/2,(b-rb)/2,p*2
+	end
+	return c
+end
+function bit.bnot( n )  -- bitwise not
+	local p,c=1,0
+	while n>0 do
+		local r=n%2
+		if r<1 then c=c+p end
+		n,p=(n-r)/2,p*2
+	end
+	return c
+end
 
 -- WOW's functions
 function getglobal( globalStr )
@@ -482,7 +549,8 @@ function GetContainerNumFreeSlots( bagId )
 	end
 end
 function GetContainerNumSlots( bagId )
-	-- @TODO: Research this.
+	-- http://wowwiki.wikia.com/wiki/API_GetContainerNumSlots
+	-- returns the number of slots in the bag, or 0 if no bag
 	if bagInfo[bagId] then
 		return bagInfo[bagId][1]
 	else
@@ -895,6 +963,18 @@ end
 function TaxiNodeGetType( nodeId )
 	-- http://www.wowwiki.com/API_TaxiNodeGetType
 	return TaxiNodes[nodeId].type
+end
+function UnitAura( unit, auraName )
+	-- @TODO: Look this up to get a better idea of what this function does.
+	-- Returns True or nil
+	if (UnitAuras[unit]) then
+		for i, auras in pairs(UnitAuras[unit]) do
+			if auras[auraName] then
+				return true
+			end
+		end
+	end
+	--print("UnitAura did not find "..auraName)
 end
 function UnitClass( who )
 	local unitClasses = {
