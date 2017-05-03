@@ -124,6 +124,34 @@ function test.testAssertTrue_Fail_Test_String()
 end
 
 ----------------------------------
+-- Support code tests
+----------------------------------
+function test.testBit_lshift_01()
+	assertEquals( 20, bit.lshift( 10, 1 ) )
+end
+function test.testBit_rshift_01()
+	assertEquals( 10, bit.rshift( 20, 1 ) )
+	assertEquals( 2, bit.rshift( 20, 3 ) )  -- 10100 >> 3 = 10
+end
+function test.testBit_bor_01()
+	-- 0101 | 0011 = 0111    5  | 3 = 7
+	assertEquals( 7, bit.bor( 5, 3 ) )
+end
+function test.testBit_band_01()
+	-- 0101 & 0011 = 0001    5 & 3 = 1
+	assertEquals( 1, bit.band( 5, 3 ) )
+end
+function test.testBit_bnot_01()
+	--assertEquals( 1, bit.bnot( 0 ) )  ----  this should probably actually be -1 (based on a signed bit)
+	assertEquals( 0, bit.bnot( 1 ) )
+end
+function test.testBit_bnot_02()
+	-- !1111 = 0
+	assertEquals( 0, bit.bnot( 15 ) )
+	-- !10000 = 1111
+	assertEquals( 15, bit.bnot( 16 ) )
+end
+----------------------------------
 -- These tests focus on the WoWStubs
 ----------------------------------
 function test.testStub_BuyMerchantItem_01()
@@ -904,6 +932,15 @@ end
 function test.testStub_TaxiNodeName()
 	assertEquals( "Stormwind", TaxiNodeName( 1 ) )
 end
+function test.testStub_UnitAura_01()
+	UnitAuras = {}
+	assertIsNil( UnitAura( "player", "Fishing" ) )
+end
+function test.testStub_UnitAura_02()
+	UnitAuras = {}
+	wowSetAura( "player", "Fishing" )
+	assertTrue( UnitAura( "player", "Fishing" ) )
+end
 function test.testStub_UnitClass_01()
 	assertEquals( "Warlock", UnitClass( "player" ) )
 end
@@ -915,6 +952,9 @@ function test.testStub_UnitFactionGroup_02()
 end
 function test.testStub_UnitName_01()
 	assertEquals( "testPlayer", UnitName( "player" ) )
+end
+function test.testStub_UnitPowerMax_01()
+
 end
 function test.testStub_UnitRace_01()
 	assertEquals( "Human", UnitRace( "player" ) )
