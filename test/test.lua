@@ -372,11 +372,17 @@ function test.testStub_GetCurrencyInfo_WeeklyMax()
 	assertEquals( 1000, select( 5, GetCurrencyInfo( "703" ) ) )
 	-- returns name, amount, texturePath, earnedThisWeek, weeklyMax, totalMax, isDiscovered
 end
-function test.testStub_GetCurrencyLink()
+function test.testStub_GetCurrencyInfo_GiveInteger()
+	assertEquals( 1000, select( 5, GetCurrencyInfo( 703 ) ) )
+end
+function test.testStub_GetCurrencyLink_Link()
 	assertEquals( "|cffffffff|Hcurrency:703|h[Fictional Currency]|h|r", GetCurrencyLink( "703" ) )
 end
-function test.testStub_GetCurrencyLink()
+function test.testStub_GetCurrencyLink_Nil()
 	assertIsNil( GetCurrencyLink( "704" ) )
+end
+function test.testStub_GetCurencyLink_Link_Integer()
+	assertEquals( "|cffffffff|Hcurrency:703|h[Fictional Currency]|h|r", GetCurrencyLink( 703 ) )
 end
 function test.testStub_GetEquipmentSetItemIDs_nil()
 	EquipmentSets = { {["name"] = "testSet", ["icon"] = "icon", ["items"] = {[1] = "113596"},},}
