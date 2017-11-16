@@ -6,6 +6,11 @@
 	<property name="env.BUILD_NUMBER" value=""/>
 	<property name="build.number" value=""/>
 	<!--  Pull git repo info -->
+	<!-- Get the last tag reachable from this branch -->
+	<exec executable="git" dir="." outputproperty="git.tag" failifexecutionfails="false" errorproperty="">
+		<arg line="describe --tags --abbrev=0" />
+	</exec>
+	<!-- Get a 'revision' based on last tag, commit count, commitsha, and branch name -->
 	<exec executable="git" dir="." outputproperty="git.revision" failifexecutionfails="false" errorproperty="">
 		<arg line="describe --tags --always HEAD" />
 	</exec>
@@ -16,9 +21,20 @@
 		</and>
 	</condition>
 	<!-- find gitbranch -->
-	<exec executable="git" dir="." outputproperty="git.branch" failifexecutionfails="false" errorproperty="">
+	<!-- find gitbranch -->
+	<exec executable="git" dir="." outputproperty="git.branch.tmp" failifexecutionfails="false" errorproperty="">
 		<arg line="rev-parse --abbrev-ref HEAD"/>
 	</exec>
+	<!-- replace '/' in branch name with '_' -->
+	<loadresource property="git.branch">
+		<propertyresource name="git.branch.tmp"/>
+		<filterchain>
+			<tokenfilter>
+				<replacestring from="/" to="_"/>
+			</tokenfilter>
+		</filterchain>
+	</loadresource>
+	<!-- assign the git.branch to the branch property -->
 	<condition property="branch" value="-${git.branch}" else="">
 		<and>
 			<isset property="git.branch"/>
@@ -52,15 +68,17 @@
 
 	<target name="changelog" description="Creates a changelog">
 		<mkdir dir="${working.dir}"/>
+		<echo file="${working.dir}/changelog.txt">Changes since ${git.tag}..${line.separator}${line.separator}</echo>
 		<exec executable="git" dir=".">
-			<arg line="log --graph --pretty=format:'%h %ci - %d %s &lt;%an&gt;' ${git.tag}.."/>
-			<redirector output="${working.dir}/changelog.txt"/>
+			<arg line="log --graph --pretty=format:'%h %ci - %d %s &lt;%an&gt;' ${git.tag}~1.."/>
+			<redirector append="true" output="${working.dir}/changelog.txt"/>
 		</exec>
 	</target>
 
 	<target name="package" depends="changelog, test" description="Create a deploy package">
 		<property name="package.dir" location="${working.dir}/${ant.project.name}"/>
-		<copy	todir="${package.dir}">
+		<delete dir="${package.dir}" verbose="false"/>
+		<copy	todir="${package.dir}" filtering="true">
 			<fileset dir="src">
 				<include name="*.lua"/>
 				<include name="*.toc"/>
@@ -77,7 +95,6 @@
 		<zip 	destfile="${target.dir}/${project.zip}"
 				basedir="${working.dir}"
 				includes="${ant.project.name}/**"/>
-		<delete dir="${package.dir}" verbose="false"/>
 		<checksum file="${target.dir}/${project.zip}"
 				  property="zip.md5" />
 		<echo file="${target.dir}/${project.zip}.md5">${zip.md5} ${project.zip}${line.separator}</echo>
