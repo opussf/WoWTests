@@ -1012,6 +1012,22 @@ function test.notestStub_Frame_rightFrameIsHidden()
 	assertTrue( frame2:IsShown() )
 	assertFalse( frame1:IsShown() )
 end
+
+-----
+----- Connected realm relationship
+function test.testStub_RealmRelationship_Same()
+	assertEquals( 1, UnitRealmRelationship( "sameRealmUnit") )
+end
+function test.testStub_RealmRelationship_Same_Self()
+	assertEquals( 1, UnitRealmRelationship( "player" ) )
+end
+function test.testStub_RealmRelationship_Coalesced()
+	assertEquals( 2, UnitRealmRelationship( "coalescedRealmUnit" ) )
+end
+function test.testStub_RealmRelationship_Connected()
+	assertEquals( 3, UnitRealmRelationship( "connectedRealmUnit" ) )
+end
+
 ----------------------------------
 -- Run the tests
 ----------------------------------
