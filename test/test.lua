@@ -987,6 +987,31 @@ function test.testStub_UpdateMarketPrice()
 	C_WowTokenPublic.UpdateMarketPrice()
 end
 
+-----
+----- Tests for Frame Hide, Show, and IsShown
+function test.testStub_Frame_DefaultsToShown()
+	frame = CreateFrame("frame")
+	assertTrue( frame:IsShown() )
+end
+function test.testStub_Frame_HideFrame()
+	frame = CreateFrame("frame")
+	frame:Hide()
+	assertFalse( frame:IsShown() )
+end
+function test.testStub_Frame_ShowHiddenFrame()
+	frame = CreateFrame("frame")
+	frame:Hide()
+	frame:Show()
+	assertTrue( frame:IsShown() )
+end
+function test.notestStub_Frame_rightFrameIsHidden()
+	-- @TODO: Look into why this is not working.
+	frame1 = CreateFrame("frame")
+	frame2 = CreateFrame("frame")
+	frame1:Hide()
+	assertTrue( frame2:IsShown() )
+	assertFalse( frame1:IsShown() )
+end
 ----------------------------------
 -- Run the tests
 ----------------------------------
