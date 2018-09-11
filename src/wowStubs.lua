@@ -355,9 +355,11 @@ Frame = {
 		["SetMinMaxValues"] = function() end,
 		["SetValue"] = function() end,
 		["SetStatusBarColor"] = function() end,
-
+		["SetScript"] = function() end,
+		["SetAttribute"] = function() end,
 }
 FrameGameTooltip = {
+		["HookScript"] = function( self, callback ) end,
 		["GetName"] = function(self) return self.name end,
 		["SetOwner"] = function(self, newOwner) end, -- this is only for tooltip frames...
 		["ClearLines"] = function(self) end, -- this is only for tooltip frames...
@@ -512,6 +514,15 @@ function CloseMail()
 	-- @TODO - Write this
 end
 ]]
+function CombatLogGetCurrentEventInfo()
+	-- return much the same info as used to be passed to the LOG_UNFILTERD event
+	-- set CombatLogCurrentEventInfo = {} to return specific data.
+	-- timestamp,event,hideCaster,srcGUID,srcName,srcFlags,srcFlags2,
+	--		targetGUID,targetName,targetFlags,targetFlags2,spellId = CombatLogGetCurrentEventInfo()
+
+	return unpack( CombatLogCurrentEventInfo )
+
+end
 function CombatTextSetActiveUnit( who )
 	-- http://www.wowwiki.com/API_CombatTextSetActiveUnit
 	-- @TODO - Write this
@@ -932,6 +943,11 @@ end
 --	for _ in pairs( TradeSkillItems ) do count = count + 1 end
 --	return count
 --end
+function GetPlayerInfoByGUID( playerGUID )
+	-- http://wowprogramming.com/docs/api/GetPlayerInfoByGUID
+	-- localClass, englishClass, localRace, englishRace, gender, name, realm = GetPlayerInfoByGUID( playerGUID )
+	return "Warlock", "Warlock", "Human", "Human", 3, "testPlayer", "testRealm"
+end
 function GetRaidRosterInfo( raidIndex )
 	-- http://www.wowwiki.com/API_GetRaidRosterInfo
 	-- returns name, rank, subgroup, level, class, fileName, zone, online, isDead, role, isML
@@ -1000,6 +1016,10 @@ function HasNewMail()
 end
 ]]
 function InterfaceOptionsFrame_OpenToCategory()
+end
+function IsInGroup( groupType )
+	-- http://wowprogramming.com/docs/api/IsInGroup
+	return true
 end
 function IsInGuild()
 	-- http://www.wowwiki.com/API_IsInGuild
@@ -1167,6 +1187,9 @@ function SendChatMessage( msg, chatType, language, channel )
 	-- http://www.wowwiki.com/API_SendChatMessage
 	-- This could simulate sending text to the channel, in the language, and raise the correct event.
 	-- returns nil
+	-- @TODO: Expand this
+end
+function BNSendWhisper( id, msg )
 	-- @TODO: Expand this
 end
 function TaxiNodeCost( nodeId )
