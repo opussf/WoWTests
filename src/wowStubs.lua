@@ -1303,3 +1303,9 @@ end
 
 --/script for k,v in pairs(C_TradeSkillUI.GetAllRecipeIDs()) do print(k..":"..v) end
 --/script for k,v in pairs(C_TradeSkillUI.GetAllRecipeIDs()) do print(k..":"..v) end
+
+----------
+
+function IsQuestFlaggedCompleted( questID )
+	return nil
+end
