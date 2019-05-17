@@ -10,6 +10,7 @@
 	<exec executable="git" dir="." outputproperty="git.tag" failifexecutionfails="false" errorproperty="">
 		<arg line="describe --tags --abbrev=0" />
 	</exec>
+
 	<!-- Get a 'revision' based on last tag, commit count, commitsha, and branch name -->
 	<exec executable="git" dir="." outputproperty="git.revision" failifexecutionfails="false" errorproperty="">
 		<arg line="describe --tags --always HEAD" />

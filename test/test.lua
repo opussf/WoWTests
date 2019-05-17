@@ -922,7 +922,7 @@ end
 
 function test.testStub_SendChatMessage()
     -- This is fairly no-op function.  How do you test it?
-	assertIsNil( SendChatMessage( "Hello" ) )
+	assertIsNil( SendChatMessage( "Hello", "channel" ) )
 end
 function test.testStub_TaxiNodeCost_01()
 	assertEquals( 0, TaxiNodeCost( 1 ) )
@@ -941,12 +941,12 @@ function test.testStub_TaxiNodeName()
 end
 function test.testStub_UnitAura_01()
 	UnitAuras = {}
-	assertIsNil( UnitAura( "player", "Fishing" ) )
+	assertIsNil( UnitAura( "player", 1 ) )
 end
 function test.testStub_UnitAura_02()
 	UnitAuras = {}
 	wowSetAura( "player", "Fishing" )
-	assertTrue( UnitAura( "player", "Fishing" ) )
+	assertEquals( "Fishing", UnitAura( "player", 1 ) )
 end
 function test.testStub_UnitClass_01()
 	assertEquals( "Warlock", UnitClass( "player" ) )
@@ -991,26 +991,26 @@ end
 ----- Tests for Frame Hide, Show, and IsShown
 function test.testStub_Frame_DefaultsToShown()
 	frame = CreateFrame("frame")
-	assertTrue( frame:IsShown() )
+	assertTrue( frame:IsVisible() )
 end
 function test.testStub_Frame_HideFrame()
 	frame = CreateFrame("frame")
 	frame:Hide()
-	assertFalse( frame:IsShown() )
+	assertFalse( frame:IsVisible() )
 end
 function test.testStub_Frame_ShowHiddenFrame()
 	frame = CreateFrame("frame")
 	frame:Hide()
 	frame:Show()
-	assertTrue( frame:IsShown() )
+	assertTrue( frame:IsVisible() )
 end
 function test.notestStub_Frame_rightFrameIsHidden()
 	-- @TODO: Look into why this is not working.
 	frame1 = CreateFrame("frame")
 	frame2 = CreateFrame("frame")
 	frame1:Hide()
-	assertTrue( frame2:IsShown() )
-	assertFalse( frame1:IsShown() )
+	assertTrue( frame2:IsVisible() )
+	assertFalse( frame1:IsVisible() )
 end
 
 -----
