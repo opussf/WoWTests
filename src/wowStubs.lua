@@ -14,6 +14,11 @@ actionLog = {
 -- append actions to the log to track actions that may not have an other sideeffects.
 -- record the function calls
 -- [1] = "DoEmote(....)""
+chatLog = {
+-- append chat output here
+-- [1] = { ["msg"] = "ChatOutput", ["channel"] = "where", [<other parameters>] = <values> }
+}
+
 
 
 local itemDB = {
@@ -1351,8 +1356,14 @@ function SendChatMessage( msg, chatType, language, channel )
 	-- http://www.wowwiki.com/API_SendChatMessage
 	-- This could simulate sending text to the channel, in the language, and raise the correct event.
 	-- returns nil
+	-- append the parameters to chatLog
 	-- @TODO: Expand this
-	print( string.format( "%s: %s", chatType, msg ) )
+
+	table.insert( chatLog,
+			{ ["msg"] = msg, ["chatType"] = chatType, ["language"] = language, ["channel"] = channel }
+	)
+
+	--print( string.format( "%s: %s", chatType, msg ) )
 end
 function SetAchievementComparisonUnit( lookupStr )
 	-- mostly does nothing...  Just allows INSPECT_ACHIEVEMENT_READY to happen,
