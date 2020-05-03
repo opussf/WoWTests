@@ -1553,3 +1553,39 @@ C_MountJournal.critters = { ["mount"] = {}, ["critter"] = {} }
 function C_MountJournal.GetMountIDs( )
 	return {}
 end
+
+-----------------------------------------
+-- TOC functions
+function ParseTOC( tocFile )
+	-- parse the TOC file for ## entries, and lua files to include
+	-- put ## entries in addonData hash - normally hard coded
+	-- require found lua files.
+	local tocFileTable = {}
+	local f = io.open( tocFile, "r" )
+	local tocContents = f:read( "*all" )
+	while true do
+		local linestart, lineend, line = string.find( tocContents, "(.-)\n" )
+		if linestart then
+			local lua, luaEnd, luaFile = string.find( line, "([%a]*)%.lua" )
+			local hash, hashEnd, hashKey, hashValue = string.find( line, "## ([%a]*): (.*)" )
+			if( hash ) then
+				addonData[ hashKey ] = hashValue
+			end
+			if( lua ) then
+				table.insert( tocFileTable, luaFile )
+			end
+			tocContents = string.sub( tocContents, lineend+1 )
+		else
+			break
+		end
+	end
+	pathSeparator = string.sub(package.config, 1, 1) -- first character of this string (http://www.lua.org/manual/5.2/manual.html#pdf-package.config)
+	includePath = tocFile
+	while( string.sub( includePath, -1, -1 ) ~= pathSeparator ) do
+		includePath = string.sub( includePath, 1, -2 )
+	end
+	package.path = includePath.."?.lua;" .. package.path
+	for _,f in pairs( tocFileTable ) do
+		require( f )
+	end
+end

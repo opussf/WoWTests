@@ -1028,6 +1028,10 @@ function test.testStub_RealmRelationship_Connected()
 	assertEquals( 3, UnitRealmRelationship( "connectedRealmUnit" ) )
 end
 
+-----
+----- TOC tests
+
+
 ----------------------------------
 -- Run the tests
 ----------------------------------
