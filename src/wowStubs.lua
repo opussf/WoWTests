@@ -1556,6 +1556,7 @@ end
 
 -----------------------------------------
 -- TOC functions
+addonData = {}
 function ParseTOC( tocFile )
 	-- parse the TOC file for ## entries, and lua files to include
 	-- put ## entries in addonData hash - normally hard coded
