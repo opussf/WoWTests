@@ -131,7 +131,7 @@
 			<arg value="test.lua"/>
 		</exec>
 		<move todir="${report.dir}" file="${test.dir}/testOut.xml"/>
-		<fail message="The tests failed. Please see the output for details.">
+		<fail message="The tests failed. Please see the output for details." status="${testResult}">
 			<condition>
 				<not>
 					<equals arg1="${testResult}" arg2="0"/>
