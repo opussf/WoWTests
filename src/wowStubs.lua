@@ -1543,6 +1543,11 @@ end
 
 ----------
 
+----------
+C_AuctionHouse = {}
+function C_AuctionHouse.PostItem( item, duration, quantity, bid, buyout )
+end
+
 function IsQuestFlaggedCompleted( questID )
 	return nil
 end
