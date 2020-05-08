@@ -1576,11 +1576,11 @@ function ParseTOC( tocFile )
 		local linestart, lineend, line = string.find( tocContents, "(.-)\n" )
 		if linestart then
 			local lua, luaEnd, luaFile = string.find( line, "([%a]*)%.lua" )
+			local xml, xmlEnd, xmlFile = string.find( line, "([%a]*)%.xml" )
 			local hash, hashEnd, hashKey, hashValue = string.find( line, "## ([%a]*): (.*)" )
 			if( hash ) then
 				addonData[ hashKey ] = hashValue
-			end
-			if( lua ) then
+			elseif( lua ) then
 				table.insert( tocFileTable, luaFile )
 			end
 			tocContents = string.sub( tocContents, lineend+1 )
