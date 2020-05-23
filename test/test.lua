@@ -1032,6 +1032,63 @@ end
 ----- TOC tests
 
 
+----- Sax tests
+require "saxParser"
+function test.before_testContentHandler()
+end
+function test.after_testContentHandler()
+end
+function test.testContentHandler_hasStartDocument()
+	test.before_testContentHandler()
+	assertTrue( contentHandler.startDocument )
+	test.after_testContentHandler()
+end
+function test.testContentHandler_hasEndDocument()
+	test.before_testContentHandler()
+	assertTrue( contentHandler.endDocument )
+	test.after_testContentHandler()
+end
+function test.testContentHandler_hasStartElement()
+	test.before_testContentHandler()
+	assertTrue( contentHandler.startElement )
+	test.after_testContentHandler()
+end
+function test.testContentHandler_hasEndElement()
+	test.before_testContentHandler()
+	assertTrue( contentHandler.endElement )
+	test.after_testContentHandler()
+end
+function test.testContentHandler_hasCharacters()
+	test.before_testContentHandler()
+	assertTrue( contentHandler.characters )
+	test.after_testContentHandler()
+end
+
+
+function test.before_testSax()
+end
+function test.after_testSax()
+end
+function test.testSAX_MakeParser()
+	test.before_testSax()
+	assertTrue( saxParser.makeParser() )
+	test.after_testSax()
+end
+function test.testSAX_setContentHandler()
+	test.before_testSax()
+	ch = contentHandler
+	parser = saxParser.makeParser()
+	parser.setContentHandler( ch )
+	assertTrue( parser.contentHandler )
+	ch = nil
+	parser = nil
+	test.after_testSax()
+end
+
+
+
+
+
 ----------------------------------
 -- Run the tests
 ----------------------------------
