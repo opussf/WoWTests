@@ -1035,8 +1035,16 @@ end
 ----- Sax tests
 require "saxParser"
 function test.before_testContentHandler()
+	originalContentHandler = {}
+	for k,v in pairs( contentHandler ) do
+		originalContentHandler[k] = v
+	end
 end
 function test.after_testContentHandler()
+	contentHandler = {}
+	for k,v in pairs( originalContentHandler ) do
+		contentHandler[k] = v
+	end
 end
 function test.testContentHandler_hasStartDocument()
 	test.before_testContentHandler()
@@ -1066,8 +1074,16 @@ end
 
 
 function test.before_testSax()
+	originalContentHandler = {}
+	for k,v in pairs( contentHandler ) do
+		originalContentHandler[k] = v
+	end
 end
 function test.after_testSax()
+	contentHandler = {}
+	for k,v in pairs( originalContentHandler ) do
+		contentHandler[k] = v
+	end
 end
 function test.testSAX_MakeParser()
 	test.before_testSax()
@@ -1080,13 +1096,46 @@ function test.testSAX_setContentHandler()
 	parser = saxParser.makeParser()
 	parser.setContentHandler( ch )
 	assertTrue( parser.contentHandler )
-	ch = nil
-	parser = nil
+	--ch = nil
+	--parser = nil
 	test.after_testSax()
 end
-
-
-
+function test.testSAX_Parse_StartDocument_TextIn()
+	test.before_testSax()
+	ch = contentHandler
+	ch.startDocument = function( this ) this.started = true; end
+	parser = saxParser.makeParser()
+	parser.setContentHandler( ch )
+	parser.parse( "<xml/>" )
+	assertTrue( ch.started )
+end
+function test.testSAX_Parse_StartDocument_FileIn()
+	test.before_testSax()
+	ch = contentHandler
+	ch.startDocument = function( this ) this.started = true; end
+	parser = saxParser.makeParser()
+	parser.setContentHandler( ch )
+	parser.parse( "../build.xml" )
+	assertTrue( ch.started )
+end
+function test.testSAX_Parse_StartDocument_NotGiven_TextIn()
+	test.before_testSax()
+	ch = contentHandler
+	ch.startDocument = nil
+	parser = saxParser.makeParser()
+	parser.setContentHandler( ch )
+	parser.parse( "<xml/>" )
+	assertIsNil( ch.started )
+end
+function test.testSAX_Parse_EndDocument_TextIn()
+	test.before_testSax()
+	ch = contentHandler
+	ch.endDocument = function( this ) this.ended = true; end
+	parser = saxParser.makeParser()
+	parser.setContentHandler( ch )
+	parser.parse( "<xml/>" )
+	assertTrue( ch.ended )
+end
 
 
 ----------------------------------

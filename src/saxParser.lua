@@ -21,16 +21,18 @@
 --      parse( text )
 --      parse( file )
 
+
 contentHandler = {}
-function contentHandler.startDocument()
+-- normally the contentHandler is an object, where data structures are created in the new object.
+function contentHandler.startDocument( this )
 end
-function contentHandler.endDocument()
+function contentHandler.endDocument( this )
 end
-function contentHandler.startElement( tagName, attrs )
+function contentHandler.startElement( this, tagName, attrs )
 end
-function contentHandler.endElement( tagName )
+function contentHandler.endElement( this, tagName )
 end
-function contentHandler.characters( char )
+function contentHandler.characters( this, char )
 end
 
 saxParser = {}
@@ -48,11 +50,33 @@ function saxParser.setFeature()
 	-- research this
 end
 function saxParser.parse( fileIn )
+	f = io.open( fileIn, "r" )
+	if f then fileIn = f:read( "*all" ) end   -- read the contents of the file
 
+	-- call the startDocument method for the given contentHandler
+	if saxParser.contentHandler and saxParser.contentHandler.startDocument then
+		saxParser.contentHandler:startDocument()
+	end
+	-- for line in io.lines( f ) do
+	--
+	-- for each char in lua:
+
+	-- call the endDocument method for the given contentHandler
+	if saxParser.contentHandler and saxParser.contentHandler.endDocument then
+		saxParser.contentHandler:endDocument()
+	end
 end
 
 
+--[[
+loop over a string in lua:
+for i = , #str do
+	local c = str:sub( i, i )
 
 
+for c in str:match( "." ) do
+
+str:gsub( ".", function )
 
 
+]]
