@@ -1100,7 +1100,7 @@ function test.testSAX_setContentHandler()
 	--parser = nil
 	test.after_testSax()
 end
-function test.testSAX_Parse_StartDocument_TextIn()
+function test.notestSAX_Parse_StartDocument_TextIn()
 	test.before_testSax()
 	ch = contentHandler
 	ch.startDocument = function( this ) this.started = true; end
@@ -1109,7 +1109,7 @@ function test.testSAX_Parse_StartDocument_TextIn()
 	parser.parse( "<xml/>" )
 	assertTrue( ch.started )
 end
-function test.testSAX_Parse_StartDocument_FileIn()
+function test.notestSAX_Parse_StartDocument_FileIn()
 	test.before_testSax()
 	ch = contentHandler
 	ch.startDocument = function( this ) this.started = true; end
@@ -1118,7 +1118,7 @@ function test.testSAX_Parse_StartDocument_FileIn()
 	parser.parse( "../build.xml" )
 	assertTrue( ch.started )
 end
-function test.testSAX_Parse_StartDocument_NotGiven_TextIn()
+function test.notestSAX_Parse_StartDocument_NotGiven_TextIn()
 	test.before_testSax()
 	ch = contentHandler
 	ch.startDocument = nil
@@ -1127,7 +1127,7 @@ function test.testSAX_Parse_StartDocument_NotGiven_TextIn()
 	parser.parse( "<xml/>" )
 	assertIsNil( ch.started )
 end
-function test.testSAX_Parse_EndDocument_TextIn()
+function test.notestSAX_Parse_EndDocument_TextIn()
 	test.before_testSax()
 	ch = contentHandler
 	ch.endDocument = function( this ) this.ended = true; end
@@ -1136,8 +1136,36 @@ function test.testSAX_Parse_EndDocument_TextIn()
 	parser.parse( "<xml/>" )
 	assertTrue( ch.ended )
 end
-
-
+function test.testSAX_Pase_StartElement_TextIn()
+	-- affirm that the startElement method is called
+	test.before_testSax()
+	ch = contentHandler
+	ch.startElement = function( this, tagIn, attribs ) this.tagIn = tagIn; end
+	parser = saxParser.makeParser()
+	parser.setContentHandler( ch )
+	parser.parse( "<xml/>" )
+	assertEquals( "xml", ch.tagIn )
+end
+function test.testSAX_Pase_StartElementAttribs_TextIn()
+	-- affirm that the startElement method is called
+	test.before_testSax()
+	ch = contentHandler
+	ch.startElement = function( this, tagIn, attribs ) this.version = attribs["version"]; end
+	parser = saxParser.makeParser()
+	parser.setContentHandler( ch )
+	parser.parse( "<xml version=\"1\" />" )
+	assertEquals( "1", ch.version )
+end
+function test.testSAX_Pase_StartElementAttribs_TextIn2()
+	-- affirm that the startElement method is called
+	test.before_testSax()
+	ch = contentHandler
+	ch.startElement = function( this, tagIn, attribs ) this.version = attribs["version"]; end
+	parser = saxParser.makeParser()
+	parser.setContentHandler( ch )
+	parser.parse( "<xml version=\"2\"></xml>" )
+	assertEquals( "2", ch.version )
+end
 ----------------------------------
 -- Run the tests
 ----------------------------------
