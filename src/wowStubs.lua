@@ -1374,6 +1374,9 @@ end
 function ClearAchievementComparisonUnit()
 	-- mostly does nothing...
 end
+function SetRaidTarget( target, iconID )
+	-- sets the raid icon ID on target
+end
 function BNSendWhisper( id, msg )
 	table.insert( chatLog,
 			{ ["msg"] = msg, ["chatType"] = "BNWhisper", ["language"] = "", ["channel"] = "BNWhisper" }
