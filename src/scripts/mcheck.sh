@@ -18,7 +18,7 @@ fi
 
 # get the md5 of the src file
 SRCFILEMD5=`md5 -q "${SRCDIR}${SRCFILE}"`
-echo $SRCFILEMD5
+echo "MD5 (${SRCDIR}${SRCFILE}) = $SRCFILEMD5"
 
 # find all SRCFILES in subdirs, and get their md5, record to a file
 find $PWD -name $SRCFILE -exec md5 {} + > md5.out
