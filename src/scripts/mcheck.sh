@@ -22,6 +22,7 @@ echo $SRCFILEMD5
 
 # find all SRCFILES in subdirs, and get their md5, record to a file
 find $PWD -name $SRCFILE -exec md5 {} + > md5.out
+cat md5.out | grep -v src > md5.out
 
 # show the files who are different
 echo ">>> These files are different from $SRCDIR$SRCFILE"
@@ -29,18 +30,20 @@ grep -v $SRCFILEMD5 md5.out
 
 ######
 echo "---------------"
+if [ -s md5.out ]; then   # md5 file exists and is non-zero size
 
-echo "Run: $DIFF $SRCDIR$SRCFILE"
-while read line; do
-	# find filenames of changed files
-	CHANGEDFILE=`echo $line | grep -v $SRCFILEMD5 | cut -d'(' -f 2 | cut -d')' -f 1`
-	if [ ! -z "$CHANGEDFILE" ]; then
-		echo "	$CHANGEDFILE"
-		$DIFF $SRCDIR$SRCFILE $CHANGEDFILE
-		#echo "$?"
-	fi
-done < md5.out
+	echo "Run: $DIFF $SRCDIR$SRCFILE"
+	while read line; do
+		# find filenames of changed files
+		CHANGEDFILE=`echo $line | grep -v $SRCFILEMD5 | cut -d'(' -f 2 | cut -d')' -f 1`
+		if [ ! -z "$CHANGEDFILE" ]; then
+			echo "	$CHANGEDFILE"
+			$DIFF $SRCDIR$SRCFILE $CHANGEDFILE
+			#echo "$?"
+		fi
+	done < md5.out
 
+fi
 
 # these worked, sort of..
 
