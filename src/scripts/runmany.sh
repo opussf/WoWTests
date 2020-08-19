@@ -1,7 +1,7 @@
 #!/bin/bash
 ant clean
 mkdir -p target/reports
-for n in $(seq -f "%05g" 1 9999) ; do
+for n in $(seq -f "%05g" 9999 1) ; do
 	#echo "Running run $n"
 	reportFile="target/reports/testOut.xml"
 	ant test > target/reports/antout.txt
