@@ -34,9 +34,11 @@ echo "Run: $DIFF $SRCDIR$SRCFILE"
 while read line; do
 	# find filenames of changed files
 	CHANGEDFILE=`echo $line | grep -v $SRCFILEMD5 | cut -d'(' -f 2 | cut -d')' -f 1`
-	echo "	$CHANGEDFILE"
-	$DIFF $SRCDIR$SRCFILE $CHANGEDFILE
-	echo "$?"
+	if [ ! -z "$CHANGEDFILE" ]; then
+		echo "	$CHANGEDFILE"
+		$DIFF $SRCDIR$SRCFILE $CHANGEDFILE
+		#echo "$?"
+	fi
 done < md5.out
 
 
