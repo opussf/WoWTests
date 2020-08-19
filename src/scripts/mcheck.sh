@@ -36,7 +36,7 @@ while read line; do
 	CHANGEDFILE=`echo $line | grep -v $SRCFILEMD5 | cut -d'(' -f 2 | cut -d')' -f 1`
 	echo "	$CHANGEDFILE"
 	$DIFF $SRCDIR$SRCFILE $CHANGEDFILE
-	echo "$?"
+	#echo "$?"
 done < md5.out
 
 
