@@ -1109,7 +1109,7 @@ function test.notestSAX_Parse_StartDocument_TextIn()
 	parser.parse( "<xml/>" )
 	assertTrue( ch.started )
 end
-function test.notestSAX_Parse_StartDocument_FileIn()
+function test.testSAX_Parse_StartDocument_FileIn()
 	test.before_testSax()
 	ch = contentHandler
 	ch.startDocument = function( this ) this.started = true; end

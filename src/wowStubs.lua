@@ -381,7 +381,9 @@ Frame = {
 		["UnregisterEvent"] = function(self, event) self.Events[event] = nil; end,
 		["GetName"] = function(self) return self.framename end,
 		["SetFrameStrata"] = function() end,
+		["width"] = 100,
 		["SetWidth"] = function(self, value) self.width = value; end,
+		["GetWidth"] = function(self) return( self.width ); end,
 		["SetHeight"] = function(self, value) self.height = value; end,
 		["CreateFontString"] = function(self, ...) return(CreateFontString(...)) end,
 
@@ -1373,6 +1375,9 @@ function SetAchievementComparisonUnit( lookupStr )
 end
 function ClearAchievementComparisonUnit()
 	-- mostly does nothing...
+end
+function SetRaidTarget( target, iconID )
+	-- sets the raid icon ID on target
 end
 function BNSendWhisper( id, msg )
 	table.insert( chatLog,

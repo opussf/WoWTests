@@ -65,29 +65,34 @@ function saxParser.parse( fileIn )
 
 	tagName = ""
 	attributes = {}  -- start with an empty attributes table
-	attribKey = ""   --
-	attribValue = "" --
 	tagDepth = 0     -- how many tags deep
 
 	-- start by looking for a start tag
 	while( #fileIn > 0 ) do
-		print( fileIn )
+		print( "fileIn: "..string.sub( fileIn, 1, 50 ) )
 		if stateValue == 0 then  -- outside of a tag
-			local tagStart, tagEnd, tagName = string.find( fileIn, "^<(%S+)" )  -- tags start with a <
+			local tagStart, tagEnd, tagName = string.find( fileIn, "^<(%S+)[^/>]" )  -- tags start with a <
+			local tagEndStart, tagEndEnd, tagEndName = string.find( fileIn, "^</(%S+)>" )
 			if tagStart then
 				print( "Found a tag start: <"..tagName )
 				tagDepth = tagDepth + 1
 				stateValue = 1
 				attributes = {}
 				fileIn = string.sub( fileIn, tagEnd+1 )
-			end
-			tagEndStart, tagEndEnd, tagName = string.find( fileIn, "^</(%S+)>" )
-			if tagEndStart then
-				print( "Found a closing tag: </"..tagName..">" )
+			elseif tagEndStart then
+				print( "Found a closing tag: </"..tagEndName..">" )
 				tagDepth = tagDepth - 1
 				stateValue = 0
 				fileIn = string.sub( fileIn, tagEndEnd+1 )
+			else
+				c = string.sub( fileIn, 1, 1 )
+				if c ~= "<" then
+					print( "Char :"..c..":" )
+					saxParser.contentHandler:characters( c )
+					fileIn = string.sub( fileIn, 2 )
+				end
 			end
+
 		elseif stateValue == 1 then
 			local attribStart, attribEnd, key, value = string.find( fileIn, "^%s*(%S+)%s*=%s*[\"\'](%S*)[\"\']" )
 			if attribStart then
