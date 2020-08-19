@@ -381,7 +381,9 @@ Frame = {
 		["UnregisterEvent"] = function(self, event) self.Events[event] = nil; end,
 		["GetName"] = function(self) return self.framename end,
 		["SetFrameStrata"] = function() end,
+		["width"] = 100,
 		["SetWidth"] = function(self, value) self.width = value; end,
+		["GetWidth"] = function(self) return( self.width ); end,
 		["SetHeight"] = function(self, value) self.height = value; end,
 		["CreateFontString"] = function(self, ...) return(CreateFontString(...)) end,
 
