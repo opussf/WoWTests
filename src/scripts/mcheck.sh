@@ -18,15 +18,17 @@ fi
 
 # get the md5 of the src file
 SRCFILEMD5=`md5 -q "${SRCDIR}${SRCFILE}"`
-echo $SRCFILEMD5
+echo "MD5 (${SRCDIR}${SRCFILE}) = $SRCFILEMD5"
 
 # find all SRCFILES in subdirs, and get their md5, record to a file
 find $PWD -name $SRCFILE -exec md5 {} + > md5.out
-cat md5.out | grep -v src > md5.out
+cat md5.out | grep -v "src" > md5.out2
 
 # show the files who are different
 echo ">>> These files are different from $SRCDIR$SRCFILE"
-grep -v $SRCFILEMD5 md5.out
+grep -v $SRCFILEMD5 md5.out2 > md5.out
+rm md5.out2
+cat md5.out
 
 ######
 echo "---------------"

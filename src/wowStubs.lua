@@ -1572,10 +1572,10 @@ end
 -----------------------------------------
 -- TOC functions
 addonData = {}
-function ParseTOC( tocFile )
+function ParseTOC( tocFile, useRequire )
 	-- parse the TOC file for ## entries, and lua files to include
 	-- put ## entries in addonData hash - normally hard coded
-	-- require found lua files.
+	-- set useRequire to use the old require method
 	local tocFileTable = {}
 	local f = io.open( tocFile, "r" )
 	local tocContents = f:read( "*all" )
@@ -1595,13 +1595,27 @@ function ParseTOC( tocFile )
 			break
 		end
 	end
-	pathSeparator = string.sub(package.config, 1, 1) -- first character of this string (http://www.lua.org/manual/5.2/manual.html#pdf-package.config)
+	pathSeparator = string.sub(package.config, 1, 1)
+	-- first character of this string (http://www.lua.org/manual/5.2/manual.html#pdf-package.config)
 	includePath = tocFile
 	while( string.sub( includePath, -1, -1 ) ~= pathSeparator ) do
 		includePath = string.sub( includePath, 1, -2 )
 	end
-	package.path = includePath.."?.lua;" .. package.path
+	addonName = string.sub( tocFile, string.len( includePath ) + 1, -5 )
+
+	if( useRequire ) then
+		--add to the include package.path
+		package.path = includePath.."?.lua;" .. package.path
+	end
+
+	sharedTable = {}
+
 	for _,f in pairs( tocFileTable ) do
-		require( f )
+		if( useRequire ) then
+			require( f )
+		else
+			local loadedfile = assert( loadfile( includePath..f..".lua" ) )
+			loadedfile( addonName, sharedTable )
+		end
 	end
 end
