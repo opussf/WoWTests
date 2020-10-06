@@ -1578,44 +1578,46 @@ function ParseTOC( tocFile, useRequire )
 	-- set useRequire to use the old require method
 	local tocFileTable = {}
 	local f = io.open( tocFile, "r" )
-	local tocContents = f:read( "*all" )
-	while true do
-		local linestart, lineend, line = string.find( tocContents, "(.-)\n" )
-		if linestart then
-			local lua, luaEnd, luaFile = string.find( line, "([%a]*)%.lua" )
-			local xml, xmlEnd, xmlFile = string.find( line, "([%a]*)%.xml" )
-			local hash, hashEnd, hashKey, hashValue = string.find( line, "## ([%a]*): (.*)" )
-			if( hash ) then
-				addonData[ hashKey ] = hashValue
-			elseif( lua ) then
-				table.insert( tocFileTable, luaFile )
+	if f then
+		local tocContents = f:read( "*all" )
+		while true do
+			local linestart, lineend, line = string.find( tocContents, "(.-)\n" )
+			if linestart then
+				local lua, luaEnd, luaFile = string.find( line, "([%a]*)%.lua" )
+				local xml, xmlEnd, xmlFile = string.find( line, "([%a]*)%.xml" )
+				local hash, hashEnd, hashKey, hashValue = string.find( line, "## ([%a]*): (.*)" )
+				if( hash ) then
+					addonData[ hashKey ] = hashValue
+				elseif( lua ) then
+					table.insert( tocFileTable, luaFile )
+				end
+				tocContents = string.sub( tocContents, lineend+1 )
+			else
+				break
 			end
-			tocContents = string.sub( tocContents, lineend+1 )
-		else
-			break
 		end
-	end
-	pathSeparator = string.sub(package.config, 1, 1)
-	-- first character of this string (http://www.lua.org/manual/5.2/manual.html#pdf-package.config)
-	includePath = tocFile
-	while( string.sub( includePath, -1, -1 ) ~= pathSeparator ) do
-		includePath = string.sub( includePath, 1, -2 )
-	end
-	addonName = string.sub( tocFile, string.len( includePath ) + 1, -5 )
+		pathSeparator = string.sub(package.config, 1, 1)
+		-- first character of this string (http://www.lua.org/manual/5.2/manual.html#pdf-package.config)
+		includePath = tocFile
+		while( string.sub( includePath, -1, -1 ) ~= pathSeparator ) do
+			includePath = string.sub( includePath, 1, -2 )
+		end
+		addonName = string.sub( tocFile, string.len( includePath ) + 1, -5 )
 
-	if( useRequire ) then
-		--add to the include package.path
-		package.path = includePath.."?.lua;" .. package.path
-	end
-
-	sharedTable = {}
-
-	for _,f in pairs( tocFileTable ) do
 		if( useRequire ) then
-			require( f )
-		else
-			local loadedfile = assert( loadfile( includePath..f..".lua" ) )
-			loadedfile( addonName, sharedTable )
+			--add to the include package.path
+			package.path = includePath.."?.lua;" .. package.path
+		end
+
+		sharedTable = {}
+
+		for _,f in pairs( tocFileTable ) do
+			if( useRequire ) then
+				require( f )
+			else
+				local loadedfile = assert( loadfile( includePath..f..".lua" ) )
+				loadedfile( addonName, sharedTable )
+			end
 		end
 	end
 end
