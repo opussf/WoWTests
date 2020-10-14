@@ -19,8 +19,6 @@ chatLog = {
 -- [1] = { ["msg"] = "ChatOutput", ["channel"] = "where", [<other parameters>] = <values> }
 }
 
-
-
 local itemDB = {
 }
 
@@ -1621,3 +1619,29 @@ function ParseTOC( tocFile, useRequire )
 		end
 	end
 end
+
+
+
+---   https://wowwiki.fandom.com/wiki/AddOn_loading_process
+--[[ Load event order:
+
+After the addon code has been loaded, the loading process can be followed by registering for various events, listed here in order of firing.
+
+    ADDON_LOADED
+        This event fires whenever an AddOn has finished loading and the SavedVariables for that AddOn have been loaded from their file.
+    SPELLS_CHANGED
+        This event fires shortly before the PLAYER_LOGIN event and signals that information on the user's spells has been loaded and is available to the UI.
+    PLAYER_LOGIN
+        This event fires immediately before PLAYER_ENTERING_WORLD.
+        Most information about the game world should now be available to the UI.
+        All Sizing and Positioning of frames is supposed to be completed before this event fires.
+        AddOns that want to do one-time initialization procedures once the player has "entered the world" should use this event instead of PLAYER_ENTERING_WORLD.
+    PLAYER_ENTERING_WORLD
+        This event fires immediately after PLAYER_LOGIN
+        Most information about the game world should now be available to the UI. If this is an interface reload rather than a fresh log in, talent information should also be available.
+        All Sizing and Positioning of frames is supposed to be completed before this event fires.
+        This event also fires whenever the player enters/leaves an instance and generally whenever the player sees a loading screen
+    PLAYER_ALIVE
+        This event fires after PLAYER_ENTERING_WORLD
+        Quest and Talent information should now be available to the UI
+]]
