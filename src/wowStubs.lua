@@ -1569,30 +1569,6 @@ function C_CurrencyInfo.GetCurrencyLink( id )
 	end
 end
 
---[[
-		--local
-		--      = C_CurrencyInfo.GetCurrencyInfo( CurrencyID )
-
-[703] = { ["name"] = "Fictional Currency", ["texturePath"] = "", ["weeklyMax"] = 1000, ["totalMax"] = 4000, isDiscovered = true, ["link"] = "|cffffffff|Hcurrency:703|h[Fictional Currency]|h|r"},
-myCurrencies = { ["703"] = 5, }  -- Fictional currency?
-
-function GetCurrencyInfo( id ) -- id is integer, currencyLink, currencyString
-	-- integer, link, "currency:###"
-	-- http://wowprogramming.com/docs/api/GetCurrencyInfo
-	-- returns name, amount, texturePath, earnedThisWeek, weeklyMax, totalMax, isDiscovered
-	id = tostring(id)
-	if Currencies[id] then
-		local c = Currencies[id]
-		return c["name"], (myCurrencies[id] or 0), "", 0, c["weeklyMax"], c["totalMax"], true
-	end
-end
-function GetCurrencyListSize()
-	-- @TODO
-	return #Currencies
-end
-]]
-
-
 -----------------------------------------
 -- TOC functions
 addonData = {}
