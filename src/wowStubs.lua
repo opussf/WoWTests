@@ -1035,6 +1035,10 @@ function GetNumRoutes( nodeId )
 	-- returns numHops
 	return TaxiNodes[nodeId].hops
 end
+function GetNumSavedInstances()
+	-- @TODO: Research this
+	return 0
+end
 -- GetNumTradeSkills is deprecated
 --function GetNumTradeSkills( )
 --	-- returns number of lines in the tradeskill window to show
