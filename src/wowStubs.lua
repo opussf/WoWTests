@@ -1289,6 +1289,9 @@ function RegisterAddonMessagePrefix( prefix )
 	-- Cannot be empty.
 	-- What does this do?  In a bigger system, it could allow random messages to be generated
 end
+function RepairAllItems( useGuild )
+	-- performs rapir, uses guild money if useGuild is true
+end
 function RequestTimePlayed()
 end
 function Screenshot( )
