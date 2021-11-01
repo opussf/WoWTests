@@ -213,6 +213,8 @@ globals.FACTION_STANDING_LABEL6 = "Honored"
 globals.FACTION_STANDING_LABEL7 = "Revered"
 globals.FACTION_STANDING_LABEL8 = "Exalted"
 
+COMBATLOG_OBJECT_AFFILIATION_OUTSIDER = 8
+
 --			TT.fName, TT.fDescription, TT.fStandingId, TT.fBottomValue, TT.fTopValue, TT.fEarnedValue, TT.fAtWarWith,
 --					TT.fCanToggleAtWar, TT.fIsHeader, TT.fIsCollapsed, TT.fIsWatched, TT.isChild, TT.factionID,
 --					TT.hasBonusRepGain, TT.canBeLFGBonus = GetFactionInfo(factionIndex);
@@ -1412,7 +1414,8 @@ function UnitFactionGroup( who )
 	return unpack( Units[who].faction )
 end
 function UnitIsDeadOrGhost( who )
-
+end
+function UnitIsPVP( who )
 end
 function UnitLevel( who )
 	local unitLevels = {
