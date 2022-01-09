@@ -1,6 +1,6 @@
 -----------------------------------------
 -- Author  :  Opussf
--- Date    :  $Date:$
+-- Date    :  @TODAY@
 -- Revision:  @VERSION@
 -----------------------------------------
 -- These are functions from wow that have been needed by addons so far

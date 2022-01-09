@@ -705,7 +705,7 @@ function test.testStub_GetTradeSkillReagentInfo_ReagentCount()
 	local actual = select(3, GetTradeSkillReagentInfo( 1, 1 ) )
 	assertEquals( 4, actual )
 end
-function test.testStub_GetTradeSkillReagentInfo_PlayerReagentCount_Nil()
+function test.notestStub_GetTradeSkillReagentInfo_PlayerReagentCount_Nil()
 	local actual = select(4, GetTradeSkillReagentInfo( 1, 1 ) )
 	assertIsNil( actual )
 end
