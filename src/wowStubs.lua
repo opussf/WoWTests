@@ -736,6 +736,9 @@ function GetAchievementNumCriteria( achievementID )
 		return #Achievements[achievementID]["criteria"]
 	end
 end
+function GetSpecialization()
+	return 2
+end
 function GetStatistic( statID )
 	-- https://wow.gamepedia.com/API_GetStatistic
 
@@ -1411,6 +1414,9 @@ function UnitAura( unit, index, filter )
 end
 function UnitClass( who )
 	return Units[who].class
+end
+function UnitGUID( who )
+	return "playerGUID"
 end
 function UnitHealthMax( who )
 	-- http://wowwiki.wikia.com/wiki/API_UnitHealth
