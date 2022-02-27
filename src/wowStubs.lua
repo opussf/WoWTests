@@ -396,6 +396,9 @@ Frame = {
 		["SetStatusBarColor"] = function() end,
 		["SetScript"] = function() end,
 		["SetAttribute"] = function() end,
+
+		["SetChecked"] = function() end,
+		["SetText"] = function() end,
 }
 FrameGameTooltip = {
 		["HookScript"] = function( self, callback ) end,
