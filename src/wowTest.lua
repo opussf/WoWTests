@@ -1,7 +1,7 @@
 -----------------------------------------
 -- Author  :  Opussf
--- Date    :  $Date:$
--- VERSION :  @VERSION@
+-- Date    :  @TODAY@
+-- Revision:  @VERSION@
 -----------------------------------------
 -- This is an uber simple unit test implementation
 -- It creates a dictionary called test.
@@ -24,7 +24,7 @@ function assertEquals( expected, actual, msg )
 end
 function assertIsNil( expected, msg )
 	msg = msg or ("Failure: Expected nil value")
-	if expected and expected ~= nil then
+	if expected or expected ~= nil then
 		error( msg )
 	else
 		return 1
@@ -69,7 +69,7 @@ function test.toXML()
 		local f = assert( io.open( test.outFileName, "w"))
 		f:write(string.format("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"))
 		f:write(string.format(
-				"<testsuite errors=\"0\" failures=\"%i\" name=\"Lua.Tests\" tests=\"%i\" time=\"%0.3f\" timestamp=\"%s\">\n",
+				"<testsuite errors=\"\" failures=\"%i\" name=\"Lua.Tests\" tests=\"%i\" time=\"%0.3f\" timestamp=\"%s\">\n",
 				test.runInfo.fail, test.runInfo.count, test.runInfo.time, os.date("%Y-%m-%dT%X" ) ) )
 		f:write(string.format("\t<properties/>\n"))
 		for tName, tData in pairs( test.runInfo.testResults ) do
@@ -109,14 +109,13 @@ function test.run()
 			end
 			--print( status, exception )
 			if test.after then test.after() end
-			collectgarbage("collect")
 			test.runInfo.testResults[fName].runTime = os.clock() - testStartTime
 		end
 	end
 	test.runInfo.time = os.clock() - test.startTime
 	io.write("\n\n")
-	io.write(string.format("Tests: %i  Failed: %i (%0.2f%%)  Elapsed time: %0.3f",
-			test.runInfo.count, test.runInfo.fail, (test.runInfo.fail/test.runInfo.count)*100, test.runInfo.time ).."\n\n")
+	io.write(string.format("Tests: %i  Failed: %i  Elapsed time: %0.3f",
+			test.runInfo.count, test.runInfo.fail, test.runInfo.time ).."\n\n")
 	test.toXML()
 	if test.runInfo.fail and test.runInfo.fail > 0 then
 		os.exit(test.runInfo.fail)
