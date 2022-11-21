@@ -1187,6 +1187,8 @@ function IsInRaid()
 	-- myParty = { ["group"] = nil, ["raid"] = nil } -- set one of these to true to reflect being in group or raid.
 	return ( myParty["raid"] and 1 or nil )
 end
+function GetCursorInfo()
+end
 function GetInstanceInfo()
 	-- https://wowwiki.fandom.com/wiki/API_GetInstanceInfo
 	-- name, type, difficultyIndex, difficultyName, maxPlayers, dynamicDifficulty, isDynamic, instanceMapId, lfgID = GetInstanceInfo()
