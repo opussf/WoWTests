@@ -336,10 +336,10 @@ function test.testStub_GetCoinTextureString_SC()
 	assertEquals( "0G 23S 45C", GetCoinTextureString( 2345 ) )
 end
 function test.testStub_GetContainerNumFreeSlots_EmptyBackpack_FreeSlots()
-	assertEquals( 16, GetContainerNumFreeSlots( 0 ) )
+	assertEquals( 16, C_Container.GetContainerNumFreeSlots( 0 ) )
 end
 function test.testStub_GetContainerNumFreeSlots_EmptyBackpack_BagType()
-	assertEquals( 0, select( 2, GetContainerNumFreeSlots( 1 ) ) )
+	assertEquals( 0, select( 2, C_Container.GetContainerNumFreeSlots( 1 ) ) )
 end
 function test_testStub_GetContainerNumFreeSlots_FullBackpack_FreeSlots()
 	assertEquals( 0, GetContainerNumFreeSlots( 0 ) )

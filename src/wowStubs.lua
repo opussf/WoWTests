@@ -790,7 +790,21 @@ function GetCoinTextureString( copperIn, fontHeight )
 end
 function GetContainerItemLink( bagId, slotId )
 end
-function GetContainerNumFreeSlots( bagId )
+function GetContainerNumSlots( bagId )
+	-- http://wowwiki.wikia.com/wiki/API_GetContainerNumSlots
+	-- returns the number of slots in the bag, or 0 if no bag
+	if bagInfo[bagId] then
+		return bagInfo[bagId][1]
+	else
+		return 0
+	end
+end
+C_Container = {}
+function C_Container.GetBagSlotFlag( bagId, filterFlagCheck )
+	-- returns true if the filterFlagCheck matches the bag's filterFlag
+	return true
+end
+function C_Container.GetContainerNumFreeSlots( bagId )
 	-- http://www.wowwiki.com/API_GetContainerNumFreeSlots
 	-- http://www.wowwiki.com/BagType
 	-- returns numberOfFreeSlots, BagType
@@ -802,19 +816,6 @@ function GetContainerNumFreeSlots( bagId )
 	else
 		return 0, 0
 	end
-end
-function GetContainerNumSlots( bagId )
-	-- http://wowwiki.wikia.com/wiki/API_GetContainerNumSlots
-	-- returns the number of slots in the bag, or 0 if no bag
-	if bagInfo[bagId] then
-		return bagInfo[bagId][1]
-	else
-		return 0
-	end
-end
-function GetBagSlotFlag( bagId, filterFlagCheck )
-	-- returns true if the filterFlagCheck matches the bag's filterFlag
-	return true
 end
 function GetEquipmentSetItemIDs( setName )
 	-- http://wowprogramming.com/docs/api/GetEquipmentSetItemIDs
