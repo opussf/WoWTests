@@ -788,18 +788,13 @@ function GetCoinTextureString( copperIn, fontHeight )
 				(copper and copper.."C"))
 	end
 end
-function GetContainerItemLink( bagId, slotId )
-end
-function GetContainerNumSlots( bagId )
-	-- http://wowwiki.wikia.com/wiki/API_GetContainerNumSlots
-	-- returns the number of slots in the bag, or 0 if no bag
-	if bagInfo[bagId] then
-		return bagInfo[bagId][1]
-	else
-		return 0
-	end
-end
+
+
 C_Container = {}
+function C_Container.GetContainerItemInfo( bagId, slotId )
+end
+function C_Container.GetContainerItemLink( bagId, slotId )
+end
 function C_Container.GetBagSlotFlag( bagId, filterFlagCheck )
 	-- returns true if the filterFlagCheck matches the bag's filterFlag
 	return true
@@ -816,6 +811,17 @@ function C_Container.GetContainerNumFreeSlots( bagId )
 	else
 		return 0, 0
 	end
+end
+function C_Container.GetContainerNumSlots( bagId )
+	-- http://wowwiki.wikia.com/wiki/API_GetContainerNumSlots
+	-- returns the number of slots in the bag, or 0 if no bag
+	if bagInfo[bagId] then
+		return bagInfo[bagId][1]
+	else
+		return 0
+	end
+end
+function C_Container.UseContainerItem( bagId, slotId )
 end
 function GetEquipmentSetItemIDs( setName )
 	-- http://wowprogramming.com/docs/api/GetEquipmentSetItemIDs
@@ -1617,9 +1623,9 @@ function ParseTOC( tocFile, useRequire )
 		while true do
 			local linestart, lineend, line = string.find( tocContents, "(.-)\n" )
 			if linestart then
-				local lua, luaEnd, luaFile = string.find( line, "([%a]*)%.lua" )
-				local xml, xmlEnd, xmlFile = string.find( line, "([%a]*)%.xml" )
-				local hash, hashEnd, hashKey, hashValue = string.find( line, "## ([%a]*): (.*)" )
+				local lua, luaEnd, luaFile = string.find( line, "([_%a]*)%.lua" )
+				local xml, xmlEnd, xmlFile = string.find( line, "([_%a]*)%.xml" )
+				local hash, hashEnd, hashKey, hashValue = string.find( line, "## ([_%a]*): (.*)" )
 				if( hash ) then
 					addonData[ hashKey ] = hashValue
 				elseif( lua ) then
