@@ -214,6 +214,8 @@ globals.FACTION_STANDING_LABEL7 = "Revered"
 globals.FACTION_STANDING_LABEL8 = "Exalted"
 
 COMBATLOG_OBJECT_AFFILIATION_OUTSIDER = 8
+COMBATLOG_XPGAIN_FIRSTPERSON = "%s dies, you gain %d experience."
+COMBATLOG_XPGAIN_EXHAUSTION1 = "%s dies, you gain %d experience. (%s exp %s bonus)"
 
 --			TT.fName, TT.fDescription, TT.fStandingId, TT.fBottomValue, TT.fTopValue, TT.fEarnedValue, TT.fAtWarWith,
 --					TT.fCanToggleAtWar, TT.fIsHeader, TT.fIsCollapsed, TT.fIsWatched, TT.isChild, TT.factionID,
@@ -391,8 +393,8 @@ Frame = {
 		["GetHeight"] = function(self) return( self.height ); end,
 		["CreateFontString"] = function(self, ...) return(CreateFontString(...)) end,
 
-		["SetMinMaxValues"] = function() end,
-		["SetValue"] = function() end,
+		["SetMinMaxValues"] = function(self, min, max) self.min=min; self.max=max; end,
+		["SetValue"] = function(self, value) self.value=value end,
 		["SetStatusBarColor"] = function() end,
 		["SetScript"] = function() end,
 		["SetAttribute"] = function() end,
@@ -1205,6 +1207,9 @@ function GetInstanceInfo()
 end
 function GetDifficultyInfo( diffInt )
 	return dungeonDifficultyLookup[diffInt]
+end
+function GetFramerate()
+	return 8
 end
 function IsResting()
 	return true
