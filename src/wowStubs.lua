@@ -400,7 +400,8 @@ Frame = {
 		["SetAttribute"] = function() end,
 
 		["SetChecked"] = function() end,
-		["SetText"] = function() end,
+		["SetText"] = function(self, textIn) self.textValue = textIn; end,
+		["GetText"] = function(self) return( self.textValue ); end,
 }
 FrameGameTooltip = {
 		["HookScript"] = function( self, callback ) end,
