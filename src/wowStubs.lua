@@ -794,6 +794,7 @@ end
 
 
 C_Container = {}
+C_Container.SortBagsRightToLeft = false -- this is normal
 function C_Container.GetContainerItemInfo( bagId, slotId )
 end
 function C_Container.GetContainerItemLink( bagId, slotId )
@@ -823,6 +824,9 @@ function C_Container.GetContainerNumSlots( bagId )
 	else
 		return 0
 	end
+end
+function C_Container.GetSortBagsRightToLeft()
+	return C_Container.SortBagsRightToLeft
 end
 function C_Container.UseContainerItem( bagId, slotId )
 end
