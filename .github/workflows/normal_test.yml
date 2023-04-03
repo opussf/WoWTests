@@ -20,7 +20,8 @@ jobs:
     runs-on:
       - ubuntu-latest
     permissions:
-      contents: write
+      checks: write
+      pull-requests: write
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -49,11 +50,8 @@ jobs:
       - name: Build with ant
         run: ant package
 
-      # # https://github.com/marketplace/actions/test-reporter
-      # - name: Test Report
-      #   uses: dorny/test-reporter@v1.6.0
-      #   if: success() || failure()            # run this step even if previous step failed
-      #   with:
-      #     name: Ineed Tests                   # Name of the check run which will be created
-      #     path: target/reports/testOut.xml    # Path to test results
-      #     reporter: java-junit                # Format of test results
+      - name: Publish Unit Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2.6.1
+        if: always()
+        with:
+          files: target/reports/*.xml
