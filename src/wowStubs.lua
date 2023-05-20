@@ -58,6 +58,7 @@ unitSpeeds = { ["player"] = 0 }
 myStatistics = {
 	[60] = 42  -- 60 = deaths
 }
+myLocale = "enUS"
 
 registeredPrefixes = {}
 
@@ -416,9 +417,24 @@ FrameGameTooltip = {
 			_G[frameName.."TextLeft4"] = CreateFontString(frameName.."TextLeft4")
 		end,
 }
+        -- None = 0
+        -- Warrior = 1
+        -- Paladin = 2
+        -- Hunter = 3
+        -- Rogue = 4
+        -- Priest = 5
+        -- DeathKnight = 6
+        -- Shaman = 7
+        -- Mage = 8
+        -- Warlock = 9
+        -- Monk = 10
+        -- Druid = 11
+        -- Demon Hunter = 12
 Units = {
 	["player"] = {
 		["class"] = "Warlock",
+		["classCAPS"] = "WARLOCK",
+		["classIndex"] = 9,
 		["faction"] = {"Alliance", "Alliance"},
 		["name"] = "testPlayer",
 		["race"] = "Human",
@@ -430,6 +446,8 @@ Units = {
 	},
 	["sameRealmUnit"] = {
 		["class"] = "Warrior",
+		["classCAPS"] = "WARRIOR",
+		["classIndex"] = 1,
 		["faction"] = {"Alliance", "Alliance"},
 		["name"] = "sameRealmPlayer",
 		["race"] = "Gnome",
@@ -439,6 +457,8 @@ Units = {
 	},
 	["coalescedRealmUnit"] = {
 		["class"] = "Monk",
+		["classCAPS"] = "MONK",
+		["classIndex"] = 10,
 		["faction"] = {"Alliance", "Alliance"},
 		["name"] = "coalescedUnit",
 		["race"] = "Pandarian",
@@ -447,6 +467,8 @@ Units = {
 	},
 	["connectedRealmUnit"] = {
 		["class"] = "Mage",
+		["classCAPS"] = "MAGE",
+		["classIndex"] = 8,
 		["faction"] = {"Alliance", "Alliance"},
 		["name"] = "connectedUnit",
 		["realm"] = "connectedRealm",
@@ -917,6 +939,9 @@ function GetItemInfo( itemIn )
 	if Items[itemID] then
 		return Items[itemID].name, Items[itemID].link
 	end
+end
+function GetLocale()
+	return myLocale
 end
 function GetMastery()
 	return 21.3572
@@ -1445,7 +1470,7 @@ function UnitAura( unit, index, filter )
 	end
 end
 function UnitClass( who )
-	return Units[who].class
+	return Units[who].class, Units[who].classCAPS, Units[who].classIndex
 end
 function UnitGUID( who )
 	return "playerGUID"
