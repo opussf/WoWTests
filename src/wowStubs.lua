@@ -58,6 +58,7 @@ unitSpeeds = { ["player"] = 0 }
 myStatistics = {
 	[60] = 42  -- 60 = deaths
 }
+myLocale = "enUS"
 
 registeredPrefixes = {}
 
@@ -938,6 +939,9 @@ function GetItemInfo( itemIn )
 	if Items[itemID] then
 		return Items[itemID].name, Items[itemID].link
 	end
+end
+function GetLocale()
+	return myLocale
 end
 function GetMastery()
 	return 21.3572
