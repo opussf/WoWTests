@@ -69,6 +69,7 @@ SlotListMap={ "HeadSlot","NeckSlot","ShoulderSlot","ShirtSlot","ChestSlot","Wais
 }
 myGear = {} -- items that are equipped in the above slots, index matching
 Items = {
+	["6948"] = {["name"] = "Hearthstone", ["link"] = "|cffffffff|Hitem:6948::::::::70:258:::::::::|h[Hearthstone]|h|r", ["texture"] = ""},
 	["7073"] = {["name"] = "Broken Fang", ["link"] = "|cff9d9d9d|Hitem:7073:0:0:0:0:0:0:0:80:0:0|h[Broken Fang]|h|r", ["texture"] = ""},
 	["6742"] = {["name"] = "UnBroken Fang", ["link"] = "|cff9d9d9d|Hitem:6742:0:0:0:0:0:0:0:80:0:0|h[UnBroken Fang]|h|r", ["texture"] = ""},
 	["22261"] = {["name"] = "Love Fool", ["link"] = "|cff9d9d9d|Hitem:22261:0:0:0:0:0:0:0:80:0:0|h[Love Fool]|h|r", ["texture"] = ""},
@@ -400,7 +401,7 @@ Frame = {
 		["SetMinMaxValues"] = function(self, min, max) self.min=min; self.max=max; end,
 		["SetValue"] = function(self, value) self.value=value end,
 		["SetStatusBarColor"] = function() end,
-		["SetScript"] = function() end,
+		["SetScript"] = function(self, event, func) end,
 		["SetAttribute"] = function() end,
 
 		["SetChecked"] = function() end,
@@ -1662,6 +1663,38 @@ Enum.TooltipDataType.Item = 0
 
 TooltipDataProcessor = {}
 function TooltipDataProcessor.AddTooltipPostCall()
+end
+
+----------
+-- Macros
+----------
+myMacros = {}  -- ["macroName"] = { ["icon"] = "", ["text"] = "", ["isLocal"] = true }
+function GetMacroInfo( macroName )
+	-- returns:  macroName, macroIcon, macroText, isLocal (bool)
+	if myMacros[macroName] then
+		return macroName, myMacros[macroName][icon], myMacros[macroName][text], myMacros[macroName][isLocal] or false
+	end
+end
+function CreateMacro( macroName, macroIcon, macroText, perChar )
+	-- returns: macroID
+	if macroName and not myMacros[macroName] then
+		myMacros[macroName] = { ["icon"] = macroIcon, ["text"] = macroText }
+		return 1 -- return the ID
+	end
+end
+function EditMacto( macroName, newName, newIcon, body, islocal, perChar )
+	-- returns: new macroID
+	if macroName and myMacros[macroName] then
+		if newName then
+			myMacros[newName] = myMacros[macroName]
+			macroName = newName
+		end
+		if newIcon then
+			myMacros[macroName].icon = newIcon
+		end
+		myMacros[macroName].text = body
+		return 1 -- return the ID
+	end
 end
 
 -----------------------------------------
