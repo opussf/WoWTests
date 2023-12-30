@@ -1699,6 +1699,24 @@ function EditMacto( macroName, newName, newIcon, body, islocal, perChar )
 	end
 end
 
+--------
+-- C_ChatInfo
+--------
+C_ChatInfo = {}
+function C_ChatInfo.IsAddonMessagePrefixRegistered( prefix )
+	return true
+end
+function C_ChatInfo.RegisterAddonMessagePrefix( prefix )
+end
+function C_ChatInfo.SendAddonMessage()
+	return true
+end
+
+-----------------------------------------
+-- XML functions
+function ParseXML( xmlFile )
+end
+
 -----------------------------------------
 -- TOC functions
 addonData = {}
