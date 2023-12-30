@@ -408,6 +408,7 @@ Frame = {
 		["SetText"] = function(self, textIn) self.textValue = textIn; end,
 		["GetText"] = function(self) return( self.textValue ); end,
 		["SetFrameLevel"] = function(self) end,
+		["SetAlpha"] = function(self, value) end,
 }
 FrameGameTooltip = {
 		["HookScript"] = function( self, callback ) end,
