@@ -1733,6 +1733,7 @@ end
 -----------------------------------------
 -- XML functions
 function ParseXML( xmlFile )
+	print("parse: "..xmlFile )
 end
 
 -----------------------------------------
@@ -1755,7 +1756,9 @@ function ParseTOC( tocFile, useRequire )
 				if( hash ) then
 					addonData[ hashKey ] = hashValue
 				elseif( lua ) then
-					table.insert( tocFileTable, luaFile )
+					table.insert( tocFileTable, { "lua", luaFile } )
+				elseif( xml ) then
+					table.insert( tocFileTable, { "xml", xmlFile } )
 				end
 				tocContents = string.sub( tocContents, lineend+1 )
 			else
@@ -1774,15 +1777,18 @@ function ParseTOC( tocFile, useRequire )
 			--add to the include package.path
 			package.path = includePath.."?.lua;" .. package.path
 		end
-
 		sharedTable = {}
 
 		for _,f in pairs( tocFileTable ) do
-			if( useRequire ) then
-				require( f )
-			else
-				local loadedfile = assert( loadfile( includePath..f..".lua" ) )
-				loadedfile( addonName, sharedTable )
+			if( f[1] == "lua" ) then
+				if( useRequire ) then
+					require( f[2] )
+				else
+					local loadedfile = assert( loadfile( includePath..f[2]..".lua" ) )
+					loadedfile( addonName, sharedTable )
+				end
+			elseif( f[1] == "xml" ) then
+				ParseXML( includePath..f[2]..".xml" )
 			end
 		end
 	end
