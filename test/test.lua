@@ -1009,6 +1009,23 @@ function test.notestStub_Frame_rightFrameIsHidden()
 	assertTrue( frame2:IsVisible() )
 	assertFalse( frame1:IsVisible() )
 end
+function test.testStub_Frame_ClearAllPoints()
+	-- https://wowwiki-archive.fandom.com/wiki/API_Region_SetPoint
+	frame0 = CreateFrame("frame0")
+	frame = CreateFrame("frame")
+	frame.points = {{"TOP", frame0, "TOP", 0, 0}}
+	frame:ClearAllPoints()
+	assertEquals( 0, #frame.points )
+end
+function test.testStub_Frame_SetPoint_noOffset()
+	frame0 = CreateFrame("frame0")
+	frame = CreateFrame("frame")
+	frame:ClearAllPoints()
+	frame:SetPoint("BOTTOMLEFT", "frame0", "BOTTOMLEFT")
+	assertEquals( "BOTTOMLEFT", frame.points[1][1] )
+	--assertEquals( "$parent", frame.points[1][2]:GetName() )
+	assertEquals( "BOTTOMLEFT", frame.points[1][3] )
+end
 
 -----
 ----- Connected realm relationship
