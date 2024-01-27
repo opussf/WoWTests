@@ -1,5 +1,5 @@
-<project name="MeToo" default="package">
-	<!-- version 7.1 -->
+<project name="" default="package">
+	<!-- version 7.3 -->
 
 	<tstamp/>
 	<property file="build.properties"/>
@@ -136,11 +136,30 @@
 
 	<target name="curse" depends="package" description="copy files to a folder for deploy to curseforge">
 		<property name="curse.dir" location="${ant.project.name}-cf"/>
+		<exec executable="git" dir="${curse.dir}" failifexecutionfails="true" errorproperty="">
+			<arg line="reset --hard HEAD" />
+		</exec>
 		<copy todir="${curse.dir}">
 			<fileset dir="${package.dir}"/>
 		</copy>
 		<exec executable="git" dir="${curse.dir}" failifexecutionfails="true" errorproperty="">
 			<arg line="status" />
+		</exec>
+		<fail message="Not a tagged release.">
+			<condition>
+				<not>
+					<equals arg1="${version.number}" arg2="${git.tag}"/>
+				</not>
+			</condition>
+		</fail>
+		<exec executable="git" dir="${curse.dir}" failifexecutionfails="true" errorproperty="">
+			<arg line="add ." />
+		</exec>
+		<exec executable="git" dir="${curse.dir}" failifexecutionfails="true" errorproperty="">
+			<arg line="commit -a -m '${git.tag}'" />
+		</exec>
+		<exec executable="git" dir="${curse.dir}" failifexecutionfails="true" errorproperty="">
+			<arg line="tag -a ${git.tag} -m '${git.tag}'" />
 		</exec>
 	</target>
 </project>
