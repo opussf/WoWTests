@@ -1044,6 +1044,29 @@ end
 
 -----
 ----- TOC tests
+function CreateFile( filename, contents )
+	pathSeparator = string.sub( package.config, 1, 1 ) -- first character of this string (http://www.lua.org/manual/5.2/manual.html#pdf-package.config)
+	filePathTable = {
+		os.getenv( "PWD" ),
+		"target",
+		filename,
+	}
+	tocFile = table.concat( filePathTable, pathSeparator )
+	file, err = io.open( tocFile, "w" )
+	if err then
+		print( err )
+	else
+		file:write( contents )
+		io.close( file )
+	end
+	return tocFile
+end
+function test.testTOC_()
+	CreateFile( "test.xml", "<Ui>\n</Ui>\n" )
+	CreateFile( "test.lua", "print(\"hi\")\n")
+	generatedFile = CreateFile( "test.toc", "test.lua\ntest.xml\n" )
+	ParseTOC( generatedFile )
+end
 
 
 ----- Sax tests
