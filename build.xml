@@ -91,6 +91,7 @@
 			</fileset>
 			<filterset>
 				<filter token="VERSION" value="${version.number}"/>
+				<filter token="TODAY" value="${TODAY}"/>
 			</filterset>
 		</copy>
 		<zip 	destfile="${target.dir}/${project.zip}"

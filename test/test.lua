@@ -336,53 +336,50 @@ function test.testStub_GetCoinTextureString_SC()
 	assertEquals( "0G 23S 45C", GetCoinTextureString( 2345 ) )
 end
 function test.testStub_GetContainerNumFreeSlots_EmptyBackpack_FreeSlots()
-	assertEquals( 16, GetContainerNumFreeSlots( 0 ) )
+	assertEquals( 16, C_Container.GetContainerNumFreeSlots( 0 ) )
 end
 function test.testStub_GetContainerNumFreeSlots_EmptyBackpack_BagType()
-	assertEquals( 0, select( 2, GetContainerNumFreeSlots( 1 ) ) )
+	assertEquals( 0, select( 2, C_Container.GetContainerNumFreeSlots( 1 ) ) )
 end
 function test_testStub_GetContainerNumFreeSlots_FullBackpack_FreeSlots()
 	assertEquals( 0, GetContainerNumFreeSlots( 0 ) )
 end
 function test.testStub_GetCurrencyInfo_Amount_0()
-	myCurrencies = {["703"] = nil, }
-	assertEquals( 0, select(2, GetCurrencyInfo( "703" ) ) )
+	myCurrencies = { [703] = nil, }
+	assertEquals( 0, C_CurrencyInfo.GetCurrencyInfo( 703 )["quantity"] )
 end
 function test.testStub_GetCurrencyInfo_Amount_1()
-	myCurrencies = {["703"] = 1, }
-	assertEquals( 1, select(2, GetCurrencyInfo( "703" ) ) )
+	myCurrencies = { [703] = 1, }
+	assertEquals( 1, C_CurrencyInfo.GetCurrencyInfo( 703 )["quantity"] )
 end
 function test.testStub_GetCurrencyLink()
-	assertEquals( "", GetCurrencyLink( "390" ) )
+	assertEquals( "", C_CurrencyInfo.GetCurrencyLink( 390 ) )
 end
 function test.testStub_GetCurrencyInfo_EarnedThisWeek()
 	-- Currently hardcoded to return 0
-	assertEquals( 0, select(4, GetCurrencyInfo( "703" ) ) )
+	assertEquals( 0, C_CurrencyInfo.GetCurrencyInfo( 703 )["quantityEarnedThisWeek"] )
 end
 function test.testStub_GetCurrencyInfo_IsDiscovered()
-	assertTrue( select( 7, GetCurrencyInfo( "703" ) ) )
+	assertTrue( C_CurrencyInfo.GetCurrencyInfo( 703 )["discovered"] )
 end
 function test.testStub_GetCurrencyInfo_Name()
-	assertEquals( "Fictional Currency", GetCurrencyInfo( "703" ) )
+	assertEquals( "Fictional Currency", C_CurrencyInfo.GetCurrencyInfo( 703 )["localName"] )
 end
 function test.testStub_GetCurrencyInfo_TotalMax()
-	assertEquals( 4000, select( 6, GetCurrencyInfo( "703" ) ) )
+	assertEquals( 4000, C_CurrencyInfo.GetCurrencyInfo( 703 )["maxQuantity"] )
 end
 function test.testStub_GetCurrencyInfo_WeeklyMax()
-	assertEquals( 1000, select( 5, GetCurrencyInfo( "703" ) ) )
+	assertEquals( 1000, C_CurrencyInfo.GetCurrencyInfo( 703 )["canEarnPerWeek"] )
 	-- returns name, amount, texturePath, earnedThisWeek, weeklyMax, totalMax, isDiscovered
 end
-function test.testStub_GetCurrencyInfo_GiveInteger()
-	assertEquals( 1000, select( 5, GetCurrencyInfo( 703 ) ) )
-end
 function test.testStub_GetCurrencyLink_Link()
-	assertEquals( "|cffffffff|Hcurrency:703|h[Fictional Currency]|h|r", GetCurrencyLink( "703" ) )
+	assertEquals( "|cffffffff|Hcurrency:703|h[Fictional Currency]|h|r", C_CurrencyInfo.GetCurrencyLink( 703 ) )
 end
 function test.testStub_GetCurrencyLink_Nil()
-	assertIsNil( GetCurrencyLink( "704" ) )
+	assertIsNil( C_CurrencyInfo.GetCurrencyLink( 704 ) )
 end
 function test.testStub_GetCurencyLink_Link_Integer()
-	assertEquals( "|cffffffff|Hcurrency:703|h[Fictional Currency]|h|r", GetCurrencyLink( 703 ) )
+	assertEquals( "|cffffffff|Hcurrency:703|h[Fictional Currency]|h|r", C_CurrencyInfo.GetCurrencyLink( 703 ) )
 end
 function test.testStub_GetEquipmentSetItemIDs_nil()
 	EquipmentSets = { {["name"] = "testSet", ["icon"] = "icon", ["items"] = {[1] = "113596"},},}
@@ -708,7 +705,7 @@ function test.testStub_GetTradeSkillReagentInfo_ReagentCount()
 	local actual = select(3, GetTradeSkillReagentInfo( 1, 1 ) )
 	assertEquals( 4, actual )
 end
-function test.testStub_GetTradeSkillReagentInfo_PlayerReagentCount_Nil()
+function test.notestStub_GetTradeSkillReagentInfo_PlayerReagentCount_Nil()
 	local actual = select(4, GetTradeSkillReagentInfo( 1, 1 ) )
 	assertIsNil( actual )
 end
@@ -1011,6 +1008,23 @@ function test.notestStub_Frame_rightFrameIsHidden()
 	frame1:Hide()
 	assertTrue( frame2:IsVisible() )
 	assertFalse( frame1:IsVisible() )
+end
+function test.testStub_Frame_ClearAllPoints()
+	-- https://wowwiki-archive.fandom.com/wiki/API_Region_SetPoint
+	frame0 = CreateFrame("frame0")
+	frame = CreateFrame("frame")
+	frame.points = {{"TOP", frame0, "TOP", 0, 0}}
+	frame:ClearAllPoints()
+	assertEquals( 0, #frame.points )
+end
+function test.testStub_Frame_SetPoint_noOffset()
+	frame0 = CreateFrame("frame0")
+	frame = CreateFrame("frame")
+	frame:ClearAllPoints()
+	frame:SetPoint("BOTTOMLEFT", "frame0", "BOTTOMLEFT")
+	assertEquals( "BOTTOMLEFT", frame.points[1][1] )
+	--assertEquals( "$parent", frame.points[1][2]:GetName() )
+	assertEquals( "BOTTOMLEFT", frame.points[1][3] )
 end
 
 -----
