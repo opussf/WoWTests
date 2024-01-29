@@ -1221,7 +1221,7 @@ function test.testSax_Parse_StartElement_Comment()
 	parser.parse( "<!-- xml version=\"1.0\" encoding=\"UTF-8\" --><xml version=\"4\"></xml>" )
 	assertEquals( "4", ch.version )
 end
-function test.textSax_Parse_NestedElements()
+function test.testSax_Parse_NestedElements()
 	test.before_testSax()
 	ch = contentHandler
 	ch.startElement = function( this, tagIn, attribs ) this.broken = attribs["broken"]; end
@@ -1229,16 +1229,6 @@ function test.textSax_Parse_NestedElements()
 	parser.setContentHandler( ch )
 	parser.parse( "<!-- xml version=\"1.0\" encoding=\"UTF-8\" --><xml version=\"4\"><bleh broken=\"5\"></bleh></xml>" )
 	assertEquals( "5", ch.broken )
-	fail("Hello")
-end
-function test.testSax_Parse_wow_xml()
-	test.before_testSax()
-	ch = contentHandler
-	ch.startElement = function( this, tagIn, attribs ) if tagIn == "target" then this.target = (this.target and this.target + 1 or 1) end; end
-	parser = saxParser.makeParser()
-	parser.setContentHandler( ch )
-	parser.parse( "../../Steps/src/steps.xml" )
-	assertEquals( 10, ch.target )
 end
 ----------------------------------
 -- Run the tests

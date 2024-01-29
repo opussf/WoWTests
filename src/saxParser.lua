@@ -76,7 +76,7 @@ function saxParser.parse( fileIn )
 	chars = ""
 
 	while( #fileIn > 0 ) do
-		print( currentState[1].."\t"..#fileIn, "fileIn: "..string.sub( fileIn, 1, 60 ) )
+		-- print( currentState[1].."\t"..#fileIn, "fileIn: "..string.sub( fileIn, 1, 60 ) )
 		c = string.sub( fileIn, 1, 1 )
 		n = string.sub( fileIn, 2, 2 )
 		handled = false
