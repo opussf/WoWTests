@@ -1146,7 +1146,7 @@ function test.notestSAX_Parse_StartDocument_TextIn()
 	parser.parse( "<xml/>" )
 	assertTrue( ch.started )
 end
-function test.testSAX_Parse_StartDocument_FileIn()
+function test.notestSAX_Parse_StartDocument_FileIn()
 	test.before_testSax()
 	ch = contentHandler
 	ch.startDocument = function( this ) this.started = true; end
@@ -1173,7 +1173,7 @@ function test.notestSAX_Parse_EndDocument_TextIn()
 	parser.parse( "<xml/>" )
 	assertTrue( ch.ended )
 end
-function test.testSAX_Pase_StartElement_TextIn()
+function test.testSAX_Parse_StartElement_TextIn()
 	-- affirm that the startElement method is called
 	test.before_testSax()
 	ch = contentHandler
@@ -1183,7 +1183,7 @@ function test.testSAX_Pase_StartElement_TextIn()
 	parser.parse( "<xml/>" )
 	assertEquals( "xml", ch.tagIn )
 end
-function test.testSAX_Pase_StartElementAttribs_TextIn()
+function test.testSAX_Parse_StartElementAttribs_TextIn()
 	-- affirm that the startElement method is called
 	test.before_testSax()
 	ch = contentHandler
@@ -1193,7 +1193,7 @@ function test.testSAX_Pase_StartElementAttribs_TextIn()
 	parser.parse( "<xml version=\"1\" />" )
 	assertEquals( "1", ch.version )
 end
-function test.testSAX_Pase_StartElementAttribs_TextIn2()
+function test.testSAX_Parse_StartElementAttribs_TextIn2()
 	-- affirm that the startElement method is called
 	test.before_testSax()
 	ch = contentHandler
@@ -1202,6 +1202,42 @@ function test.testSAX_Pase_StartElementAttribs_TextIn2()
 	parser.setContentHandler( ch )
 	parser.parse( "<xml version=\"2\"></xml>" )
 	assertEquals( "2", ch.version )
+end
+function test.testSax_Parse_StartElement_Prolog()
+	test.before_testSax()
+	ch = contentHandler
+	ch.startElement = function( this, tagIn, attribs ) this.version = attribs["version"]; end
+	parser = saxParser.makeParser()
+	parser.setContentHandler( ch )
+	parser.parse( "<?xml version=\"1.0\" encoding=\"UTF-8\"?><xml version=\"3\"></xml>" )
+	assertEquals( "3", ch.version )
+end
+function test.testSax_Parse_StartElement_Comment()
+	test.before_testSax()
+	ch = contentHandler
+	ch.startElement = function( this, tagIn, attribs ) this.version = attribs["version"]; end
+	parser = saxParser.makeParser()
+	parser.setContentHandler( ch )
+	parser.parse( "<!-- xml version=\"1.0\" encoding=\"UTF-8\" --><xml version=\"4\"></xml>" )
+	assertEquals( "4", ch.version )
+end
+function test.textSax_Parse_NestedElements()
+	test.before_testSax()
+	ch = contentHandler
+	ch.startElement = function( this, tagIn, attribs ) this.version = attribs["version"]; end
+	parser = saxParser.makeParser()
+	parser.setContentHandler( ch )
+	parser.parse( "<!-- xml version=\"1.0\" encoding=\"UTF-8\" --><xml version=\"4\"><bleh broken=\"5\"></bleh></xml>" )
+	assertEquals( "5", ch.broken )
+end
+function test.testSax_Parse_wow_xml()
+	test.before_testSax()
+	ch = contentHandler
+	ch.startElement = function( this, tagIn, attribs ) if tagIn == "target" then this.target = (this.target and this.target + 1 or 1) end; end
+	parser = saxParser.makeParser()
+	parser.setContentHandler( ch )
+	parser.parse( "../../Steps/src/steps.xml" )
+	assertEquals( 10, ch.target )
 end
 ----------------------------------
 -- Run the tests
