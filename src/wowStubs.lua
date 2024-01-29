@@ -1735,7 +1735,7 @@ end
 require "saxParser"
 function ParseXML( xmlFile )
 	ch = contentHandler
-	ch.startElement = function( self, tagIn, attribs ) 
+	ch.startElement = function( self, tagIn, attribs )
 		print( tagIn )
 		if _G["Create"..tagIn] then
 			if attribs.name then
