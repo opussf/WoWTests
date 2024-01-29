@@ -146,10 +146,7 @@ function saxParser.parse( fileIn )
 				fileIn = string.sub( fileIn, (n==">" and 3 or 2) )
 			end
 		end
-		-- print( "elementDepth: " )
-		-- for _, v in pairs( elementDepth ) do
-		-- 	print( "\t"..v )
-		-- end
+		-- print( "elementDepth: "..table.concat( elementDepth, "\t" ) )
 	end
 
 	-- call the endDocument method for the given contentHandler
