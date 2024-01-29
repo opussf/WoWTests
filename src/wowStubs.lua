@@ -1732,8 +1732,25 @@ end
 
 -----------------------------------------
 -- XML functions
+require "saxParser"
 function ParseXML( xmlFile )
+	ch = contentHandler
+	ch.startElement = function( self, tagIn, attribs ) 
+		print( tagIn )
+		if _G["Create"..tagIn] then
+			if attribs.name then
+				_G[attribs.name] = _G["Create"..tagIn]( attribs.name )
+				_G[attribs.name].framename = attribs.name
+			else
+				fail("A "..tagIn.." needs a name")
+			end
+		end
+	end
+	parser = saxParser.makeParser()
+	parser.setContentHandler( ch )
+	parser.parse( xmlFile )
 	print("parse: "..xmlFile )
+	print( topFrame:GetName() )
 end
 
 -----------------------------------------

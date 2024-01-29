@@ -1062,7 +1062,7 @@ function CreateFile( filename, contents )
 	return tocFile
 end
 function test.testTOC_()
-	CreateFile( "test.xml", "<Ui>\n</Ui>\n" )
+	CreateFile( "test.xml", "<Ui>\n<Frame name=\"topFrame\"></Ui>\n" )
 	CreateFile( "test.lua", "print(\"hi\")\n")
 	generatedFile = CreateFile( "test.toc", "test.lua\ntest.xml\n" )
 	ParseTOC( generatedFile )

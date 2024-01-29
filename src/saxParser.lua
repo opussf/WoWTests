@@ -42,7 +42,7 @@ saxParser = {}
 -- SAX Parser
 -- interface
 function saxParser.makeParser()
-	-- make a parser.  This is probably intended to be a
+	-- make a parser.  This is probably intended to be a factory function
 	return saxParser
 end
 function saxParser.setContentHandler( contentHandlerIn )
