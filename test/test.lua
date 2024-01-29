@@ -1164,7 +1164,7 @@ function test.notestSAX_Parse_StartDocument_NotGiven_TextIn()
 	parser.parse( "<xml/>" )
 	assertIsNil( ch.started )
 end
-function test.notestSAX_Parse_EndDocument_TextIn()
+function test.testSAX_Parse_EndDocument_TextIn()
 	test.before_testSax()
 	ch = contentHandler
 	ch.endDocument = function( this ) this.ended = true; end
@@ -1224,11 +1224,12 @@ end
 function test.textSax_Parse_NestedElements()
 	test.before_testSax()
 	ch = contentHandler
-	ch.startElement = function( this, tagIn, attribs ) this.version = attribs["version"]; end
+	ch.startElement = function( this, tagIn, attribs ) this.broken = attribs["broken"]; end
 	parser = saxParser.makeParser()
 	parser.setContentHandler( ch )
 	parser.parse( "<!-- xml version=\"1.0\" encoding=\"UTF-8\" --><xml version=\"4\"><bleh broken=\"5\"></bleh></xml>" )
 	assertEquals( "5", ch.broken )
+	fail("Hello")
 end
 function test.testSax_Parse_wow_xml()
 	test.before_testSax()
