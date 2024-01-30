@@ -1789,11 +1789,8 @@ function saxParser.parse( fileIn )
 	-- loop through each char
 	State = {
 		Outside       = { 0 },  -- outside of a tag
-		ElementName   = { 1 },
-		InElement     = { 2 },  -- 
-		-- InAttrName    = { 2 },
-		-- InTag     = { 2 },  -- in a tag name
-		-- InElement = { 3 },
+		ElementName   = { 1 },  -- When to parse for a name
+		InElement     = { 2 },  -- In the element
 	}
 	currentState = State.Outside
 	elementDepth = {}   -- table of current element depth
