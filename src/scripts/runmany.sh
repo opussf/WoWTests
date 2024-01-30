@@ -8,11 +8,12 @@ for n in $(seq -f "%05g" 9999 1) ; do
 	if [ ! "$?" == "0" ]; then
 		cp target/reports/antout.txt target/reports/antOut$n.txt
 		#mv $reportFile target/reports/testOut$n.xml
-		ls -alt target/reports/testOut$n.xml
+		ls -alt $reportFile
 		until $(~/Scripts/checkFileChanged.sh ./test/test.lua); do
 			sleep 1
 		done
 	else
-		ls -alt $reportFile
+		#ls -alt $reportFile
+		sleep 1
 	fi
 done

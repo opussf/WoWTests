@@ -1009,6 +1009,23 @@ function test.notestStub_Frame_rightFrameIsHidden()
 	assertTrue( frame2:IsVisible() )
 	assertFalse( frame1:IsVisible() )
 end
+function test.testStub_Frame_ClearAllPoints()
+	-- https://wowwiki-archive.fandom.com/wiki/API_Region_SetPoint
+	frame0 = CreateFrame("frame0")
+	frame = CreateFrame("frame")
+	frame.points = {{"TOP", frame0, "TOP", 0, 0}}
+	frame:ClearAllPoints()
+	assertEquals( 0, #frame.points )
+end
+function test.testStub_Frame_SetPoint_noOffset()
+	frame0 = CreateFrame("frame0")
+	frame = CreateFrame("frame")
+	frame:ClearAllPoints()
+	frame:SetPoint("BOTTOMLEFT", "frame0", "BOTTOMLEFT")
+	assertEquals( "BOTTOMLEFT", frame.points[1][1] )
+	--assertEquals( "$parent", frame.points[1][2]:GetName() )
+	assertEquals( "BOTTOMLEFT", frame.points[1][3] )
+end
 
 -----
 ----- Connected realm relationship
@@ -1027,8 +1044,191 @@ end
 
 -----
 ----- TOC tests
+function CreateFile( filename, contents )
+	pathSeparator = string.sub( package.config, 1, 1 ) -- first character of this string (http://www.lua.org/manual/5.2/manual.html#pdf-package.config)
+	filePathTable = {
+		os.getenv( "PWD" ),
+		"target",
+		filename,
+	}
+	tocFile = table.concat( filePathTable, pathSeparator )
+	file, err = io.open( tocFile, "w" )
+	if err then
+		print( err )
+	else
+		file:write( contents )
+		io.close( file )
+	end
+	return tocFile
+end
+function test.testTOC_()
+	CreateFile( "test.xml", "<Ui>\n<Frame name=\"topFrame\"></Frame></Ui>\n" )
+	CreateFile( "test.lua", "print(\"hi\")\n")
+	generatedFile = CreateFile( "test.toc", "test.lua\ntest.xml\n" )
+	ParseTOC( generatedFile )
+end
 
 
+----- Sax tests
+function test.before_testContentHandler()
+	originalContentHandler = {}
+	for k,v in pairs( contentHandler ) do
+		originalContentHandler[k] = v
+	end
+end
+function test.after_testContentHandler()
+	contentHandler = {}
+	for k,v in pairs( originalContentHandler ) do
+		contentHandler[k] = v
+	end
+end
+function test.testContentHandler_hasStartDocument()
+	test.before_testContentHandler()
+	assertTrue( contentHandler.startDocument )
+	test.after_testContentHandler()
+end
+function test.testContentHandler_hasEndDocument()
+	test.before_testContentHandler()
+	assertTrue( contentHandler.endDocument )
+	test.after_testContentHandler()
+end
+function test.testContentHandler_hasStartElement()
+	test.before_testContentHandler()
+	assertTrue( contentHandler.startElement )
+	test.after_testContentHandler()
+end
+function test.testContentHandler_hasEndElement()
+	test.before_testContentHandler()
+	assertTrue( contentHandler.endElement )
+	test.after_testContentHandler()
+end
+function test.testContentHandler_hasCharacters()
+	test.before_testContentHandler()
+	assertTrue( contentHandler.characters )
+	test.after_testContentHandler()
+end
+
+
+function test.before_testSax()
+	originalContentHandler = {}
+	for k,v in pairs( contentHandler ) do
+		originalContentHandler[k] = v
+	end
+end
+function test.after_testSax()
+	contentHandler = {}
+	for k,v in pairs( originalContentHandler ) do
+		contentHandler[k] = v
+	end
+end
+function test.testSAX_MakeParser()
+	test.before_testSax()
+	assertTrue( saxParser.makeParser() )
+	test.after_testSax()
+end
+function test.testSAX_setContentHandler()
+	test.before_testSax()
+	ch = contentHandler
+	parser = saxParser.makeParser()
+	parser.setContentHandler( ch )
+	assertTrue( parser.contentHandler )
+	--ch = nil
+	--parser = nil
+	test.after_testSax()
+end
+function test.notestSAX_Parse_StartDocument_TextIn()
+	test.before_testSax()
+	ch = contentHandler
+	ch.startDocument = function( this ) this.started = true; end
+	parser = saxParser.makeParser()
+	parser.setContentHandler( ch )
+	parser.parse( "<xml/>" )
+	assertTrue( ch.started )
+end
+function test.notestSAX_Parse_StartDocument_FileIn()
+	test.before_testSax()
+	ch = contentHandler
+	ch.startDocument = function( this ) this.started = true; end
+	parser = saxParser.makeParser()
+	parser.setContentHandler( ch )
+	parser.parse( "../build.xml" )
+	assertTrue( ch.started )
+end
+function test.notestSAX_Parse_StartDocument_NotGiven_TextIn()
+	test.before_testSax()
+	ch = contentHandler
+	ch.startDocument = nil
+	parser = saxParser.makeParser()
+	parser.setContentHandler( ch )
+	parser.parse( "<xml/>" )
+	assertIsNil( ch.started )
+end
+function test.testSAX_Parse_EndDocument_TextIn()
+	test.before_testSax()
+	ch = contentHandler
+	ch.endDocument = function( this ) this.ended = true; end
+	parser = saxParser.makeParser()
+	parser.setContentHandler( ch )
+	parser.parse( "<xml/>" )
+	assertTrue( ch.ended )
+end
+function test.testSAX_Parse_StartElement_TextIn()
+	-- affirm that the startElement method is called
+	test.before_testSax()
+	ch = contentHandler
+	ch.startElement = function( this, tagIn, attribs ) this.tagIn = tagIn; end
+	parser = saxParser.makeParser()
+	parser.setContentHandler( ch )
+	parser.parse( "<xml/>" )
+	assertEquals( "xml", ch.tagIn )
+end
+function test.testSAX_Parse_StartElementAttribs_TextIn()
+	-- affirm that the startElement method is called
+	test.before_testSax()
+	ch = contentHandler
+	ch.startElement = function( this, tagIn, attribs ) this.version = attribs["version"]; end
+	parser = saxParser.makeParser()
+	parser.setContentHandler( ch )
+	parser.parse( "<xml version=\"1\" />" )
+	assertEquals( "1", ch.version )
+end
+function test.testSAX_Parse_StartElementAttribs_TextIn2()
+	-- affirm that the startElement method is called
+	test.before_testSax()
+	ch = contentHandler
+	ch.startElement = function( this, tagIn, attribs ) this.version = attribs["version"]; end
+	parser = saxParser.makeParser()
+	parser.setContentHandler( ch )
+	parser.parse( "<xml version=\"2\"></xml>" )
+	assertEquals( "2", ch.version )
+end
+function test.testSax_Parse_StartElement_Prolog()
+	test.before_testSax()
+	ch = contentHandler
+	ch.startElement = function( this, tagIn, attribs ) this.version = attribs["version"]; end
+	parser = saxParser.makeParser()
+	parser.setContentHandler( ch )
+	parser.parse( "<?xml version=\"1.0\" encoding=\"UTF-8\"?><xml version=\"3\"></xml>" )
+	assertEquals( "3", ch.version )
+end
+function test.testSax_Parse_StartElement_Comment()
+	test.before_testSax()
+	ch = contentHandler
+	ch.startElement = function( this, tagIn, attribs ) this.version = attribs["version"]; end
+	parser = saxParser.makeParser()
+	parser.setContentHandler( ch )
+	parser.parse( "<!-- xml version=\"1.0\" encoding=\"UTF-8\" --><xml version=\"4\"></xml>" )
+	assertEquals( "4", ch.version )
+end
+function test.testSax_Parse_NestedElements()
+	test.before_testSax()
+	ch = contentHandler
+	ch.startElement = function( this, tagIn, attribs ) this.broken = attribs["broken"]; end
+	parser = saxParser.makeParser()
+	parser.setContentHandler( ch )
+	parser.parse( "<!-- xml version=\"1.0\" encoding=\"UTF-8\" --><xml version=\"4\"><bleh broken=\"5\"></bleh></xml>" )
+	assertEquals( "5", ch.broken )
+end
 ----------------------------------
 -- Run the tests
 ----------------------------------
