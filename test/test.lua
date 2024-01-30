@@ -1062,7 +1062,7 @@ function CreateFile( filename, contents )
 	return tocFile
 end
 function test.testTOC_()
-	CreateFile( "test.xml", "<Ui>\n<Frame name=\"topFrame\"></Ui>\n" )
+	CreateFile( "test.xml", "<Ui>\n<Frame name=\"topFrame\"></Frame></Ui>\n" )
 	CreateFile( "test.lua", "print(\"hi\")\n")
 	generatedFile = CreateFile( "test.toc", "test.lua\ntest.xml\n" )
 	ParseTOC( generatedFile )
@@ -1070,7 +1070,6 @@ end
 
 
 ----- Sax tests
-require "saxParser"
 function test.before_testContentHandler()
 	originalContentHandler = {}
 	for k,v in pairs( contentHandler ) do
