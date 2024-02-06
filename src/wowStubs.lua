@@ -8,6 +8,12 @@
 -- Most are only stubbed enough to pass the tests
 -- This is not intended to replace WoWBench, but to provide a stub structure for
 --     automated unit tests.
+-- Setup:
+-- * Create test.lua  - Add #!/usr/bin/env lua
+-- * require "wowTest"
+-- * set test.outFileName to an ouput.xml file
+-- * Parse the TOC - ParseTOC( "../src/sonthing.toc" )
+-- * Setup any 'Normal Frames'
 
 settings = {
 }
