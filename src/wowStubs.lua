@@ -277,6 +277,7 @@ function wowClearAura( unit, auraName )
 end
 
 -- WOW's function renames
+format = string.format
 strmatch = string.match
 strfind = string.find
 strsub = string.sub
