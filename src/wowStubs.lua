@@ -1852,12 +1852,7 @@ function saxParser.parse( fileIn )
 			end
 		elseif currentState == State.InElement then
 			attribStart, attribEnd, key, value = string.find( fileIn, "^%s*(%S+)%s*=%s*[\"\'](.-)[\"\']" )
-			if attribStart then
-				attributes[key] = value
-				fileIn = string.sub( fileIn, attribEnd+1 )
-			elseif c == " " then
-				fileIn = string.sub( fileIn, 2 )
-			elseif c == ">" or n == ">" then
+			if c == ">" or n == ">" then
 				-- print( "Fire startElement( "..elementName.." )" )
 				-- print( "\twith attributes: ")
 				-- for k,v in pairs( attributes ) do
@@ -1958,9 +1953,13 @@ function ParseTOC( tocFile, useRequire )
 				ParseXML( includePath..f[2]..".xml" )
 			end
 		end
+	else
+		fail( "TOC file not found" )
 	end
 end
 
+-- Standard Frames
+GameTooltip = CreateFrame( "GameTooltip", "tooltip" )
 
 
 ---   https://wowwiki.fandom.com/wiki/AddOn_loading_process
