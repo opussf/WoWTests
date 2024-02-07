@@ -1871,6 +1871,11 @@ function saxParser.parse( fileIn )
 					currentState = State.Outside
 				end
 				fileIn = string.sub( fileIn, (n==">" and 3 or 2) )
+			elseif c == " " then
+				fileIn = string.sub( fileIn, 2 )
+			elseif attribStart then
+				attributes[key] = value
+				fileIn = string.sub( fileIn, attribEnd+1 )
 			end
 		end
 		-- print( "elementDepth: "..table.concat( elementDepth, "\t" ) )
