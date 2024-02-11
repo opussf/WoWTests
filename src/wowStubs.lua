@@ -596,7 +596,11 @@ function ChatFrame_AddMessageEventFilter()
 end
 
 -- WOW's resources
-DEFAULT_CHAT_FRAME={ ["AddMessage"] = print, }
+DEFAULT_CHAT_FRAME={ ["AddMessage"] = function( self, msg )
+		table.insert( chatLog,
+			{ ["msg"] = msg, ["chatType"] = "DEFAULT_CHAT_FRAME", ["language"] = "", ["channel"] = "DEFAULT_CHAT_FRAME" }
+		)
+	end, }
 UIErrorsFrame={ ["AddMessage"] = print, }
 
 -- stub some external API functions (try to keep alphabetical)
@@ -1845,7 +1849,7 @@ function saxParser.parse( fileIn )
 				depthElement = table.remove( elementDepth )
 				saxParser.contentHandler:endElement( tagName )
 				if depthElement ~= elementName then
-					fail( "ERROR: Closing "..elementName.." is not the expected element to close; "..depthElement.." is expected." )
+					fail( "ERROR: Closing "..elementName.." is not the expected element to close; "..( depthElement or "nil" ).." is expected." )
 				end
 				currentState = State.Outside
 				fileIn = string.sub( fileIn, tagEnd + 2 )
