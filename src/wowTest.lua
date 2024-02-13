@@ -24,7 +24,7 @@ function assertEquals( expected, actual, msg )
 end
 function assertIsNil( expected, msg )
 	msg = msg or ("Failure: Expected nil value")
-	if expected or expected ~= nil then
+	if expected and expected ~= nil then
 		error( msg )
 	else
 		return 1

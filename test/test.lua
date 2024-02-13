@@ -1217,8 +1217,9 @@ function test.testSax_Parse_StartElement_Comment()
 	ch.startElement = function( this, tagIn, attribs ) this.version = attribs["version"]; end
 	parser = saxParser.makeParser()
 	parser.setContentHandler( ch )
-	parser.parse( "<!-- xml version=\"1.0\" encoding=\"UTF-8\" --><xml version=\"4\"></xml>" )
-	assertEquals( "4", ch.version )
+	parser.parse( "<?xml version=\"1.0\" encoding=\"UTF-8\"?><!-- <xml version=\"4\"></xml>-->" )
+	print( ch.version )
+	assertIsNil( ch.version )
 end
 function test.testSax_Parse_NestedElements()
 	test.before_testSax()
@@ -1226,7 +1227,7 @@ function test.testSax_Parse_NestedElements()
 	ch.startElement = function( this, tagIn, attribs ) this.broken = attribs["broken"]; end
 	parser = saxParser.makeParser()
 	parser.setContentHandler( ch )
-	parser.parse( "<!-- xml version=\"1.0\" encoding=\"UTF-8\" --><xml version=\"4\"><bleh broken=\"5\"></bleh></xml>" )
+	parser.parse( "<?xml version=\"1.0\" encoding=\"UTF-8\"?><xml version=\"4\"><bleh broken=\"5\"></bleh></xml>" )
 	assertEquals( "5", ch.broken )
 end
 ----------------------------------
