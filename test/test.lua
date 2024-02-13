@@ -7,6 +7,7 @@ package.path = "../src/?.lua;" .. package.path
 require "wowTest"
 
 function test.before()
+	ch = nil
 	bagInfo = {  -- reset bags (only have empty backpack)
 		[0] = {16, 0},
 	}
@@ -1218,7 +1219,6 @@ function test.testSax_Parse_StartElement_Comment()
 	parser = saxParser.makeParser()
 	parser.setContentHandler( ch )
 	parser.parse( "<?xml version=\"1.0\" encoding=\"UTF-8\"?><!-- <xml version=\"4\"></xml>-->" )
-	print( ch.version )
 	assertIsNil( ch.version )
 end
 function test.testSax_Parse_NestedElements()
