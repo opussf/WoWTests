@@ -1215,11 +1215,11 @@ end
 function test.testSax_Parse_StartElement_Comment()
 	test.before_testSax()
 	ch = contentHandler
-	ch.startElement = function( this, tagIn, attribs ) this.version = attribs["version"]; end
+	ch.startElement = function( this, tagIn, attribs ) this.bob = attribs["bob"]; end
 	parser = saxParser.makeParser()
 	parser.setContentHandler( ch )
-	parser.parse( "<?xml version=\"1.0\" encoding=\"UTF-8\"?><!-- <xml version=\"4\"></xml>-->" )
-	assertIsNil( ch.version )
+	parser.parse( "<?xml version=\"1.0\" encoding=\"UTF-8\"?><!-- <xml bob=\"4\"></xml>-->" )
+	assertIsNil( ch.bob )
 end
 function test.testSax_Parse_NestedElements()
 	test.before_testSax()
