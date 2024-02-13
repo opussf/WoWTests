@@ -601,7 +601,11 @@ DEFAULT_CHAT_FRAME={ ["AddMessage"] = function( self, msg )
 			{ ["msg"] = msg, ["chatType"] = "DEFAULT_CHAT_FRAME", ["language"] = "", ["channel"] = "DEFAULT_CHAT_FRAME" }
 		)
 	end, }
-UIErrorsFrame={ ["AddMessage"] = print, }
+UIErrorsFrame={ ["AddMessage"] = function( self, msg )
+		table.insert( chatLog,
+			{ ["msg"] = msg, ["chatType"] = "UIErrorsFrame", ["language"] = "", ["channel"] = "UIErrorsFrame" }
+		)
+	end, }
 
 -- stub some external API functions (try to keep alphabetical)
 function BuyMerchantItem( index, quantity )
