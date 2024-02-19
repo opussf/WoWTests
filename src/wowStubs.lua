@@ -545,16 +545,8 @@ function CreateStatusBar( name, ... )
 		StatusBar[k] = v
 	end
 	StatusBar.name=name
-
-	StatusBar["SetMinMaxValues"] = function() end;
-	StatusBar["Show"] = function() end;
-
 	return StatusBar
 end
-Slider = {
-		["GetName"] = function() return ""; end,
-		["SetText"] = function(text) end,
-}
 function CreateSlider( name, ... )
 	Slider = {}
 	for k,v in pairs(Frame) do
@@ -562,8 +554,6 @@ function CreateSlider( name, ... )
 	end
 	Slider.name=name
 	Slider[name.."Text"] = CreateFontString(name.."Text")
-	Slider["GetName"] = function(self) return self.name; end
-	Slider["SetText"] = function(text) end
 	return Slider
 end
 CheckButton = {
@@ -1974,7 +1964,6 @@ end
 -- Standard Frames
 GameTooltip = CreateFrame( "GameTooltip", "tooltip" )
 ChatFrame1 = CreateFrame( nil, "ChatFrame1" )
-
 
 ---   https://wowwiki.fandom.com/wiki/AddOn_loading_process
 --[[ Load event order:
