@@ -1973,6 +1973,7 @@ end
 
 -- Standard Frames
 GameTooltip = CreateFrame( "GameTooltip", "tooltip" )
+ChatFrame1 = CreateFrame( nil, "ChatFrame1" )
 
 
 ---   https://wowwiki.fandom.com/wiki/AddOn_loading_process
