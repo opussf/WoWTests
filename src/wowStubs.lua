@@ -596,6 +596,7 @@ UIErrorsFrame={ ["AddMessage"] = function( self, msg )
 			{ ["msg"] = msg, ["chatType"] = "UIErrorsFrame", ["language"] = "", ["channel"] = "UIErrorsFrame" }
 		)
 	end, }
+WeeklyRewardsFrame = CreateFrame()
 
 -- stub some external API functions (try to keep alphabetical)
 function BuyMerchantItem( index, quantity )
@@ -792,6 +793,10 @@ function GetAchievementNumCriteria( achievementID )
 	if Achievements[achievementID] then
 		return #Achievements[achievementID]["criteria"]
 	end
+end
+function GetCurrentRegion()
+	-- @TODO: find region info
+	return 1
 end
 function GetSpecialization()
 	return 2
@@ -1133,6 +1138,10 @@ function GetPlayerInfoByGUID( playerGUID )
 	-- localClass, englishClass, localRace, englishRace, gender, name, realm = GetPlayerInfoByGUID( playerGUID )
 	return "Warlock", "Warlock", "Human", "Human", 3, "testPlayer", "testRealm"
 end
+function GetQuestResetTime()
+	-- @TODO: Find out more about this
+	return 5
+end
 function GetRaidRosterInfo( raidIndex )
 	-- http://www.wowwiki.com/API_GetRaidRosterInfo
 	-- returns name, rank, subgroup, level, class, fileName, zone, online, isDead, role, isML
@@ -1218,9 +1227,14 @@ function GetUnitSpeed( lookupStr )
 end
 --[[
 function HasNewMail()
+	-- @TODO: Research this
 	return true
 end
 ]]
+function GetWeeklyQuestResetTime()
+	-- @TODO: Research this
+	return 15
+end
 function GetXPExhaustion()
 	-- TODO:
 	return 3618

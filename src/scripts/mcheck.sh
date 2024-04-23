@@ -83,8 +83,9 @@ wait
 rm failed.runs
 for f in *.testrun; do
   cat $f >> failed.runs
+  rm $f
 done
-
+cat failed.runs
 
 ##
 ## CHANGE=$(diff ${BASEFILE}.previous ${BASEFILE}.new | wc -l)
