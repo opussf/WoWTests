@@ -1749,6 +1749,18 @@ function C_ChatInfo.SendAddonMessage()
 	return true
 end
 
+----------
+-- Toy info
+----------
+toyList = {}   -- [id] = {true | false}
+C_ToyBox = {}
+function PlayerHasToy( id )
+	return toyList[id]
+end
+function C_ToyBox.IsToyUsable( id )
+	return toyList[id] and toyList[id][1]
+end
+
 -- A SAX parser takes a content handler, which provides these methods:
 --     startDocument()                 -- called at the start of the Document
 --     endDocument()                   -- called at the end of the Document
