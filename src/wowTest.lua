@@ -116,7 +116,7 @@ function test.toCobertura()
 		table.insert( coberturaTable, "<packages>" )
 		table.insert( coberturaTable, "<package name='' line-rate='1' branch-rate='0' complexity='0'>" )
 		table.insert( coberturaTable, "<classes>" )
-		for file, lines in pairs( test.coverage ) do
+		for file, lines in test.PairsByKeys( test.coverage ) do
 			table.insert( coberturaTable, "<class name='' filename='"..file.."' line-rate='0' branch-rate='0' complexity='0'>" )
 			table.insert( coberturaTable, "<methods/>" )
 			table.insert( coberturaTable, "<lines>" )
