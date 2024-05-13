@@ -78,9 +78,15 @@ function test.PairsByKeys( t, f )  -- This is an awesome function I found
 	end
 	return iter
 end
+function test.EscapeStr( strIn )
+	-- This escapes a str
+	strIn = string.gsub( strIn, "\\", "\\\\" )
+	strIn = string.gsub( strIn, "\"", "\\\"" )
+	return strIn
+end
 function test.dump( tableIn, depth )
 	depth = depth or 1
-	for k, v in sorted_pairs( tableIn ) do
+	for k, v in test.PairsByKeys( tableIn ) do
 		io.write( ("%s[\"%s\"] = "):format( string.rep("\t", depth), k ) )
 		if ( type( v ) == "boolean" ) then
 			io.write( v and "true" or "false" )
@@ -89,14 +95,13 @@ function test.dump( tableIn, depth )
 			dump( v, depth+1 )
 			io.write( ("%s}"):format( string.rep("\t", depth) ) )
 		elseif ( type( v ) == "string" ) then
-			io.write( "\""..EscapeStr( v ).."\"" )
+			io.write( "\""..test.EscapeStr( v ).."\"" )
 		else
 			io.write( v )
 		end
 		io.write( ",\n" )
 	end
 end
-
 function test.toXML()
 	if test.outFileName then
 		local f = assert( io.open( test.outFileName, "w"))
