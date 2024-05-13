@@ -92,7 +92,7 @@ function test.dump( tableIn, depth )
 			io.write( v and "true" or "false" )
 		elseif ( type( v ) == "table" ) then
 			io.write( "{\n" )
-			dump( v, depth+1 )
+			test.dump( v, depth+1 )
 			io.write( ("%s}"):format( string.rep("\t", depth) ) )
 		elseif ( type( v ) == "string" ) then
 			io.write( "\""..test.EscapeStr( v ).."\"" )
