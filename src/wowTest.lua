@@ -96,6 +96,8 @@ function test.dump( tableIn, depth )
 			io.write( ("%s}"):format( string.rep("\t", depth) ) )
 		elseif ( type( v ) == "string" ) then
 			io.write( "\""..test.EscapeStr( v ).."\"" )
+		elseif ( type( v ) == "function" ) then
+			io.write( "function()" )
 		else
 			io.write( v )
 		end
