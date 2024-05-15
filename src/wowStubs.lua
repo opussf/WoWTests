@@ -1707,32 +1707,65 @@ end
 ----------
 -- Macros
 ----------
-myMacros = {}  -- ["macroName"] = { ["icon"] = "", ["text"] = "", ["isLocal"] = true }
+myMacros = {
+	["general"] = {},  -- [1] = { ["name"] = "", ["icon"] = "", ["text"] = "" }   1-120 = general
+	["personal"] = {}, -- 1-18 = personal (+120)
+	["sort"] = function()
+		table.sort( myMacros.general, function( l, r ) return( l.name < r.name ); end )
+		table.sort( myMacros.personal, function( l, r ) return( l.name < r.name ); end )
+	end,
+}
 function GetMacroInfo( macroName )
-	-- returns:  macroName, macroIcon, macroText, isLocal (bool)
-	if myMacros[macroName] then
-		return macroName, myMacros[macroName][icon], myMacros[macroName][text], myMacros[macroName][isLocal] or false
+	-- returns:  macroName, macroIcon, macroText
+	if macroName then
+		local mIndex = GetMacroIndexByName( macroName )
+		if mIndex ~= 0 then
+			local location = mIndex > 120 and "personal" or "general"
+			mIndex = mIndex>120 and mIndex-120 or mIndex
+			return myMacros[location][mIndex].name, myMacros[location][mIndex].icon, myMacros[location][mIndex].text
+    	end
 	end
+end
+function GetMacroIndexByName( macroName )
+	-- returns index, or 0 if not found (seems to go from highest to lowest - person to general )
+	for index = 18, 1, -1 do
+		if myMacros.personal[index] and myMacros.personal[index].name == macroName then
+			return index+120
+		end
+	end
+	for index = 120, 1, -1 do
+		if myMacros.general[index] and myMacros.general[index].name == macroName then
+			return index
+		end
+	end
+	return 0
 end
 function CreateMacro( macroName, macroIcon, macroText, perChar )
 	-- returns: macroID
-	if macroName and not myMacros[macroName] then
-		myMacros[macroName] = { ["icon"] = macroIcon, ["text"] = macroText }
-		return 1 -- return the ID
+	if macroName then
+		local mIndex = GetMacroIndexByName( macroName )
+		if mIndex == 0 then
+			local location = perChar and "personal" or "general"
+			table.insert( myMacros[location], { ["name"] = macroName, ["icon"] = macroIcon, ["text"] = macroText } )
+			myMacros.sort()
+			return( GetMacroIndexByName( macroName ) )  -- return the ID
+		end
 	end
 end
-function EditMacto( macroName, newName, newIcon, body, islocal, perChar )
+function EditMacro( macroName, newName, newIcon, body )
+	-- macroName is name or index
 	-- returns: new macroID
-	if macroName and myMacros[macroName] then
-		if newName then
-			myMacros[newName] = myMacros[macroName]
-			macroName = newName
+	if macroName then
+		mIndex = tonumber(macroName) or GetMacroIndexByName( macroName )
+		if mIndex ~= 0 then
+			local location = mIndex > 120 and "personal" or "general"
+			mIndex = mIndex>120 and mIndex-120 or mIndex
+			myMacros[location][mIndex].name = newName or myMacros[location][mIndex].name
+			myMacros[location][mIndex].icon = newIcon or myMacros[location][mIndex].icon
+			myMacros[location][mIndex].text = body or myMacros[location][mIndex].text
+			myMacros.sort()
+			return( GetMacroIndexByName( macroName ) )  -- return the ID
 		end
-		if newIcon then
-			myMacros[macroName].icon = newIcon
-		end
-		myMacros[macroName].text = body
-		return 1 -- return the ID
 	end
 end
 
