@@ -1727,9 +1727,18 @@ function C_CurrencyInfo.GetCurrencyLink( id )
 	end
 end
 
+----------
+-- C_Bank
+----------
+C_Bank = {}
+function C_Bank.FetchDepositedMoney(  )
+	return 8376
+end
+
 Enum = {}
 Enum.TooltipDataType = {}
 Enum.TooltipDataType.Item = 0
+Enum.BankType = {["Account"] = 2}
 
 TooltipDataProcessor = {}
 function TooltipDataProcessor.AddTooltipPostCall()
