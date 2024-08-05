@@ -684,7 +684,10 @@ function test.testStub_GetRaidRosterInfo_Zone_Valid()
 	assertEquals( "zone", select( 7, GetRaidRosterInfo( 1 ) ) )
 end
 function test.testStub_GetRealmName()
-	assertEquals( "testRealm", GetRealmName() )
+	assertEquals( "Test Realm", GetRealmName() )
+end
+function test.testStub_GetNormalizedRealmName()
+	assertEquals( "TestRealm", GetNormalizedRealmName() )
 end
 --[[
 function test.testStub_GetSendMailItemLink()
