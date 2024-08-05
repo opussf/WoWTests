@@ -492,7 +492,7 @@ Units = {
 		["faction"] = {"Alliance", "Alliance"},
 		["name"] = "testPlayer",
 		["race"] = "Human",
-		["realm"] = "testRealm",
+		["realm"] = "Test Realm",
 		["realmRelationship"] = 1,  -- same realm
 		["sex"] = 3,
 		["currentHealth"] = 100000,
@@ -1167,7 +1167,8 @@ end
 function GetPlayerInfoByGUID( playerGUID )
 	-- http://wowprogramming.com/docs/api/GetPlayerInfoByGUID
 	-- localClass, englishClass, localRace, englishRace, gender, name, realm = GetPlayerInfoByGUID( playerGUID )
-	return "Warlock", "Warlock", "Human", "Human", 3, "testPlayer", "testRealm"
+	-- @TODO: Affirm this
+	return "Warlock", "Warlock", "Human", "Human", 3, "testPlayer", "Test Realm"
 end
 function GetQuestResetTime()
 	-- @TODO: Find out more about this
