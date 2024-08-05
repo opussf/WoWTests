@@ -871,20 +871,6 @@ function GetCategoryNumAchievements( catID )
 	-- numIncomplete: Number of incomplete achievements
 	return 5,0,5
 end
-function GetCoinTextureString( copperIn, fontHeight )
--- simulates the Wow function:  http://www.wowwiki.com/API_GetCoinTextureString
--- fontHeight is ignored for now.
-	if copperIn then
-		-- cannot return exactly what WoW does, but can make a simular string
-		local gold = math.floor(copperIn / 10000); copperIn = copperIn - (gold * 10000)
-		local silver = math.floor(copperIn / 100); copperIn = copperIn - (silver * 100)
-		local copper = copperIn
-		return( (gold and gold.."G ")..
-				(silver and silver.."S ")..
-				(copper and copper.."C"))
-	end
-end
-
 
 C_Container = {}
 C_Container.SortBagsRightToLeft = false -- this is normal
@@ -1713,6 +1699,19 @@ end
 -- C_CurrencyInfo
 ----------
 C_CurrencyInfo = {}
+function C_CurrencyInfo.GetCoinTextureString( copperIn, fontHeight )
+-- simulates the Wow function:  http://www.wowwiki.com/API_GetCoinTextureString
+-- fontHeight is ignored for now.
+	if copperIn then
+		-- cannot return exactly what WoW does, but can make a simular string
+		local gold = math.floor(copperIn / 10000); copperIn = copperIn - (gold * 10000)
+		local silver = math.floor(copperIn / 100); copperIn = copperIn - (silver * 100)
+		local copper = copperIn
+		return( (gold and gold.."G ")..
+				(silver and silver.."S ")..
+				(copper and copper.."C"))
+	end
+end
 function C_CurrencyInfo.GetCurrencyInfo( id ) -- id is integet
 	-- returns a table:
 	-- 		localName, isHeader, isHeaderExpanded, isTypeUnused, isShowInBackpack, quantity, iconFileID, maxQuantity,
