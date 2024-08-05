@@ -313,28 +313,28 @@ function test.testStub_GetCategoryNumAchievements_01()
 	assertEquals( 5, GetCategoryNumAchievements(16) )
 end
 function test.testStub_GetCoinTextureString_0()
-	assertEquals( "0G 0S 0C", GetCoinTextureString( 0 ) )
+	assertEquals( "0G 0S 0C", C_CurrencyInfo.GetCoinTextureString( 0 ) )
 end
 function test.testStub_GetCoinTextureString_C()
-	assertEquals( "0G 0S 45C", GetCoinTextureString( 45 ) )
+	assertEquals( "0G 0S 45C", C_CurrencyInfo.GetCoinTextureString( 45 ) )
 end
 function test.testStub_GetCoinTextureString_G()
-	assertEquals( "1G 0S 0C", GetCoinTextureString( 10000 ) )
+	assertEquals( "1G 0S 0C", C_CurrencyInfo.GetCoinTextureString( 10000 ) )
 end
 function test.testStub_GetCoinTextureString_GC()
-	assertEquals( "1G 0S 45C", GetCoinTextureString( 10045 ) )
+	assertEquals( "1G 0S 45C", C_CurrencyInfo.GetCoinTextureString( 10045 ) )
 end
 function test.testStub_GetCoinTextureString_GS()
-	assertEquals( "1G 23S 0C", GetCoinTextureString( 12300 ) )
+	assertEquals( "1G 23S 0C", C_CurrencyInfo.GetCoinTextureString( 12300 ) )
 end
 function test.testStub_GetCoinTextureString_GSC()
-	assertEquals( "1G 23S 45C", GetCoinTextureString( 12345 ) )
+	assertEquals( "1G 23S 45C", C_CurrencyInfo.GetCoinTextureString( 12345 ) )
 end
 function test.testStub_GetCoinTextureString_S()
-	assertEquals( "0G 23S 0C", GetCoinTextureString( 2300 ) )
+	assertEquals( "0G 23S 0C", C_CurrencyInfo.GetCoinTextureString( 2300 ) )
 end
 function test.testStub_GetCoinTextureString_SC()
-	assertEquals( "0G 23S 45C", GetCoinTextureString( 2345 ) )
+	assertEquals( "0G 23S 45C", C_CurrencyInfo.GetCoinTextureString( 2345 ) )
 end
 function test.testStub_GetContainerNumFreeSlots_EmptyBackpack_FreeSlots()
 	assertEquals( 16, C_Container.GetContainerNumFreeSlots( 0 ) )
