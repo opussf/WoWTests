@@ -1186,7 +1186,6 @@ end
 function GetNormalizedRealmName()
 	return "TestRealm"
 end
-
 function GetSendMailItem( slot )
 	-- 1 <= slot <= ATTACHMENTS_MAX_SEND
 	-- returns: itemName, itemTexture, stackCount, quality
