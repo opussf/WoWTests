@@ -1734,8 +1734,11 @@ end
 -- C_Bank
 ----------
 C_Bank = {}
-function C_Bank.FetchDepositedMoney(  )
+function C_Bank.FetchDepositedMoney( accountTypeEnum )
 	return 8376
+end
+function C_Bank.CanDepositMoney()
+	return true
 end
 
 Enum = {}
