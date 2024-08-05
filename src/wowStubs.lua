@@ -1852,6 +1852,13 @@ end
 function C_Reputation.GetFactionParagonInfo()
 end
 
+----------
+-- Menu
+----------
+Menu = {}
+function Menu.ModifyMenu( ... )
+end
+
 -- A SAX parser takes a content handler, which provides these methods:
 --     startDocument()                 -- called at the start of the Document
 --     endDocument()                   -- called at the end of the Document
