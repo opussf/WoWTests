@@ -978,7 +978,7 @@ function GetInventorySlotInfo( slotName )
 		end
 	end
 end
-function GetItemCount( itemID, includeBank )
+function GetItemCount( itemID, includeBank, includeUses, includeReagentBank, includeAccountBank )
 	-- print( itemID, myInventory[itemID] )
 	return myInventory[itemID] or 0
 end
@@ -1853,6 +1853,12 @@ function C_Reputation.GetFactionDataByID( idIn )
 end
 function C_Reputation.GetFactionParagonInfo()
 end
+
+----------
+-- C_Item
+----------
+C_Item = {}
+C_Item.GetItemCount = GetItemCount
 
 ----------
 -- Menu
