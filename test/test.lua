@@ -567,7 +567,7 @@ function test.testStub_GetNumEquipmentSets_1()
 	assertEquals( 1, GetNumEquipmentSets() )
 end
 function test.testStub_GetNumFactions()
-	assertEquals( 5, GetNumFactions() )
+	assertEquals( 7, GetNumFactions() )
 end
 function test.testStub_GetNumGroupMembers_0()
 	myParty = { ["group"] = nil, ["raid"] = nil, ["roster"] = {} }
