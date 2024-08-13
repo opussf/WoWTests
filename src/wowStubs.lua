@@ -901,6 +901,8 @@ end
 function C_AddOns.GetNumAddOns()
 	return 1
 end
+function C_AddOns.LoadAddOn( addonName )
+end
 
 C_Container = {}
 C_Container.SortBagsRightToLeft = false -- this is normal
@@ -1347,8 +1349,6 @@ end
 function IsResting()
 	return true
 end
-function LoadAddOn()
-end
 function NumTaxiNodes()
 	-- http://www.wowwiki.com/API_NumTaxiNodes
 	local count = 0
@@ -1553,13 +1553,12 @@ end
 function UnitAffectingCombat( unit )
 	return false
 end
-function UnitAura( unit, index, filter )
+C_UnitAuras = {}
+function C_UnitAuras.GetAuraDataByIndex( unit, index )
 	-- @TODO: Look this up to get a better idea of what this function does.
-	-- Returns the aura name
-	-- unit, [index] [,filter]
-	-- Returns True or nil
+	-- Returns an auraData table
 	if( UnitAuras[unit] and UnitAuras[unit][index] ) then
-		return UnitAuras[unit][index].name
+		return UnitAuras[unit][index]
 	end
 end
 function UnitClass( who )

@@ -942,12 +942,12 @@ function test.testStub_TaxiNodeName()
 end
 function test.testStub_UnitAura_01()
 	UnitAuras = {}
-	assertIsNil( UnitAura( "player", 1 ) )
+	assertIsNil( C_UnitAuras.GetAuraDataByIndex( "player", 1 ) )
 end
 function test.testStub_UnitAura_02()
 	UnitAuras = {}
 	wowSetAura( "player", "Fishing" )
-	assertEquals( "Fishing", UnitAura( "player", 1 ) )
+	assertEquals( "Fishing", C_UnitAuras.GetAuraDataByIndex( "player", 1 ).name )
 end
 function test.testStub_UnitClass_01()
 	assertEquals( "Warlock", UnitClass( "player" ) )
