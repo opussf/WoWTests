@@ -618,11 +618,23 @@ end
 EditBox = {
 		["SetText"] = function(self,text) self.text=text; end,
 		["SetCursorPosition"] = function(self,pos) self.cursorPosition=pos; end,
-
 }
 function CreateEditBox( name, ... )
 	me = {}
 	for k,v in pairs(EditBox) do
+		me[k] = v
+	end
+	me.name = name
+	return me
+end
+Button = {
+	["enabled"] = true,
+	["SetEnabled"] = function(self,enabled) self.enabled = enabled; end,
+	["IsEnabled"] = function(self) return self.enabled; end,
+}
+function CreateButton( name, ... )
+	me = {}
+	for k,v in pairs(Button) do
 		me[k] = v
 	end
 	me.name = name
@@ -862,11 +874,6 @@ function GetComparisonStatistic( achievementID )
 	-- returns: string - the value of the requested statistic
 	return Achievements[achievementID].value
 end
-function GetAddOnMetadata( addon, field )
-	-- returns addonData[field] for 'addon'
-	-- local addonData = { ["version"] = "1.0", }
-	return addonData[field]
-end
 function GetCategoryList()
 	-- http://www.wowwiki.com/API_GetCategoryList
 	-- Returns a table of achievement categories
@@ -883,6 +890,16 @@ function GetCategoryNumAchievements( catID )
 	-- numCompleted: Number of completed achievements (or 0 for stats)
 	-- numIncomplete: Number of incomplete achievements
 	return 5,0,5
+end
+
+C_AddOns = {}
+function C_AddOns.GetAddOnMetadata( addon, field )
+	-- returns addonData[field] for 'addon'
+	-- local addonData = { ["version"] = "1.0", }
+	return addonData[field]
+end
+function C_AddOns.GetNumAddOns()
+	return 1
 end
 
 C_Container = {}
@@ -1680,6 +1697,12 @@ function GetEquipmentSetInfoByName( nameIn )
 			return EquipmentSets[i].icon, i-1
 		end
 	end
+end
+function CanMerchantRepair()
+	return true
+end
+function CanGuildBankRepair()
+	return true
 end
 
 --http://wow.gamepedia.com/Patch_7.0.3/API_changes
