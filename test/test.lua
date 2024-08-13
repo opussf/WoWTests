@@ -303,7 +303,7 @@ function test.testStub_GetAchievementInfo()
 end
 function test.testStub_GetAddOnMetadata()
 	addonData = {["version"] = "1.0", }
-	assertTrue( "1.0", GetAddOnMetadata("version") )
+	assertTrue( "1.0", C_AddOns.GetAddOnMetadata("version") )
 end
 function test.testStub_GetCategoryList_returnsTable()
 	local CatList = GetCategoryList()
