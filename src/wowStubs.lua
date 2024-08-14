@@ -903,6 +903,8 @@ function C_AddOns.GetNumAddOns()
 end
 function C_AddOns.LoadAddOn( addonName )
 end
+function C_AddOns.DisableAddOn( addonName, playerName )
+end
 
 C_Container = {}
 C_Container.SortBagsRightToLeft = false -- this is normal
