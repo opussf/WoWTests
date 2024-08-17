@@ -8,12 +8,6 @@ I like this structure:
 			  + src
 			  + test     <-- test files here
 
-I use 'svn propedit svn:externals test'
-^/WoWTests/trunk/src/wowTest.lua wowTest.lua
-^/WoWTests/trunk/src/wowStubs.lua wowStubs.lua
-
-To link the files in from a common location
-
 2) Create 'test.lua' in the test directory.
 Edit the file to read:
 ----
@@ -22,17 +16,13 @@ Edit the file to read:
 require "wowTest"
 
 test.outFileName = "../dest/testOut.xml"
+-- test.coberturaFileName = "../coverage.xml"  -- uncomment this to enable cobertura style coverage report
 
--- Figure out how to parse the XML here, until then....
+ParseTOC("../src/addon.toc") -- edit this to find the toc file
 
--- require the file to test
-package.path = "../src/?.lua;'" .. package.path
-require "<PluginCode>"
+-- create frames not already created in ParseTOC here
+frameName = CreateFrame("FrameName")
 -----
-
-Declare and describe the XML artifacts that will be interacted with in your addon, if they come from XML.
-The testOut.xml file will default into the run location.
-test.outFileName sets where the output file goes.
 
 3) Create 'before' and 'after' functions, if needed.
 test.before()  and  test.after()
@@ -56,10 +46,6 @@ Known issues / bugs / todos
 * Time is only 1 second accurate - needs lua socket library to enable more granular time
 * Figure out command line parsing for controlling: File out, reporter, etc
 * Better stubs - more of a simulation
-* Parse XML for frame info and create tables based on the contents
-* Basic XML validation as a part of the XML parsing
-* Multi-source (have not tested yet)
-
 
 ----------------
 Test run data structure:
