@@ -12,6 +12,7 @@
 -- * Create test.lua  - Add #!/usr/bin/env lua
 -- * require "wowTest"
 -- * set test.outFileName to an ouput.xml file
+-- * set test.coberturaFileName = "../coverage.xml" to enable coverage output
 -- * Parse the TOC - ParseTOC( "../src/sonthing.toc" )
 -- * Setup any 'Normal Frames'
 
