@@ -120,8 +120,50 @@ end
 function test.testAssertTrue_Fail_Test_String()
 	local result, exception = pcall( assertTrue, "Hello" == "World" )
 	if result then
-		error( "assertTrue thinks that 'Hello' == 'World'")
+		error( "assertTrue thinks that 'Hello' == 'World'" )
 	end
+end
+function test.testAssertAlmostEquals_negativeWithPlaces()
+	local result, exception = pcall( assertAlmostEquals, 4.4555, 4.4566, "first and seconds are not almost equal.", 3 )
+	if result then
+		error( "assertAlmostEquals thinks that 4.4555 almost equals 4.4566 to 3 places." )
+	end
+end
+function test.testAssertAlmostEquals_positiveWithPlaces()
+	local result, exception = pcall( assertAlmostEquals, 4.4555, 4.4566, "first and seconds are not almost equal.", 2 )
+	if not result then
+		error( "assertAlmostEquals thinks that 4.4555 almost equals 4.4566 to 2 places." )
+	end
+end
+function test.testAssertAlmostEquals_negativeWithDelta()
+	local result, exception = pcall( assertAlmostEquals, 4.4555, 4.4566, "first and seconds are not almost equal.", nil, 0.0001 )
+	if result then
+		error( "assertAlmostEquals thinks that 4.4555 almost equals 4.4566 with 0.0001 delta." )
+	end
+end
+function test.testAssertAlmostEquals_positiveWithDelta()
+	local result, exception = pcall( assertAlmostEquals, 4.4555, 4.4566, "first and seconds are not almost equal.", nil, 0.002 )
+	if not result then
+		error( "assertAlmostEquals thinks that 4.4555 almost equals 4.4566 with 0.002 delta." )
+	end
+end
+function test.testAssertAlmostEquals_deltaIsNotNumber()
+	local result, exception = pcall( assertAlmostEquals, 4.4555, 4.4566, "first and seconds are not almost equal.", nil, "Hello" )
+	if result then
+		error( "assertAlmostEquals thinks that 4.4555 almost equals 4.4566 to 7 places." )
+	end
+end
+function test.testAssertAlmostEquals_deltaIsStringNumber()
+	local result, exception = pcall( assertAlmostEquals, 4.4555, 4.4566, "first and seconds are not almost equal.", nil, "0.002" )
+	if not result then
+		error( "assertAlmostEquals thinks that 4.4555 almost equals 4.4566 with 0.002 delta." )
+	end
+end
+function test.testAssertAlmostEquals_positvePlaces()
+	assertAlmostEquals( 4.4555, 4.4566, nil, 2 )
+end
+function test.testAssertAlmostEquals_positveDelta()
+	assertAlmostEquals( 4.4555, 4.4566, nil, 2, 0.002 )
 end
 
 ----------------------------------

@@ -22,6 +22,31 @@ function assertEquals( expected, actual, msg )
 		return 1    -- passed
 	end
 end
+function assertAlmostEquals( expected, actual, msg, places, delta)
+	-- compute difference,
+	-- round to places and compare to 0
+	-- if delta is given, difference must be less or equal to delta
+	places = tonumber(places) or 7
+	delta = delta and tonumber(delta) or nil
+	msg = msg or ( "Failure: expected ("..(expected or "nil")..") actual ("..(actual or "nil")..")" )
+	--diff = tonumber( string.format( "%."..places.."f", math.abs( expected - actual ) ) )
+	diff = math.abs( expected - actual )
+
+	if delta and delta == tonumber(delta) then
+		if diff > delta then
+			error( msg.." difference exceeds delta ("..delta..")" )
+		else
+			return 1
+		end
+	else
+		diff = tonumber( string.format( "%."..places.."f", diff ) )
+		if diff > 0 then
+			error( msg.." difference ("..diff..") is within "..places.." places." )
+		else
+			return 1
+		end
+	end
+end
 function assertIsNil( expected, msg )
 	msg = msg or ("Failure: Expected nil value")
 	if expected and expected ~= nil then
