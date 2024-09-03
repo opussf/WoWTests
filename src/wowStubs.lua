@@ -619,6 +619,7 @@ end
 EditBox = {
 		["SetText"] = function(self,text) self.text=text; end,
 		["SetCursorPosition"] = function(self,pos) self.cursorPosition=pos; end,
+		["HighlightText"] = function(self,start,last) end,
 }
 function CreateEditBox( name, ... )
 	me = {}
