@@ -1571,9 +1571,6 @@ function UnitHealthMax( who )
 	-- http://wowwiki.wikia.com/wiki/API_UnitHealth
 	return Units[who].maxHealth
 end
-function UnitGroupRolesAssigned(who)
-	return "dps"
-end
 function UnitFactionGroup( who )
 	-- http://www.wowwiki.com/API_UnitFactionGroup
 	return unpack( Units[who].faction )
