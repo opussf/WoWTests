@@ -620,6 +620,7 @@ EditBox = {
 		["SetText"] = function(self,text) self.text=text; end,
 		["SetCursorPosition"] = function(self,pos) self.cursorPosition=pos; end,
 		["HighlightText"] = function(self,start,last) end,
+		["IsNumeric"] = function() end,
 }
 function CreateEditBox( name, ... )
 	me = {}
@@ -2081,15 +2082,24 @@ function saxParser.parse( fileIn )
 	end
 end
 function ParseXML( xmlFile )
+	parents = {}
 	ch = contentHandler
 	ch.startElement = function( self, tagIn, attribs )
 		if _G["Create"..tagIn] then
-			if attribs.name then
-				_G[attribs.name] = _G["Create"..tagIn]( attribs.name )
-				_G[attribs.name].framename = attribs.name
-			else
-				fail("A "..tagIn.." needs a name")
+			if (attribs.name and (not attribs.virtual or attribs.virtual == "false")) then
+				-- print("Create: "..attribs.name..">"..(#parents > 0 and string.gsub(attribs.name, "$parent", parents[#parents]) or "") )
+				frameName = (#parents > 0 and string.gsub(attribs.name, "$parent", parents[#parents]) or attribs.name)
+				_G[frameName] = _G["Create"..tagIn]( frameName )
+				_G[frameName].framename = frameName
 			end
+		end
+		if string.find( tagIn, "Frame$") then
+			table.insert( parents, attribs.name )
+		end
+	end
+	ch.endElement = function( self, tagIn )
+		if string.find( tagIn, "Frame$" ) then
+			table.remove( parents )
 		end
 	end
 	parser = saxParser.makeParser()
