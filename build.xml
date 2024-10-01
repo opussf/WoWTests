@@ -47,6 +47,9 @@
 			</not>
 		</and>
 	</condition>
+	<exec executable="git" dir="." outputproperty="commit.date">
+		<arg line="log -1 --date=format:'%B %d %Y' --format=%ad"/>
+	</exec>
 
 	<property name="version.number" value="${repository.version}${branch}${build.number}"/>
 	<echo>Building: ${version.number}</echo>
@@ -91,7 +94,7 @@
 			</fileset>
 			<filterset>
 				<filter token="VERSION" value="${version.number}"/>
-				<filter token="TODAY" value="${TODAY}"/>
+				<filter token="TODAY" value="${commit.date}"/>
 			</filterset>
 		</copy>
 		<zip 	destfile="${target.dir}/${project.zip}"
