@@ -455,9 +455,11 @@ Frame = {
 		["SetMovable"] = function(self, value) self.movable = value end,
 		["CreateFontString"] = function(self, ...) return(CreateFontString(...)) end,
 		["SetSize"] = function(self, x, y) end,
+		["GetSize"] = function(self) return 400,125 end,
 		["ClearAllPoints"] = function(self) self.points={}; end,
 		["GetPoint"] = function(self) end,
 		["GetNumPoints"] = function(self) end,
+		["StopMovingOrSizing"] = function(self) end,
 
 		["SetMinMaxValues"] = function(self, min, max) self.min=min; self.max=max; end,
 		["SetValue"] = function(self, value) self.value=value end,

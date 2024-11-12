@@ -6,6 +6,10 @@
 package.path = "../src/?.lua;" .. package.path
 require "wowTest"
 
+test.outFileName = "testOut.xml"
+test.coberturaFileName = "../coverage.xml"
+test.coverageIgnoreFiles = { "test" }
+
 function test.before()
 	ch = nil
 	bagInfo = {  -- reset bags (only have empty backpack)
@@ -164,6 +168,9 @@ function test.testAssertAlmostEquals_positvePlaces()
 end
 function test.testAssertAlmostEquals_positveDelta()
 	assertAlmostEquals( 4.4555, 4.4566, nil, 2, 0.002 )
+end
+function test.testAssertFalse_withFalse()
+	assertFalse( false )
 end
 
 ----------------------------------
