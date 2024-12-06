@@ -1283,6 +1283,10 @@ function test.testSax_Parse_NestedElements()
 	assertEquals( "5", ch.broken )
 end
 ----------------------------------
+-- CombatLog
+----------------------------------
+
+----------------------------------
 -- Run the tests
 ----------------------------------
 test.run()
