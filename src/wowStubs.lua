@@ -920,6 +920,8 @@ end
 
 C_Container = {}
 C_Container.SortBagsRightToLeft = false -- this is normal
+function C_Container.GetContainerItemID( bagId, slotId )
+end
 function C_Container.GetContainerItemInfo( bagId, slotId )
 end
 function C_Container.GetContainerItemLink( bagId, slotId )
@@ -1983,6 +1985,14 @@ end
 PlayerUtil = {}
 function PlayerUtil.GetCurrentSpecID()
 	return {65, "Holy", "Desc", 135920, "HEALER", 4}
+end
+
+----------
+-- C_PlayerInfo
+----------
+C_PlayerInfo = {}
+function C_PlayerInfo.GetPlayerMythicPlusRatingSummary( unitStr )
+	return {["runs"] = {}, ["currentSeasonScore"] = 0 }
 end
 
 -- A SAX parser takes a content handler, which provides these methods:
