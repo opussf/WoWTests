@@ -1897,6 +1897,19 @@ end
 function C_ToyBox.IsToyUsable( id )
 	return toyList[id] and toyList[id][1]
 end
+function C_ToyBox.PickupToyBoxItem( itemIn )
+	-- http://www.wowwiki.com/API_PickupItem
+	-- itemString is:
+	--   ItemID (Numeric value)
+	--   ItemString (item:#######)
+	--   ItemName ("Hearthstone")
+	--   ItemLink (Full link text as if Shift-Clicking Item)
+	-- Should only pick up an item that you know about. (in bags for now (myInventory) )
+	-- -- Note: Does not pick up an item from equipped inventory
+	-- Not sure what this should do if there is already something on the cursor
+	onCursor={}
+	onCursor['item'] = itemID
+end
 
 ----------
 -- Settings
@@ -1951,6 +1964,8 @@ end
 ----------
 C_Timer = {}
 function C_Timer.After( seconds, callback )
+	-- just call the callback
+	callback()
 end
 
 ----------
