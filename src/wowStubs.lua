@@ -1594,6 +1594,9 @@ function UnitFactionGroup( who )
 	-- http://www.wowwiki.com/API_UnitFactionGroup
 	return unpack( Units[who].faction )
 end
+function UnitIsBattlePet( who )
+	return Units[who].isBattlePet
+end
 function UnitIsDeadOrGhost( who )
 end
 function UnitIsPVP( who )
