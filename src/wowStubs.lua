@@ -2266,9 +2266,9 @@ function ParseTOC( tocFile, useRequire )
 		local tocContents = f:read( "*all" )
 		for line in tocContents:gmatch("([^\n]*)\n?") do
 			if line ~= "" then
-				local luaFile = line:match("^([_%a][_%w]*)%.lua$")
-				local xmlFile = line:match("^([_%a][_%w]*)%.xml$")
-				local hashKey, hashValue = line:match("^##%s*([_%a][_%w]*):%s*(.*)$")
+				local luaFile = line:match("([_%a][_%w]*)%.lua")
+				local xmlFile = line:match("([_%a][_%w]*)%.xml")
+				local hashKey, hashValue = line:match("## ([_%a]*): (.*)")
 
 				if hashKey then
 					addonData[hashKey] = hashValue
