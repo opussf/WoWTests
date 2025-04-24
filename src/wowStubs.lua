@@ -66,6 +66,7 @@ myStatistics = {
 	[60] = 42  -- 60 = deaths
 }
 myLocale = "enUS"
+myZone = {["Zone"] = "Thing", ["Sub"] = "Sub"}
 
 registeredPrefixes = {}
 
@@ -128,6 +129,8 @@ Currencies = {
 	[396] = { ["name"] = "Valor",    ["texturePath"] = "", ["weeklyMax"] = 0, ["totalMax"] = 0, isDiscovered = true, ["link"] = ""},
 	[402] = { ["name"] = "Ironpaw Token", ["texturePath"] = "", ["weeklyMax"] = 0, ["totalMax"] = 0, isDiscovered = true, ["link"] = "|cff9d9d9d|Hcurrency:402:0:0:0:0:0:0:0:80:0:0|h[Ironpaw Token]|h|r"},
 	[703] = { ["name"] = "Fictional Currency", ["texturePath"] = "", ["weeklyMax"] = 1000, ["totalMax"] = 4000, isDiscovered = true, ["link"] = "|cffffffff|Hcurrency:703|h[Fictional Currency]|h|r"},
+	[824] = { ["name"] = "Garrison Resources", ["texturePath"] = "", ["quantity"] = 100 },
+	[3044]= { ["name"] = "Engineering Concentration", ["totalMax"] = 1000}
 }
 ArchaeologyCurrencies = {"999",}
 MerchantInventory = {
@@ -1140,12 +1143,18 @@ Returns:
 ]]
 	return "Dwarf", "", 384, 0, 100, 200
 end
+
+-- 7, Mining
+-- 8, Engineering
+-- 10, arch
+-- 9, Fishing
+-- 6, Cooking
 function GetProfessions()
 	-- prof1, prof2, archaeology, fishing, cooking, firstAid = GetProfessions();
 	return 5, 6, 7, 8, 9
 end
 ProfessionInfo = {
-	[5] = { "prof1", "icon", 75, 300, 3, 3, 3, 3, 3, 3, "Catacylism prof1" },
+	[5] = { "Engineering", "icon", 75, 300, 3, 3, 3, 3, 3, 3, "Khaz Algar Engineering" },
 	[6] = { "prof2", "icon", 75, 300, 3, 3, 3, 3, 3, 3, "Catacylism prof2" },
 	[7] = { "Archaeology", "icon", 75, 300, 3, 3, 3, 3, 3, 3, "Catacylism Arch" },
 	[8] = { "Fishing", "icon", 75, 300, 3, 3, 3, 3, 3, 3, "Catacylism Fishing" },
@@ -1301,6 +1310,12 @@ end
 function GetXPExhaustion()
 	-- TODO:
 	return 3618
+end
+function GetZoneText()
+	return myZone.Zone
+end
+function GetSubZoneText()
+	return myZone.Sub
 end
 function InterfaceOptionsFrame_OpenToCategory()
 end
@@ -1662,8 +1677,24 @@ end
 C_TradeSkillUI = {}
 function C_TradeSkillUI.GetAllRecipeIDs()
 	-- returns an array of RecipeIDs
+	return {}
 end
 function C_TradeSkillUI.GetAllRecipeLink(recipeID)
+end
+function C_TradeSkillUI.GetChildProfessionInfos()
+	-- https://warcraft.wiki.gg/wiki/API_C_TradeSkillUI.GetChildProfessionInfo
+	return {
+		{	["profession"] = 8,
+			["professionID"] = 2875,
+			["professionName"] = "Khaz Algar Engineering",
+		},
+	}
+end
+function C_TradeSkillUI.GetConcentrationCurrencyID( professionID )
+	local stuff = {
+		[2875] = 3044
+	}
+	return stuff[professionID]
 end
 function C_TradeSkillUI.GetRecipeInfo(recipeID)
 	--disabled : boolean
@@ -2024,6 +2055,29 @@ function C_PlayerInfo.GetPlayerMythicPlusRatingSummary( unitStr )
 	return {["runs"] = {}, ["currentSeasonScore"] = 0 }
 end
 
+----------
+-- C_DateAndTime
+----------
+C_DateAndTime = {}
+-- These functions return a non-lua-normal struct.
+-- year 	number 	The current year (e.g. 2019)
+-- month 	number 	The current month [1-12]
+-- monthDay 	number 	The current day of the month [1-31]
+-- weekday 	number 	The current day of the week (1=Sunday, 2=Monday, ..., 7=Saturday)
+-- hour 	number 	The current time in hours [0-23]
+-- minute 	number 	The current time in minutes [0-59]
+C_DateAndTimeTS = time()  -- set this to control what is returned
+function C_DateAndTime.GetCurrentCalendarTime()
+	-- This is the realm's current time
+	local out = date( "*t", C_DateAndTimeTS )
+	out.monthDay = out.day; out.day = nil
+	out.weekday = out.wday; out.wday = nil
+	out.yday = nil
+	out.isdst = nil
+	out.sec = nil
+	return out
+end
+
 -- A SAX parser takes a content handler, which provides these methods:
 --     startDocument()                 -- called at the start of the Document
 --     endDocument()                   -- called at the end of the Document
@@ -2210,22 +2264,19 @@ function ParseTOC( tocFile, useRequire )
 	local f = io.open( tocFile, "r" )
 	if f then
 		local tocContents = f:read( "*all" )
-		while true do
-			local linestart, lineend, line = string.find( tocContents, "(.-)\n" )
-			if linestart then
-				local lua, luaEnd, luaFile = string.find( line, "([_%a]*)%.lua" )
-				local xml, xmlEnd, xmlFile = string.find( line, "([_%a]*)%.xml" )
-				local hash, hashEnd, hashKey, hashValue = string.find( line, "## ([_%a]*): (.*)" )
-				if( hash ) then
-					addonData[ hashKey ] = hashValue
-				elseif( lua ) then
-					table.insert( tocFileTable, { "lua", luaFile } )
-				elseif( xml ) then
-					table.insert( tocFileTable, { "xml", xmlFile } )
+		for line in tocContents:gmatch("([^\n]*)\n?") do
+			if line ~= "" then
+				local luaFile = line:match("^([_%a][_%w]*)%.lua$")
+				local xmlFile = line:match("^([_%a][_%w]*)%.xml$")
+				local hashKey, hashValue = line:match("^##%s*([_%a][_%w]*):%s*(.*)$")
+
+				if hashKey then
+					addonData[hashKey] = hashValue
+				elseif luaFile then
+					table.insert(tocFileTable, { "lua", luaFile })
+				elseif xmlFile then
+					table.insert(tocFileTable, { "xml", xmlFile })
 				end
-				tocContents = string.sub( tocContents, lineend+1 )
-			else
-				break
 			end
 		end
 		pathSeparator = string.sub(package.config, 1, 1)
