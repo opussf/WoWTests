@@ -31,6 +31,14 @@ chatLog = {
 local itemDB = {
 }
 
+_G["GUILD"] = "Guild"
+_G["INSTANCE"] = "instance"
+_G["PARTY"] = "Party"
+_G["RAID"] = "Raid"
+_G["SAY"] = "Say"
+_G["WHISPER"] = "Whisper"
+_G["YELL"] = "Yell"
+
 -- simulate an internal inventory
 -- myInventory = { ["9999"] = 52, }
 		-- myInventory = { ["9999"] = {52, 0, 1}, }
