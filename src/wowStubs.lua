@@ -1893,7 +1893,7 @@ function GetMacroInfo( macroName )
 			if myMacros[location][mIndex] then
 				return myMacros[location][mIndex].name, myMacros[location][mIndex].icon, myMacros[location][mIndex].text
 			end
-    	end
+		end
 	end
 end
 function GetMacroIndexByName( macroName )
