@@ -2115,6 +2115,15 @@ function C_DateAndTime.GetCurrentCalendarTime()
 	return out
 end
 
+-------
+-- EventRegistry
+-------
+EventRegistry = {}
+
+function EventRegistry.RegisterCallback( self )
+end
+
+
 -- A SAX parser takes a content handler, which provides these methods:
 --     startDocument()                 -- called at the start of the Document
 --     endDocument()                   -- called at the end of the Document
