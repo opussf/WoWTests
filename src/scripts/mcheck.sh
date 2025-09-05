@@ -60,6 +60,7 @@ compare_files() {
 
 compare_files "./WoWTests/target/working/WoWTests/" "wowStubs.lua" "src"
 compare_files "./WoWTests/target/working/WoWTests/" "wowTest.lua" "src"
+compare_files "./WoWTests/src/scripts/" "runmany.sh" "."
 compare_files "./WoWTests/.github/workflows/" "normal_test.yml"
 compare_files "./WoWTests/.github/workflows/" "ontag.yml"
 #compare_files "./WoWTests/buildFiles/" "build.xml"
