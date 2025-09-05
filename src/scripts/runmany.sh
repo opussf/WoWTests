@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # https://www.youtube.com/watch?v=r2rbAvXMcXQ
 COLUMNS=$(tput cols)
 LINES=$(tput lines)
