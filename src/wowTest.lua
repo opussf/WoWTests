@@ -92,7 +92,7 @@ end
 function test.PairsByKeys( t, f )  -- This is an awesome function I found
 	local a = {}
 	for n in pairs( t ) do table.insert( a, n ) end
-	table.sort( a, f )
+	table.sort( a, f ) -- @TODO: Look into giving a sort function here.
 	local i = 0
 	local iter = function()
 		i = i + 1
@@ -110,24 +110,27 @@ function test.EscapeStr( strIn )
 end
 function test.dump( tableIn, depth )
 	depth = depth or 1
-	for k, v in test.PairsByKeys( tableIn ) do
-		io.write( ("%s[\"%s\"] = "):format( string.rep("\t", depth), k ) )
-		if ( type( v ) == "boolean" ) then
-			io.write( v and "true" or "false" )
-		elseif ( type( v ) == "table" ) then
-			io.write( "{\n" )
-			test.dump( v, depth+1 )
-			io.write( ("%s}"):format( string.rep("\t", depth) ) )
-		elseif ( type( v ) == "string" ) then
-			io.write( "\""..test.EscapeStr( v ).."\"" )
-		elseif ( type( v ) == "function" ) then
-			io.write( "function()" )
-		else
-			io.write( v )
+	if tableIn then
+		for k, v in test.PairsByKeys( tableIn ) do
+			io.write( ("%s[\"%s\"] = "):format( string.rep("\t", depth), k ) )
+			if ( type( v ) == "boolean" ) then
+				io.write( v and "true" or "false" )
+			elseif ( type( v ) == "table" ) then
+				io.write( "{\n" )
+				test.dump( v, depth+1 )
+				io.write( ("%s}"):format( string.rep("\t", depth) ) )
+			elseif ( type( v ) == "string" ) then
+				io.write( "\""..test.EscapeStr( v ).."\"" )
+			elseif ( type( v ) == "function" ) then
+				io.write( "function()" )
+			else
+				io.write( v )
+			end
+			io.write( ",\n" )
 		end
-		io.write( ",\n" )
 	end
 end
+
 function test.toXML()
 	if test.outFileName then
 		local f = assert( io.open( test.outFileName, "w"))
