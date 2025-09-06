@@ -466,11 +466,13 @@ Frame = {
 		["GetHeight"] = function(self) return( self.height ); end,
 		["SetMovable"] = function(self, value) self.movable = value end,
 		["CreateFontString"] = function(self, ...) return(CreateFontString(...)) end,
+		["CreateTexture"] = function(self, name, ...) return(CreateTexture(...)) end,
 		["SetSize"] = function(self, x, y) self.width=x; self.height=y; end,
 		["GetSize"] = function(self) return self.width,self.height end,
 		["ClearAllPoints"] = function(self) self.points={}; end,
 		["GetPoint"] = function(self) end,
 		["GetNumPoints"] = function(self) end,
+		["SetAllPoints"] = function(self) end,
 		["StopMovingOrSizing"] = function(self) end,
 
 		["SetMinMaxValues"] = function(self, min, max) self.min=min; self.max=max; end,
@@ -659,6 +661,20 @@ function CreateButton( name, ... )
 	me.name = name
 	return me
 end
+Texture = {
+	["SetTexture"] = function(self) end,
+}
+function CreateTexture( name, ... )
+	me = {}
+	for k,v in pairs(Frame) do
+		me[k] = v
+	end
+	for k,v in pairs(Texture) do
+		me[k] = v
+	end
+	me.name=name
+	return me
+end
 function UIDropDownMenu_Initialize( self )
 end
 function UIDropDownMenu_JustifyText( self, justify )
@@ -681,6 +697,7 @@ UIErrorsFrame={ ["AddMessage"] = function( self, msg )
 		)
 	end, }
 WeeklyRewardsFrame = CreateFrame()
+BankFrame = CreateFrame()
 
 -- stub some external API functions (try to keep alphabetical)
 function BuyMerchantItem( index, quantity )
@@ -1385,6 +1402,8 @@ end
 function IsFlying()
 end
 function IsMounted()
+end
+function IsShiftKeyDown()
 end
 function GetCritChance()
 	return 25.42345
@@ -2119,8 +2138,117 @@ end
 -- EventRegistry
 -------
 EventRegistry = {}
-
 function EventRegistry.RegisterCallback( self )
+end
+
+----------
+-- Settings
+----------
+Settings = {}
+function Settings.OpenToCategory( id )
+end
+function Settings.RegisterCanvasLayoutCategory( frame, name )
+	-- return a category structure
+	return ( {["GetID"] = function() return 234; end} )
+end
+function Settings.RegisterAddOnCategory(category)
+end
+
+----------
+-- C_Reputation
+----------
+C_Reputation = {}
+function C_Reputation.GetFactionDataByID( idIn )
+	for _, factionData in pairs( FactionInfo ) do
+		if factionData.factionID == idIn then
+			return factionData
+		end
+	end
+end
+function C_Reputation.GetFactionParagonInfo()
+end
+
+----------
+-- C_GossipInfo
+----------
+C_GossipInfo = {}
+function C_GossipInfo.GetFriendshipReputation( idIn )
+	return {["maxRep"]=0, ["text"]="", ["reversedColor"]=false, ["reaction"]="", ["standing"]=0, ["reactionThreshold"]=0, ["friendshipFactionID"]=0, ["textrue"]=0}
+end
+
+----------
+-- C_Item
+----------
+C_Item = {}
+C_Item.GetItemCount = GetItemCount
+
+----------
+-- Menu
+----------
+Menu = {}
+function Menu.ModifyMenu( ... )
+end
+
+----------
+-- C_Timer
+----------
+C_Timer = {}
+function C_Timer.After( seconds, callback )
+end
+
+----------
+-- C_QuestLog
+----------
+C_QuestLog = {}
+function C_QuestLog.IsQuestFlaggedCompleted( qnum )
+	return ( qnum % 2 == 0 and true or false )
+end
+function C_QuestLog.GetTitleForQuestID( qnum )
+	return "Test Quest"
+end
+function C_QuestLog.IsOnQuest( qnum )
+	return true
+end
+
+----------
+-- C_TaskQuest
+----------
+C_TaskQuest = {}
+function C_TaskQuest.GetQuestInfoByQuestID( qnum )
+end
+
+----------
+-- C_ClassTalents
+----------
+C_ClassTalents = {}
+function C_ClassTalents.GetActiveConfigID()
+end
+
+----------
+-- C_Traits
+----------
+C_Traits = {}
+function C_Traits.GetConfigInfo( id )
+	return {["ID"] = 13659962, ["name"] = "Holy", ["treeIDs"] = {790}, ["type"] = 1, ["usesSharedActionBars"] = false}
+end
+function C_Traits.GenerateImportString( configID )
+	return "someReallyLongString"
+end
+
+----------
+-- PlayerUtil
+----------
+PlayerUtil = {}
+function PlayerUtil.GetCurrentSpecID()
+	return {65, "Holy", "Desc", 135920, "HEALER", 4}
+end
+
+----------
+-- C_PlayerInfo
+----------
+C_PlayerInfo = {}
+function C_PlayerInfo.GetPlayerMythicPlusRatingSummary( unitStr )
+	return {["runs"] = {}, ["currentSeasonScore"] = 0 }
 end
 
 -- A SAX parser takes a content handler, which provides these methods:
