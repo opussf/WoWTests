@@ -66,8 +66,9 @@ main() {
 		#echo "Running run $n"
 		ant "$task" > target/reports/antout.txt
 		if [ ! "$?" == "0" ]; then
+			echo "-=-= Error: =-=-"
 			cp target/reports/antout.txt target/reports/antOut$n.txt
-			ls -alt target/reports/testOut$n.xml
+			cat target/reports/antout.txt
 			until $(~/Scripts/checkFileChanged.sh ./test/test.lua); do
 				sleep 1
 			done
