@@ -112,7 +112,7 @@ function test.dump( tableIn, depth )
 	depth = depth or 1
 	if tableIn then
 		for k, v in test.PairsByKeys( tableIn ) do
-			io.write( ("%s[\"%s\"] = "):format( string.rep("\t", depth), k ) )
+			io.write( ("%s[%s%s%s] = "):format( string.rep("\t", depth), type(k) == "string" and "\"" or "", k, type(k) == "string" and "\"" or "" ) )
 			if ( type( v ) == "boolean" ) then
 				io.write( v and "true" or "false" )
 			elseif ( type( v ) == "table" ) then
