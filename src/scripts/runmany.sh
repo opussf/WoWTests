@@ -51,7 +51,6 @@ reset-term() {
 	printf '\e[0K' # clear the line
 	printf '\e8' # reset the cursor location
 }
-
 main() {
 	trap reset-term exit
 	trap init-term winch
