@@ -51,7 +51,13 @@ compare_files() {
 			CHANGEDFILE=`echo $line | grep -v $SRCFILEMD5 | cut -d'(' -f 2 | cut -d')' -f 1`
 			if [ ! -z "$CHANGEDFILE" ]; then
 				echo "  $CHANGEDFILE"
-				$DIFF $SRCDIR$SRCFILE $CHANGEDFILE
+				diff_out=$(diff -u $SRCDIR$SRCFILE $CHANGEDFILE)
+				if echo "$diff_out" | grep -q '^-[^-]'; then # found deleted lines
+					$DIFF $SRCDIR$SRCFILE $CHANGEDFILE > /dev/null 2>&1
+				else
+					echo "There are NO deletions."
+					cp $SRCDIR$SRCFILE $CHANGEDFILE
+				fi
 				#echo "$?"
 			fi
 		done < md5.out
