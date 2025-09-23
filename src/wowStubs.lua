@@ -20,6 +20,12 @@ settings = {
 }
 actionLog = {
 }
+buildInfo = {
+	"1.1.1",       --version
+	"3255",        --build
+	"Sep 12 2025", --date
+	20400          --TOC Version
+}
 -- append actions to the log to track actions that may not have an other sideeffects.
 -- record the function calls
 -- [1] = "DoEmote(....)""
@@ -903,6 +909,9 @@ function GetAchievementNumCriteria( achievementID )
 	if Achievements[achievementID] then
 		return #Achievements[achievementID]["criteria"]
 	end
+end
+function GetBuildInfo()
+	return table.unpack(buildInfo)
 end
 function GetCurrentRegion()
 	-- @TODO: find region info
