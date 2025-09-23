@@ -21,10 +21,10 @@ settings = {
 actionLog = {
 }
 buildInfo = {
-	"1.1.1",       --version
-	"3255",        --build
-	"Sep 12 2025", --date
-	20400          --TOC Version
+	"11.2.5",		--version
+	"3255",			--build
+	"Sep 12 2025",	--date
+	110205			--TOC Version
 }
 -- append actions to the log to track actions that may not have an other sideeffects.
 -- record the function calls
