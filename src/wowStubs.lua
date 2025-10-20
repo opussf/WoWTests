@@ -21,10 +21,10 @@ settings = {
 actionLog = {
 }
 buildInfo = {
-	"11.2.5",		--version
-	"3255",			--build
-	"Sep 12 2025",	--date
-	110205			--TOC Version
+	"11.2.5",       -- version
+	"3255",         -- build
+	"Sep 12 2025",  -- date
+	110205          -- TOC Version
 }
 -- append actions to the log to track actions that may not have an other sideeffects.
 -- record the function calls
@@ -81,6 +81,7 @@ myStatistics = {
 }
 myLocale = "enUS"
 myZone = {["Zone"] = "Thing", ["Sub"] = "Sub"}
+isInCombat = false
 
 registeredPrefixes = {}
 
@@ -534,6 +535,7 @@ Units = {
 		["sex"] = 3,
 		["currentHealth"] = 100000,
 		["maxHealth"] = 123456,
+		["creatureType"] = "Humanoid",
 	},
 	["sameRealmUnit"] = {
 		["class"] = "Warrior",
@@ -545,6 +547,7 @@ Units = {
 		["realm"] = "testPlayer",
 		["realmRelationship"] = 1,
 		["sex"] = 2,
+		["creatureType"] = "Humanoid",
 	},
 	["coalescedRealmUnit"] = {
 		["class"] = "Monk",
@@ -555,6 +558,7 @@ Units = {
 		["race"] = "Pandarian",
 		["realm"] = "coalescedRealm",
 		["realmRelationship"] = 2,
+		["creatureType"] = "Humanoid",
 	},
 	["connectedRealmUnit"] = {
 		["class"] = "Mage",
@@ -564,6 +568,7 @@ Units = {
 		["name"] = "connectedUnit",
 		["realm"] = "connectedRealm",
 		["realmRelationship"] = 3,
+		["creatureType"] = "Humanoid",
 	},
 	["mouseover"] = {
 		["class"] = "Priest",
@@ -574,6 +579,7 @@ Units = {
 		["race"] = "Dwarf",
 		["realm"] = "mouserealm",
 		["sex"] = 1,
+		["creatureType"] = "Humanoid",
 	},
 
 }
@@ -1638,7 +1644,7 @@ function UnitOnTaxi()
 	return settings.unitOnTaxi or false
 end
 function UnitAffectingCombat( unit )
-	return false
+	return isInCombat
 end
 C_UnitAuras = {}
 function C_UnitAuras.GetAuraDataByIndex( unit, index )
@@ -1650,6 +1656,9 @@ function C_UnitAuras.GetAuraDataByIndex( unit, index )
 end
 function UnitClass( who )
 	return Units[who].class, Units[who].classCAPS, Units[who].classIndex
+end
+function UnitCreatureType( who )
+	return Units[who] and Units[who].creatureType or nil
 end
 function UnitExists( who )
 	return Units[who] and true or nil
@@ -1664,6 +1673,9 @@ end
 function UnitHealthMax( who )
 	-- http://wowwiki.wikia.com/wiki/API_UnitHealth
 	return Units[who].maxHealth
+end
+function UnitIsPlayer( who )
+	return Units[who] and Units[who].isPlayer or nil
 end
 function UnitFactionGroup( who )
 	-- http://www.wowwiki.com/API_UnitFactionGroup
@@ -2260,6 +2272,39 @@ function C_PlayerInfo.GetPlayerMythicPlusRatingSummary( unitStr )
 	return {["runs"] = {}, ["currentSeasonScore"] = 0 }
 end
 
+----------
+-- C_TooltipInfo
+----------
+C_TooltipInfo = {}
+C_TooltipInfo.data = {
+	["target"] = {
+		["lines"] = {
+			{ ["leftText"] = "LeftText" },
+		}
+	}
+}
+function C_TooltipInfo.GetUnit( target )
+	return C_TooltipInfo.data[target]
+end
+
+----------
+-- C_PetJournal
+----------
+C_PetJournal = {}
+C_PetJournal.data = {
+	["summoned"] = {
+
+	},
+}
+function C_PetJournal.GetSummonedPetGUID()
+	return C_PetJournal.data.summoned
+end
+function C_PetJournal.GetPetInfoByPetID( petID )
+	-- speciesID, customName, level, xp, maxXp, displayID, isFavorite, name, icon, petType, creatureID, sourceText, description, isWild, canBattle, tradable, unique, obtainable = C_PetJournal.GetPetInfoByPetID(petID)
+	-- @TODO: Look this up
+	return 0,"CustomPetName",0,0,0,0,0,"PetName"
+end
+
 -- A SAX parser takes a content handler, which provides these methods:
 --     startDocument()                 -- called at the start of the Document
 --     endDocument()                   -- called at the end of the Document
@@ -2453,7 +2498,7 @@ function ParseTOC( tocFile, useRequire )
 				local hashKey, hashValue = line:match("## ([_%a]*): (.*)")
 
 				if hashKey then
-					addonData[hashKey] = hashValue
+					addonData[hashKey] = string.gsub( hashValue, "[\n\r]", "")
 				elseif luaFile then
 					table.insert(tocFileTable, { "lua", luaFile })
 				elseif xmlFile then
