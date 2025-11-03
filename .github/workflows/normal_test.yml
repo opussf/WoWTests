@@ -8,7 +8,8 @@ on:
       - master
       - develop
       - '**'
-    pull_request:
+  pull_request:
+    branches:
       - master
       - develop
 
@@ -54,4 +55,12 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action@v2.6.1
         if: always()
         with:
-          files: target/reports/*.xml
+          files: target/reports/testOut.xml
+
+      - name: Code Coverage Summary Report
+        uses: irongut/CodeCoverageSummary@v1.3.0
+        with:
+          filename: coverage.xml
+          badge: true
+          format: markdown
+          output: both
