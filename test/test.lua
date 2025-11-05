@@ -8,6 +8,7 @@ require "wowTest"
 
 test.outFileName = "testOut.xml"
 test.coberturaFileName = "../coverage.xml"
+test.coverageReportPercent = true
 test.coverageIgnoreFiles = { "test" }
 
 function test.before()
