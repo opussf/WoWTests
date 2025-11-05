@@ -173,7 +173,6 @@ function test.toCobertura()
 				end
 			end
 		end
-		test.dump(linesByFile)
 
 		-- build the cobertureTable
 		local coberturaTable = {}
