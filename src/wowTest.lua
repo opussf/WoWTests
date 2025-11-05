@@ -234,16 +234,23 @@ function test.scanFileLines( coverageFile )
 			-- if includeLine and line:match("%-%-%[%[") then -- start of a multi line comment
 			-- 	multilinecomment = true
 			-- end
-
 			if includeLine and line:match("^%s*$") then -- blank lines
 				includeLine = false
 			end
 			if includeLine and line:match("^%s*require") then -- require statement is not 'code'
 				includeLine = false
 			end
+			if includeLine and line:match("function") then -- hmmm
+				includeLine = false
+			end
+			if includeLine and line:match("^%s*end") then -- How to do this
+				includeLine = false
+			end
+			if includeLine and (line:match("else") or line:match("elseif")) then -- hmmm
+				includeLine = false
+			end
 
-
-			if includeLine and not multilinecomment then
+			if includeLine then
 				test.coverage[coverageFile] = test.coverage[coverageFile] or {}
 				test.coverage[coverageFile][lineNum] = test.coverage[coverageFile][lineNum] or 0
 			end
@@ -267,6 +274,8 @@ function test.processCoverage()
 	for coverageFile in pairs( test.coverage ) do
 		test.scanFileLines( coverageFile )
 	end
+	-- Create file
+	test.toCobertura()
 end
 
 function test.run()
