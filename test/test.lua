@@ -8,6 +8,7 @@ require "wowTest"
 
 test.outFileName = "testOut.xml"
 test.coberturaFileName = "../coverage.xml"
+test.coverageReportPercent = true
 test.coverageIgnoreFiles = { "test" }
 
 function test.before()
@@ -171,6 +172,12 @@ function test.testAssertAlmostEquals_positveDelta()
 end
 function test.testAssertFalse_withFalse()
 	assertFalse( false )
+end
+function test.testAssertFalse_withTrue()
+	local result, exception = pcall( assertFalse, true )
+	if result then
+		error( "assertFalse things that true is false" )
+	end
 end
 
 ----------------------------------
