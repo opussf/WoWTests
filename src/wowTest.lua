@@ -248,6 +248,12 @@ function test.scanFileLines( coverageFile )
 			if includeLine and (line:match("else") or line:match("elseif")) then -- hmmm
 				includeLine = false
 			end
+			if includeLine and line:match("^%s*%}") then -- Any line with a closing }
+				includeLine = false
+			end
+			if includeLine and line:match("^%s*%)%)*%s*$") then -- Any line with just 1 or more )
+				includeLine = false
+			end
 
 			if includeLine then
 				test.coverage[coverageFile] = test.coverage[coverageFile] or {}
