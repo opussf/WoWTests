@@ -93,7 +93,7 @@ end
 function test.PairsByKeys( t, f )  -- This is an awesome function I found
 	local a = {}
 	for n in pairs( t ) do table.insert( a, n ) end
-	table.sort( a, function(a, b)
+	table.sort( a, ( f or function(a, b)
 			local ta, tb = type(a), type(b)
 			if ta == tb then
 				if ta == "number" then
@@ -105,7 +105,7 @@ function test.PairsByKeys( t, f )  -- This is an awesome function I found
 				-- numbers come first
 				return ta == "number"
 			end
-		end)
+		end) )
 	local i = 0
 	local iter = function()
 		i = i + 1
