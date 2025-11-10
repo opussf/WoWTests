@@ -93,7 +93,19 @@ end
 function test.PairsByKeys( t, f )  -- This is an awesome function I found
 	local a = {}
 	for n in pairs( t ) do table.insert( a, n ) end
-	table.sort( a, f ) -- @TODO: Look into giving a sort function here.
+	table.sort( a, function(a, b)
+			local ta, tb = type(a), type(b)
+			if ta == tb then
+				if ta == "number" then
+					return a < b
+				else
+					return tostring(a):lower() < tostring(b):lower()
+				end
+			else
+				-- numbers come first
+				return ta == "number"
+			end
+		end)
 	local i = 0
 	local iter = function()
 		i = i + 1
@@ -125,7 +137,7 @@ function test.dump( tableIn, depth )
 			elseif ( type( v ) == "function" ) then
 				io.write( "function()" )
 			else
-				io.write( v )
+				io.write( (v or "nil") )
 			end
 			io.write( ",\n" )
 		end
