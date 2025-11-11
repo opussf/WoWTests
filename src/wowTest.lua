@@ -72,6 +72,7 @@ end
 
 test = {}
 test.outFileName = "testOut.xml"
+test.coberturaFileName = nil
 test.coverageReportPercent = false  -- set to true to enable this feature.
 test.runInfo = {
 		["count"] = 0,
@@ -195,7 +196,7 @@ function test.toCobertura()
 				test.coverageReportPercent and linesByFile.covered/linesByFile.lineCount or 1,
 				test.coverageReportPercent and linesByFile.covered or 0,
 				test.coverageReportPercent and linesByFile.lineCount or 0,
-				time()
+				os.time()
 			)
 		)
 		table.insert( coberturaTable, "<sources><source>test</source></sources>" )
