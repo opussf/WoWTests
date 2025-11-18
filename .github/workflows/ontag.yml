@@ -32,7 +32,7 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Build with ant
-        run: ant package; ls ./target/*.zip*
+        run: env; ant package; ls ./target/*.zip*
 
       - name: Create Release
         id: create_release
@@ -40,6 +40,6 @@ jobs:
         with:
           artifacts: "./target/*.zip*"
           bodyFile: target/working/changelog.txt
-          name: Release ${{ github.ref }}
+          name: Release ${{ github.ref.name }}
           draft: false
           prerelease: false
