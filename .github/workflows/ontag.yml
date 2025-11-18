@@ -32,7 +32,7 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Build with ant
-        run: env; ant package; ls ./target/*.zip*
+        run: ant package; ls ./target/*.zip*
 
       - name: Create Release
         id: create_release
