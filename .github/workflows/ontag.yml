@@ -40,6 +40,6 @@ jobs:
         with:
           artifacts: "./target/*.zip*"
           bodyFile: target/working/changelog.txt
-          name: Release ${{ GITHUB_REF_NME }}
+          name: Release ${{ GITHUB_REF_NAME }}
           draft: false
           prerelease: false
