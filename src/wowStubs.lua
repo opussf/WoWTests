@@ -666,7 +666,7 @@ FrameEditBox = {
 }
 function CreateEditBox( name, ... )
 	me = {}
-	for k,v in pairs(EditBox) do
+	for k,v in pairs(FrameEditBox) do
 		me[k] = v
 	end
 	me.name = name
